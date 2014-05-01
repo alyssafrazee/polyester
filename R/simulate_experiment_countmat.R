@@ -48,7 +48,11 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, read
         stop('must provide either fasta or both gtf and seqpath')
     }
 
-    system(paste("mkdir -p", outdir))
+    if(.Platform$OS.type == 'windows'){
+        shell(paste('mkdir', outdir))
+    }else{
+        system(paste('mkdir -p', outdir))    
+    }
 
     for(i in 1:ncol(readmat)){
         tObj = rep(transcripts,times=readmat[,i])

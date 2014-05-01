@@ -123,7 +123,11 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
 
     ## simulate reads for each sample:
     #######################################
-    system(paste("mkdir -p", outdir))
+    if(.Platform$OS.type == 'windows'){
+        shell(paste('mkdir', outdir))
+    }else{
+        system(paste('mkdir -p', outdir))    
+    }
     for(i in 1:(n1+n2)){
         
         tObj = rep(transcripts, times=numreadsList[[i]])
