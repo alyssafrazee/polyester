@@ -75,4 +75,9 @@ Files will be named `sample_01` through `sample_N` where `N` is the total number
 In `simulate_experiment`, by default, a table called `sim_info.txt` is written to `outdir`, which will contain transcript IDs, fold changes, and whether or not that transcript was set to be differentially expressed. This file could be useful for downstream analysis. If the transcript names in the FASTA file cause problems down the line (e.g., a dangling single quote from a `5'-end` label), you can specify your own transcript names with the `transcriptid` argument. You will need to keep track of this information separately if you use `simulate_experiment_countmat.`
 
 ## Bug reports
-Report bugs as issues on our [GitHub repository](https://github.com/alyssafrazee/ballgown/tree/master/polyester). 
+Report bugs as issues on our [GitHub repository](https://github.com/alyssafrazee/polyester). 
+
+## Contributors
+* [Andrew Jaffe](https://github.com/andrewejaffe)
+* [Alyssa Frazee](https://github.com/alyssafrazee)
+
