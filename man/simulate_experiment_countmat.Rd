@@ -54,7 +54,8 @@ numtx = count_transcripts(fastapath)
 readmat = matrix(20, ncol=10, nrow=numtx)
 readmat[1:30, 1:5] = 40
 
-simulate_experiment_countmat(fastapath, readmat, outdir="./data/", seed=5)
+outdir = ifelse(.Platform$OS.type == 'windows', '.\\\\simdata\\\\', './simdata/')
+simulate_experiment_countmat(fastapath, readmat, outdir=outdir, seed=5)
 }
 }
 

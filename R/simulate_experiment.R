@@ -57,8 +57,9 @@
 #' require(Biostrings)
 #' tNames = gsub("'", "", names(readDNAStringSet(fastapath))) #remove quotes in transcript IDs
 #' 
+#' outdir = ifelse(.Platform$OS.type == 'windows', '.\\simdata\\', './simdata/')
 #' simulate_experiment(fastapath, reads_per_transcript=10, fold_changes=fold_changes, 
-#'     outdir="./simdata/", transcriptid=tNames, seed=12)
+#'     outdir=outdir, transcriptid=tNames, seed=12)
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
