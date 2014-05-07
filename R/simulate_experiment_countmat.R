@@ -49,10 +49,11 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, read
         stop('must provide either fasta or both gtf and seqpath')
     }
 
+    sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){
-        shell(paste('mkdir', outdir))
+        shell(paste('mkdir', sysoutdir))
     }else{
-        system(paste('mkdir -p', outdir))    
+        system(paste('mkdir -p', sysoutdir))    
     }
 
     for(i in 1:ncol(readmat)){
