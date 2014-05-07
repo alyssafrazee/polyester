@@ -124,10 +124,11 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
 
     ## simulate reads for each sample:
     #######################################
+    sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){
-        shell(paste('mkdir', outdir))
+        shell(paste('mkdir', sysoutdir))
     }else{
-        system(paste('mkdir -p', outdir))    
+        system(paste('mkdir -p', sysoutdir))    
     }
     for(i in 1:(n1+n2)){
         
