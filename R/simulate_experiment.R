@@ -63,7 +63,7 @@
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
-    fold_changes, dispersion_param=NULL, outdir="", write_info=TRUE, transcriptid=NULL, seed=NULL,
+    fold_changes, dispersion_param=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,
     ...){
 
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){

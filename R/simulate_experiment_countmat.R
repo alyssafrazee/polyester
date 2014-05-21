@@ -34,7 +34,7 @@
 #' outdir = ifelse(.Platform$OS.type == 'windows', '.\\simdata\\', './simdata/')
 #' simulate_experiment_countmat(fastapath, readmat, outdir=outdir, seed=5)
 #'}
-simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, readmat, outdir="", 
+simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, readmat, outdir="./", 
     fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL){
 
     if(!is.null(seed)) set.seed(seed)
