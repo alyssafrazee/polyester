@@ -37,8 +37,9 @@
 #' with "/" if specified. If unspecified, reads are written to current working directory.
 #' @param write_info If \code{TRUE}, write a file matching transcript IDs to differential expression
 #' status into the file \code{outdir/sim_info.txt}.
-#' @param transcriptid optional vector of transcript IDs to be written into \code{sim_info.txt}. 
-#' Defaults to \code{names(readDNAStringSet(fasta))}. This option is useful if default names are 
+#' @param transcriptid optional vector of transcript IDs to be written into \code{sim_info.txt} and
+#' used as transcript identifiers in the fasta files. Defaults to 
+#' \code{names(readDNAStringSet(fasta))}. This option is useful if default names are 
 #' very long or contain special characters.
 #' @param seed Optional seed to set before simulating reads, for reproducibility.
 #' @param ... additional arguments to pass to \code{seq_gtf} if using \code{gtf} and \code{seqpath}
@@ -77,6 +78,9 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
     }
 
     L = width(transcripts)
+    if(!is.null(transcriptid)){
+        names(transcripts) = transcriptid
+    }
         
     if(!is.null(seed)) set.seed(seed)
 

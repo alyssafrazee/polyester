@@ -6,7 +6,7 @@
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
   error_rate = 0.005, paired = TRUE, reads_per_transcript = 300,
-  fold_changes, dispersion_param = NULL, outdir = "", write_info = TRUE,
+  fold_changes, dispersion_param = NULL, outdir = "./", write_info = TRUE,
   transcriptid = NULL, seed = NULL, ...)
 }
 \arguments{
@@ -59,8 +59,9 @@ with "/" if specified. If unspecified, reads are written to current working dire
 \item{write_info}{If \code{TRUE}, write a file matching transcript IDs to differential expression
 status into the file \code{outdir/sim_info.txt}.}
 
-\item{transcriptid}{optional vector of transcript IDs to be written into \code{sim_info.txt}.
-Defaults to \code{names(readDNAStringSet(fasta))}. This option is useful if default names are
+\item{transcriptid}{optional vector of transcript IDs to be written into \code{sim_info.txt} and
+used as transcript identifiers in the fasta files. Defaults to
+\code{names(readDNAStringSet(fasta))}. This option is useful if default names are
 very long or contain special characters.}
 
 \item{seed}{Optional seed to set before simulating reads, for reproducibility.}
