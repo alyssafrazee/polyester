@@ -4,7 +4,7 @@
 \title{Simulate RNA-seq experiment}
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = "", fraglen = 250, fragsd = 25, readlen = 100,
+  readmat, outdir = "./", fraglen = 250, fragsd = 25, readlen = 100,
   error_rate = 0.005, paired = TRUE, seed = NULL)
 }
 \arguments{
