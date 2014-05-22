@@ -19,14 +19,15 @@
 #' @seealso \code{\link{get_reads}}
 write_reads = function(reads, fname, readlen, paired = TRUE){
     if(paired){
-        lefts = seq(1, length(reads), by=2)
-        rights = seq(2, length(reads), by=2)
-        outfl = paste0(fname, '_1.fasta')
-        outfr = paste0(fname, '_2.fasta')
-        writeXStringSet(reads[lefts], file=outfl, format="fasta", width=readlen)
-        writeXStringSet(reads[rights], file=outfr, format="fasta", width=readlen)
+        lefts = reads[seq(1, length(reads), by=2)]
+        rights = reads[seq(2, length(reads), by=2)]
+        names(lefts) = paste0('read', 1:length(lefts), '/', names(lefts))
+        names(rights) = paste0('read', 1:length(rights), '/', names(rights))
+        writeXStringSet(lefts, file=paste0(fname, '_1.fasta'), format="fasta", width=readlen)
+        writeXStringSet(rights, file=paste0(fname, '_2.fasta'), format="fasta", width=readlen)
     }else{
         outf = paste0(fname, '.fasta')
+        names(reads) = paste0('read', 1:length(reads), '/', names(reads))
         writeXStringSet(reads, file=outf, format="fasta", width=readlen)
     }
 }
