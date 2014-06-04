@@ -33,7 +33,7 @@ To install Polyester, start R and run:
 ```S
 install.packages("devtools") #if devtools is not already installed
 library(devtools)
-install_github("ballgown", "alyssafrazee", subdir="polyester")
+install_github("polyester", "alyssafrazee")
 ```
 
 ## Simulating reads
