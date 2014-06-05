@@ -48,7 +48,7 @@
 #' \code{fasta} argument) or from a GTF file plus DNA sequences (provided with the \code{gtf} and 
 #' \code{seqpath} arguments). Simulating from a GTF file and DNA sequences may be a bit slower: 
 #' it took about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X, and Y in hg19.
-#' @examples
+#' @examples \dontrun{
 #' ## simulate a few reads from chromosome 22
 #' 
 #' fastapath = system.file("extdata", "chr22.fa", package="polyester")
@@ -61,7 +61,7 @@
 #' outdir = ifelse(.Platform$OS.type == 'windows', '.\\simdata\\', './simdata/')
 #' simulate_experiment(fastapath, reads_per_transcript=10, fold_changes=fold_changes, 
 #'     outdir=outdir, transcriptid=tNames, seed=12)
-#'
+#'}
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
     fold_changes, dispersion_param=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,

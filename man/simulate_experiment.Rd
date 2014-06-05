@@ -79,6 +79,7 @@ Reads can either be simulated from a FASTA file of transcripts (provided with th
 it took about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X, and Y in hg19.
 }
 \examples{
+\dontrun{
 ## simulate a few reads from chromosome 22
 
 fastapath = system.file("extdata", "chr22.fa", package="polyester")
@@ -91,5 +92,6 @@ tNames = gsub("'", "", names(readDNAStringSet(fastapath))) #remove quotes in tra
 outdir = ifelse(.Platform$OS.type == 'windows', '.\\\\simdata\\\\', './simdata/')
 simulate_experiment(fastapath, reads_per_transcript=10, fold_changes=fold_changes,
     outdir=outdir, transcriptid=tNames, seed=12)
+}
 }
 
