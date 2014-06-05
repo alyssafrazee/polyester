@@ -17,13 +17,12 @@
 #' in \code{gtf}
 seq_gtf = function(gtf, seqpath, exononly=TRUE, idfield="transcript_id", attrsep="; "){
     
-    gtf_dat = read.table(gffFile, sep = "\t", as.is = TRUE, quote = "", 
-        header = FALSE, comment.char = "#", nrows = nrows, 
-        colClasses = c("character", "character", "character", "integer", "integer", "character", 
-            "character", "character", "character"))
+    gtf_dat = read.table(gtf, sep = "\t", as.is = TRUE, quote = "", header = FALSE, 
+        comment.char = "#", nrows = -1, colClasses = c("character", "character", "character", 
+            "integer", "integer", "character", "character", "character", "character"))
 
-    colnames(gtf_dat = c("seqname", "source", "feature", "start", "end", "score", "strand", 
-        "frame", "attributes"))
+    colnames(gtf_dat) = c("seqname", "source", "feature", "start", "end", "score", "strand", 
+        "frame", "attributes")
 
     stopifnot(!any(is.na(gtf_dat$start)), !any(is.na(gtf_dat$end)))
 
@@ -38,7 +37,7 @@ seq_gtf = function(gtf, seqpath, exononly=TRUE, idfield="transcript_id", attrsep
     }
 
     seqlist = lapply(chrs, function(chr){
-        dftmp = subset(gtf_dat, seqname==chr)
+        dftmp = gtf_dat[gtf_dat[,1]==chr,]
         fullseq = readDNAStringSet(paste0(seqpath, '/', chr, '.fa'))
         these_seqs = subseq(rep(fullseq, times=nrow(dftmp)), start=dftmp$start, end=dftmp$end)
         names(these_seqs) = getAttributeField(dftmp$attributes, idfield, attrsep=attrsep)

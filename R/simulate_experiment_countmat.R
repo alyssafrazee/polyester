@@ -15,11 +15,12 @@
 #' fragments.
 #' @param fragsd Standard deviation of fragment lengths. 
 #' @param readlen Read length
-#' @param error_rate=0.005 Sequencing error rate. Must be between 0 and 1. A uniform error model is 
+#' @param error_rate Sequencing error rate. Must be between 0 and 1. A uniform error model is 
 #' assumed. 
 #' @param paired If \code{TRUE}, paired-end reads are simulated; else single-end reads are 
 #' simulated.
 #' @param seed Optional seed to set before simulating reads, for reproducibility.
+#' @param ... Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.
 #' @export
 #' @details Reads can either be simulated from a FASTA file of transcripts (provided with the 
 #' \code{fasta} argument) or from a GTF file plus DNA sequences (provided with the \code{gtf} and 
@@ -35,7 +36,7 @@
 #' simulate_experiment_countmat(fastapath, readmat, outdir=outdir, seed=5)
 #'}
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, readmat, outdir="./", 
-    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL){
+    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL, ...){
 
     if(!is.null(seed)) set.seed(seed)
     

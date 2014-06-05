@@ -23,11 +23,11 @@ write_reads = function(reads, fname, readlen, paired = TRUE){
         rights = reads[seq(2, length(reads), by=2)]
         names(lefts) = paste0('read', 1:length(lefts), '/', names(lefts))
         names(rights) = paste0('read', 1:length(rights), '/', names(rights))
-        writeXStringSet(lefts, file=paste0(fname, '_1.fasta'), format="fasta", width=readlen)
-        writeXStringSet(rights, file=paste0(fname, '_2.fasta'), format="fasta", width=readlen)
+        writeXStringSet(lefts, filepath=paste0(fname, '_1.fasta'), format="fasta", width=readlen)
+        writeXStringSet(rights, filepath=paste0(fname, '_2.fasta'), format="fasta", width=readlen)
     }else{
         outf = paste0(fname, '.fasta')
         names(reads) = paste0('read', 1:length(reads), '/', names(reads))
-        writeXStringSet(reads, file=outf, format="fasta", width=readlen)
+        writeXStringSet(reads, filepath=outf, format="fasta", width=readlen)
     }
 }

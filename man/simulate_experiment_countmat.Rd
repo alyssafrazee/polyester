@@ -5,7 +5,7 @@
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
   readmat, outdir = "./", fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, paired = TRUE, seed = NULL)
+  error_rate = 0.005, paired = TRUE, seed = NULL, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate reads. See details.}
@@ -29,13 +29,15 @@ fragments.}
 
 \item{readlen}{Read length}
 
-\item{error_rate=0.005}{Sequencing error rate. Must be between 0 and 1. A uniform error model is
+\item{error_rate}{Sequencing error rate. Must be between 0 and 1. A uniform error model is
 assumed.}
 
 \item{paired}{If \code{TRUE}, paired-end reads are simulated; else single-end reads are
 simulated.}
 
 \item{seed}{Optional seed to set before simulating reads, for reproducibility.}
+
+\item{...}{Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.}
 }
 \description{
 create FASTA files containing RNA-seq reads simulated from provided transcripts, with optional

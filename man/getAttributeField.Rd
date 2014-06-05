@@ -19,18 +19,11 @@ vector of nucleotide positions included in the transcript
 \description{
 extract a specific field of the "attributes" column of a data frame created from a GTF/GFF file
 }
-\examples{
-## not run:
-gffdata = gffRead('transcripts.gtf')
-transcriptID = getAttributeField(gffdata$V9, field = "transcript_id")
-gffdata$transcriptID = transcriptID
-}
 \author{
 Wolfgang Huber, in \code{davidTiling}
 }
 \seealso{
-\code{\link{gffRead}} for creating a data frame from a GTF/GFF file, and
-\link{http://useast.ensembl.org/info/website/upload/gff.html} for specifics of the GFF/GTF file
-format.
+\url{http://useast.ensembl.org/info/website/upload/gff.html}, for specifics of the
+GFF/GTF file format.
 }
 

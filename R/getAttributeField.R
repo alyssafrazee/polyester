@@ -5,16 +5,10 @@
 #' @param attrsep separator for the fields in the attributes column.  Defaults to '; ', 
 #' the separator for GTF files outputted by Cufflinks.
 #' @return vector of nucleotide positions included in the transcript
-#' @seealso \code{\link{gffRead}} for creating a data frame from a GTF/GFF file, and 
-#' \link{http://useast.ensembl.org/info/website/upload/gff.html} for specifics of the GFF/GTF file 
-#' format.
+#' @seealso \url{http://useast.ensembl.org/info/website/upload/gff.html}, for specifics of the
+#' GFF/GTF file format.
 #' @author Wolfgang Huber, in \code{davidTiling}
 #' @export
-#' @examples
-#' ## not run:
-#' gffdata = gffRead('transcripts.gtf')
-#' transcriptID = getAttributeField(gffdata$V9, field = "transcript_id")
-#' gffdata$transcriptID = transcriptID
 getAttributeField <- function (x, field, attrsep = "; ") 
 {
     s = strsplit(x, split = attrsep, fixed = TRUE)
