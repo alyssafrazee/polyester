@@ -5,7 +5,7 @@
 #' @export
 #' @return Number of transcripts annotated in \code{fasta}
 #' @examples 
-#' fastapath = system.file("inst/extdata", "chr22.fa", package="polyester")
+#' fastapath = system.file("extdata", "chr22.fa", package="polyester")
 #' count_transcripts(fastapath) #918
 #'
 count_transcripts = function(fasta){

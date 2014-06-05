@@ -51,7 +51,7 @@
 #' @examples
 #' ## simulate a few reads from chromosome 22
 #' 
-#' fastapath = system.file("inst/extdata", "chr22.fa", package="polyester")
+#' fastapath = system.file("extdata", "chr22.fa", package="polyester")
 #' numtx = count_transcripts(fastapath)
 #' set.seed(4)
 #' fold_changes = sample(c(0.5, 1, 2), size=numtx, prob=c(0.05, 0.9, 0.05), replace=TRUE)
