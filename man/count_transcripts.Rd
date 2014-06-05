@@ -15,7 +15,7 @@ Number of transcripts annotated in \code{fasta}
 determine how many transcripts are annotated in a FASTA file
 }
 \examples{
-fastapath = system.file("data", "chr22.fa", package="polyester")
+fastapath = system.file("inst/extdata", "chr22.fa", package="polyester")
 count_transcripts(fastapath) #918
 }
 

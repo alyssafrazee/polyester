@@ -27,7 +27,7 @@
 #' \code{seqpath} arguments). Simulating from a GTF file and DNA sequences may be a bit slower: 
 #' it took about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X, and Y in hg19.
 #' @examples \dontrun{
-#' fastapath = system.file("data", "chr22.fa", package="polyester")
+#' fastapath = system.file("inst/extdata", "chr22.fa", package="polyester")
 #' numtx = count_transcripts(fastapath)
 #' readmat = matrix(20, ncol=10, nrow=numtx)
 #' readmat[1:30, 1:5] = 40
