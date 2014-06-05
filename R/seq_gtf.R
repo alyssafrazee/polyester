@@ -18,9 +18,19 @@
 #' @importFrom ballgown gffRead
 #' @importFrom ballgown getAttributeField
 seq_gtf = function(gtf, seqpath, exononly=TRUE, idfield="transcript_id", attrsep="; "){
-    gtf_dat = gffRead(gtf)
+    
+    gtf_dat = read.table(gffFile, sep = "\t", as.is = TRUE, quote = "", 
+        header = FALSE, comment.char = "#", nrows = nrows, 
+        colClasses = c("character", "character", "character", "integer", "integer", "character", 
+            "character", "character", "character"))
+
+    colnames(gtf_dat = c("seqname", "source", "feature", "start", "end", "score", "strand", 
+        "frame", "attributes")
+
+    stopifnot(!any(is.na(gtf_dat$start)), !any(is.na(gtf_dat$end)))
+
     if(exononly){
-        gtf_dat = subset(gtf_dat, feature=="exon")
+        gtf_dat = gtf_dat[gtf_dat[,3]=="exon",]
     }
 
     chrs = unique(gtf_dat$seqname)
