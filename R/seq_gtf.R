@@ -25,7 +25,7 @@ seq_gtf = function(gtf, seqpath, exononly=TRUE, idfield="transcript_id", attrsep
             "character", "character", "character"))
 
     colnames(gtf_dat = c("seqname", "source", "feature", "start", "end", "score", "strand", 
-        "frame", "attributes")
+        "frame", "attributes"))
 
     stopifnot(!any(is.na(gtf_dat$start)), !any(is.na(gtf_dat$end)))
 
