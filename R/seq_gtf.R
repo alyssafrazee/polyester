@@ -15,8 +15,6 @@
 #' @references \url{http://www.ensembl.org/info/website/upload/gff.html}
 #' @return DNAStringSet containing transcript sequences, with names corresponding to \code{idfield}
 #' in \code{gtf}
-#' @importFrom ballgown gffRead
-#' @importFrom ballgown getAttributeField
 seq_gtf = function(gtf, seqpath, exononly=TRUE, idfield="transcript_id", attrsep="; "){
     
     gtf_dat = read.table(gffFile, sep = "\t", as.is = TRUE, quote = "", 
