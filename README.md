@@ -80,4 +80,5 @@ Report bugs as issues on our [GitHub repository](https://github.com/alyssafrazee
 ## Contributors
 * [Andrew Jaffe](https://github.com/andrewejaffe)
 * [Alyssa Frazee](https://github.com/alyssafrazee)
+* [Jeff Leek](https://github.com/jtleek)
 
