@@ -3,18 +3,23 @@
 \alias{create_read_numbers}
 \title{Generate a simulated data set based on known model parameters}
 \usage{
-create_read_numbers(mu, fit, mod, beta, p0, seed = NULL)
+create_read_numbers(mu, fit, p0, m = NULL, n = NULL, mod = NULL,
+  beta = NULL, seed = NULL)
 }
 \arguments{
 \item{mu}{Baseline mean expression for negative binomial model}
 
 \item{fit}{Fitted relationship between log mean and log size}
 
+\item{p0}{A vector of the probabilities a count is zero}
+
+\item{m}{Number of genes/transcripts to simulate (not necessary if mod, beta are specified)}
+
+\item{n}{Number of samples to simulate (not necessary if mod, beta are specified)}
+
 \item{mod}{Model matrix you would like to simulate from without an intercept}
 
 \item{beta}{set of coefficients for the model matrix (must have same number of columns as mod)}
-
-\item{p0}{A vector of the probabilities a count is zero}
 
 \item{seed}{optional seed to set (for reproducibility)}
 }
