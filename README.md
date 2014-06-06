@@ -51,7 +51,7 @@ The `simulate_experiment` function draws the number of reads to simulate from ea
 * `dispersion_param`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```, where "size" is the dispersion parameter. You can specify the dispersion parameter for each transcript. By default, size is defined as 1/3 of the transcript's mean.
 
 ### approach 2: build your own expression model
-The `simulate_experiment_readmat` function takes a count matrix as an argunent. Each row of this matrix represents a transcript, and each column represents a sample in the experiment. Entry `i,j` of the matrix specifies how many reads should be sampled from transcript `i` for sample `j`, allowing you to precisely and flexibly define the (differential) transcript expression structure for the experiment.
+The `simulate_experiment_readmat` function takes a count matrix as an argument. Each row of this matrix represents a transcript, and each column represents a sample in the experiment. Entry `i,j` of the matrix specifies how many reads should be sampled from transcript `i` for sample `j`, allowing you to precisely and flexibly define the (differential) transcript expression structure for the experiment.
 
 ### other simulation parameters that can be set:
 For both `simulate_experiment` and `simulate_experiment_countmat`, you can change these parameters:
