@@ -22,7 +22,7 @@ create_read_numbers = function(mu,fit,p0,m=NULL,n=NULL,mod=NULL,beta=NULL,seed =
   if(is.null(mod) | is.null(beta)){
     cat("Generating data from baseline model.\n")
     if(is.null(m) | is.null(n)){
-      stop("create_read_numbers error: if you don't specify mod and beta, you must specify m and n.")
+      stop("create_read_numbers error: if you don't specify mod and beta, you must specify m and n.\n")
     }
     index = sample(1:length(mu),size=m)
     mus = mu[index]
