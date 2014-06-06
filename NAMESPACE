@@ -2,8 +2,11 @@
 
 export(add_error)
 export(count_transcripts)
+export(create_read_numbers)
+export(fpkm_to_counts)
 export(generate_fragments)
 export(getAttributeField)
+export(get_params)
 export(get_reads)
 export(reverse_complement)
 export(seq_gtf)
