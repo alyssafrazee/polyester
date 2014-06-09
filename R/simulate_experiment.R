@@ -29,10 +29,9 @@
 #' samples. Fold change < 1 means transcript is overexpressed in the last
 #' \code{num_reps} (or \code{num_reps[2]}) samples. The change is in the mean
 #' number of reads generated from the transcript, between groups.
-#' @param dispersion_param the negative binomial \code{size} distribution 
-#' (see \code{\link{NegBinomial}})
-#' of the number of reads drawn per transcript. If left blank, defaults to 
-#' \code{reads_per_transcript / 3}. Negative binomial variance is mean + mean^2 / size.
+#' @param size the negative binomial \code{size} parameter (see \code{\link{NegBinomial}}) for the 
+#' number of reads drawn per transcript. If left blank, defaults to \code{reads_per_transcript / 3}. 
+#' Negative binomial variance is mean + mean^2 / size.
 #' @param outdir character, path to folder where simulated reads should be written. Should end 
 #' with "/" if specified. If unspecified, reads are written to current working directory.
 #' @param write_info If \code{TRUE}, write a file matching transcript IDs to differential expression
@@ -64,7 +63,7 @@
 #'}
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
-    fold_changes, dispersion_param=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,
+    fold_changes, size=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,
     ...){
 
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
@@ -106,15 +105,15 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
         reads_per_transcript/fold_changes, reads_per_transcript)
     basemeans2 = round(basemeans2)
 
-    if(is.null(dispersion_param)){
-        dispersion_param = reads_per_transcript/3
+    if(is.null(size)){
+        size = reads_per_transcript/3
     }
 
-    if(length(dispersion_param) == 1){
-        nbdp1 = nbdp2 = dispersion_param
+    if(length(size) == 1){
+        nbdp1 = nbdp2 = size
     }else{
-        nbdp1 = dispersion_param[1:n1]
-        nbdp2 = dispersion_param[(1:n2)+n1] 
+        nbdp1 = size[1:n1]
+        nbdp2 = size[(1:n2)+n1] 
     }
 
     numreadsList = vector("list", n1+n2)

@@ -6,7 +6,7 @@
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
   error_rate = 0.005, paired = TRUE, reads_per_transcript = 300,
-  fold_changes, dispersion_param = NULL, outdir = "./", write_info = TRUE,
+  fold_changes, size = NULL, outdir = "./", write_info = TRUE,
   transcriptid = NULL, seed = NULL, ...)
 }
 \arguments{
@@ -48,10 +48,9 @@ samples. Fold change < 1 means transcript is overexpressed in the last
 \code{num_reps} (or \code{num_reps[2]}) samples. The change is in the mean
 number of reads generated from the transcript, between groups.}
 
-\item{dispersion_param}{the negative binomial \code{size} distribution
-(see \code{\link{NegBinomial}})
-of the number of reads drawn per transcript. If left blank, defaults to
-\code{reads_per_transcript / 3}. Negative binomial variance is mean + mean^2 / size.}
+\item{size}{the negative binomial \code{size} parameter (see \code{\link{NegBinomial}}) for the
+number of reads drawn per transcript. If left blank, defaults to \code{reads_per_transcript / 3}.
+Negative binomial variance is mean + mean^2 / size.}
 
 \item{outdir}{character, path to folder where simulated reads should be written. Should end
 with "/" if specified. If unspecified, reads are written to current working directory.}

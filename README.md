@@ -48,7 +48,7 @@ The `simulate_experiment` function draws the number of reads to simulate from ea
     - Fold changes compare the mean number of reads in group 1 to group 2. So a fold change of 0.5 means group 2's baseline mean number of reads for this transcript is twice that of group 1.
     - Long transcripts usually produce more reads in RNA-seq experiments than short ones, so you may want to specify `reads_per_transcript` as a function of transcript length
     - Default is 300 (regardless of transcript length).
-* `dispersion_param`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```, where "size" is the dispersion parameter. You can specify the dispersion parameter for each transcript. By default, size is defined as 1/3 of the transcript's mean.
+* `size`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```. You can specify the size parameter for each transcript. By default, size is defined as 1/3 of the transcript's mean.
 
 ### approach 2: build your own expression model
 The `simulate_experiment_readmat` function takes a count matrix as an argument. Each row of this matrix represents a transcript, and each column represents a sample in the experiment. Entry `i,j` of the matrix specifies how many reads should be sampled from transcript `i` for sample `j`, allowing you to precisely and flexibly define the (differential) transcript expression structure for the experiment.

@@ -3,12 +3,12 @@
 \alias{NB}
 \title{Draw nonzero negative binomial random numbers}
 \usage{
-NB(basemeans, dispersion_param, seed = NULL)
+NB(basemeans, size, seed = NULL)
 }
 \arguments{
 \item{basemeans}{vector of means, one per draw}
 
-\item{dispersion_param}{vector of dispersion (\code{size}) parameters, one per draw}
+\item{size}{vector of size parameters (controlling the mean/variance relationship); one per draw}
 
 \item{seed}{optional seed to set before drawing}
 }
