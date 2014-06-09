@@ -5,7 +5,7 @@
 #' @param  seed optional seed to set before drawing
 NB = function(basemeans, dispersion_param, seed=NULL){
     if(!is.null(seed)) set.seed(seed)
-    numreads = rnbinom(n = length(basemeans), mu = basemeans, size = dispersion_param)
+    numreads = rnbinom(n = length(basemeans), mu = basemeans, size = 1/dispersion_param)
     numreads[numreads == 0] = 1
     return(numreads)
 }
