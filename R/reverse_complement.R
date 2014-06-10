@@ -7,6 +7,11 @@
 #' @export
 #' @return DNAStringSet that is the same as \code{tObj}, but with about half the sequences 
 #' reverse-complemented.
+#' @examples
+#'   require(Biostrings)
+#'   data(srPhiX174)
+#'   srPhiX174_halfrc = reverse_complement(srPhiX174, seed=174)
+
 reverse_complement = function(tObj, seed=NULL){
     if(!is.null(seed)) set.seed(seed)
     strand = sample(c(0,1), length(tObj), replace=TRUE)

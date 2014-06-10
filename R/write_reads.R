@@ -17,7 +17,13 @@
 #' from \code{get_reads} is used and \code{paired} is \code{TRUE}, make sure \code{reads} is 
 #' ordered properly (i.e., that mate pairs appear together and that the left mate appears first).
 #' @seealso \code{\link{get_reads}}
-write_reads = function(reads, fname, readlen, paired = TRUE){
+#' @examples \dontrun{
+#'   require(Biostrings)
+#'   data(srPhiX174) # pretend srPhiX174 represents a DNAStringSet of *reads*
+#'   readlen = unique(width(srPhiX174)) #35
+#'   write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE)
+#'}
+write_reads = function(reads, fname, readlen, paired=TRUE){
     if(paired){
         lefts = reads[seq(1, length(reads), by=2)]
         rights = reads[seq(2, length(reads), by=2)]

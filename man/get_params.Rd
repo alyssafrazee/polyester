@@ -6,7 +6,8 @@
 get_params(counts, threshold = NULL)
 }
 \arguments{
-\item{counts}{A matrix of counts. If you want to simulate from a ballgown object see \code{\link{fpkm_to_counts}}}
+\item{counts}{A matrix of counts. If you want to simulate from a ballgown object, see
+\code{\link{fpkm_to_counts}}}
 
 \item{threshold}{Only estimate parameters from transcripts with row means greater than threshold}
 }
@@ -24,6 +25,14 @@ This function estimates the parameters of a zero inflated negative binomial
 distribution based on a real count data set based on the method of moments.  The function
 also returns a spline fit of log mean to log size which can be used when generating
 new simulated data.
+}
+\examples{
+\dontrun{
+  require(ballgown)
+  data(simgown)
+  countmat = fpkm_to_counts(simgown, mean_rps=400000)
+  params = get_params(countmat)
+}
 }
 \author{
 Jeff Leek

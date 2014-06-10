@@ -5,50 +5,60 @@
 #' @param p0 A vector of the probabilities a count is zero 
 #' @param m Number of genes/transcripts to simulate (not necessary if mod, beta are specified)
 #' @param n Number of samples to simulate (not necessary if mod, beta are specified)
-#'  @param mod  Model matrix you would like to simulate from without an intercept
+#' @param mod  Model matrix you would like to simulate from without an intercept
 #' @param beta set of coefficients for the model matrix (must have same number of columns as mod)
 #' @param seed optional seed to set (for reproducibility)
-#' 
 #' 
 #' @return counts Data matrix with counts for genes in rows and samples in columns
 #' 
 #' @export
 #' 
 #' @author Jeff Leek
+#' @examples \dontrun{
+#'   require(ballgown)
+#'   data(simgown)
+#'   countmat = fpkm_to_counts(simgown, mean_rps=400000)
+#'   params = get_params(countmat)
+#'   Ntranscripts = 200
+#'   Nsamples = 10
+#'   custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, p0=params$p0, 
+#'       m=Ntranscripts, n=Nsamples, seed=103)
+#' }
 
-create_read_numbers = function(mu,fit,p0,m=NULL,n=NULL,mod=NULL,beta=NULL,seed = NULL){
+
+create_read_numbers = function(mu, fit, p0, m=NULL, n=NULL, mod=NULL, beta=NULL, seed=NULL){
  
-  if(!is.null(seed)){set.seed(seed)}
-  if(is.null(mod) | is.null(beta)){
-    cat("Generating data from baseline model.\n")
-    if(is.null(m) | is.null(n)){
-      stop("create_read_numbers error: if you don't specify mod and beta, you must specify m and n.\n")
+    if(!is.null(seed)){set.seed(seed)}
+    if(is.null(mod) | is.null(beta)){
+        cat("Generating data from baseline model.\n")
+        if(is.null(m) | is.null(n)){
+        stop("create_read_numbers error: if you don't specify mod and beta, you must specify 
+            m and n.\n")
+        }
+        index = sample(1:length(mu),size=m)
+        mus = mu[index]
+        p0s = p0[index]
+        mumat = log(mus + 0.001) %*% t(rep(1,n))
+        muvec = as.vector(mumat)
+        sizevec = predict(fit,muvec)$y
+    
+    } else {
+        m = dim(beta)[1]
+        n = dim(mod)[1]
+        index = sample(1:length(mu),size=m)
+        mus = mu[index]
+        p0s = p0[index]
+  
+        ind = !apply(mod,2,function(x){all(x==1)})
+        mod = cbind(mod[,ind])
+        beta = cbind(beta[,ind])
+        mumat = log(mus + 0.001) + beta %*% t(mod)
     }
-    index = sample(1:length(mu),size=m)
-    mus = mu[index]
-    p0s = p0[index]
-    mumat = log(mus + 0.001) %*% t(rep(1,n))
+  
     muvec = as.vector(mumat)
     sizevec = predict(fit,muvec)$y
-    
-  }else{
-    m = dim(beta)[1]
-    n = dim(mod)[1]
-    index = sample(1:length(mu),size=m)
-    mus = mu[index]
-    p0s = p0[index]
-  
-    ind = !apply(mod,2,function(x){all(x==1)})
-    mod = cbind(mod[,ind])
-    beta = cbind(beta[,ind])
-    mumat = log(mus + 0.001) + beta %*% t(mod)
-  }
-  
-  muvec = as.vector(mumat)
-  sizevec = predict(fit,muvec)$y
-  p0vec = rep(p0s,m)
-  
-  counts = matrix(rbinom(m*n,prob=(1-p0vec),size=1)*rnbinom(m*n,size=exp(sizevec),mu=exp(muvec)),nrow=m)
-  
-  return(counts)
+    p0vec = rep(p0s,m)
+    counts = matrix(rbinom(m*n, 
+        prob=(1-p0vec), size=1)*rnbinom(m*n, size=exp(sizevec), mu=exp(muvec)), nrow=m)
+    return(counts)
 }

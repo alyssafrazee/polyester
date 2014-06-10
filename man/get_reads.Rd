@@ -20,6 +20,13 @@ DNAStringSet representing simulated RNA-seq reads
 simulate the sequencing process by returning the sequence of one or both ends of provided
 fragments
 }
+\examples{
+require(Biostrings)
+  data(srPhiX174)
+  set.seed(174)
+  srPhiX174_reads = get_reads(srPhiX174, readlen=15, paired=FALSE)
+  srPhiX174_reads  # set of single-end, 15bp reads, treating srPhiX174 as the fragments
+}
 \seealso{
 \code{\link{simulate_experiment}}, \code{\link{simulate_experiment_countmat}}
 }

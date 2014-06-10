@@ -5,6 +5,12 @@
 #' @param  error_rate error probability
 #' @export
 #' @return DNAStringSet equivalent to \code{tFrags} but with random sequencing errors inserted
+#' @examples
+#'   require(Biostrings)
+#'   data(srPhiX174)
+#'   set.seed(174)
+#'   srPhiX174_withError = add_error(srPhiX174)
+#'   #error was introduced in, e.g., position 10 of 2nd string in set.
 add_error = function(tFrags, error_rate = 0.005){
     adj_error = error_rate*4/3 
     #^so you don't have to choose *another* nucleotide for an error: just choose *a* nucleotide.

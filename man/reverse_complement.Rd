@@ -18,4 +18,9 @@ reverse-complemented.
 \description{
 randomly reverse-complement half of the sequences in a DNAStringSet
 }
+\examples{
+require(Biostrings)
+  data(srPhiX174)
+  srPhiX174_halfrc = reverse_complement(srPhiX174, seed=174)
+}
 

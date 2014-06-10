@@ -9,7 +9,14 @@
 #' GFF/GTF file format.
 #' @author Wolfgang Huber, in \code{davidTiling}
 #' @export
-getAttributeField <- function (x, field, attrsep = "; ") 
+#' @examples \dontrun{
+#' # pre-loaded GTF file from chr22 (could also use gffRead in "ballgown" package):
+#' data(gtf_dataframe)
+#' 
+#' # extract gene IDs from attributes column:
+#' gtf_dataframe$gene_id = getAttributeField(gtf_dataframe$attributes, field="gene_id")
+#' }
+getAttributeField = function (x, field, attrsep = "; ") 
 {
     s = strsplit(x, split = attrsep, fixed = TRUE)
     sapply(s, function(atts) {
@@ -25,7 +32,7 @@ getAttributeField <- function (x, field, attrsep = "; ")
     })
 }
 
-### needs attribution
+### attribution:
 ### https://stat.ethz.ch/pipermail/bioconductor/2008-October/024669.html
 ### this function comes from the davidTiling package, but I changed the default attribute separator
-### don't want to import the whole package, but would like to include this function in ballgown
+### don't want to import the whole package, but would like to include in polyester

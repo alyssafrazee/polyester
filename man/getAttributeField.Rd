@@ -19,6 +19,15 @@ vector of nucleotide positions included in the transcript
 \description{
 extract a specific field of the "attributes" column of a data frame created from a GTF/GFF file
 }
+\examples{
+\dontrun{
+# pre-loaded GTF file from chr22 (could also use gffRead in "ballgown" package):
+data(gtf_dataframe)
+
+# extract gene IDs from attributes column:
+gtf_dataframe$gene_id = getAttributeField(gtf_dataframe$attributes, field="gene_id")
+}
+}
 \author{
 Wolfgang Huber, in \code{davidTiling}
 }

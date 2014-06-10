@@ -29,6 +29,14 @@ sequencing reads that can be directly passed to \code{write_reads}. If output ot
 from \code{get_reads} is used and \code{paired} is \code{TRUE}, make sure \code{reads} is
 ordered properly (i.e., that mate pairs appear together and that the left mate appears first).
 }
+\examples{
+\dontrun{
+  require(Biostrings)
+  data(srPhiX174) # pretend srPhiX174 represents a DNAStringSet of *reads*
+  readlen = unique(width(srPhiX174)) #35
+  write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE)
+}
+}
 \seealso{
 \code{\link{get_reads}}
 }

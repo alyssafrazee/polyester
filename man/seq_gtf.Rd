@@ -3,14 +3,16 @@
 \alias{seq_gtf}
 \title{Get transcript sequences from GTF file and sequence info}
 \usage{
-seq_gtf(gtf, seqpath, exononly = TRUE, idfield = "transcript_id",
+seq_gtf(gtf, seqs, exononly = TRUE, idfield = "transcript_id",
   attrsep = "; ")
 }
 \arguments{
-\item{gtf}{path to GTF file}
+\item{gtf}{one of path to GTF file, or data frame representing a canonical GTF file.}
 
-\item{seqpath}{path to folder containing one FASTA file (\code{.fa} extension) for each
-chromosome in \code{gtf}}
+\item{seqs}{one of path to folder containing one FASTA file (\code{.fa} extension) for each
+chromosome in \code{gtf}, or named DNAStringSet containing one DNAString per chromosome in
+\code{gtf}, representing its sequence. In the latter case, \code{names(seqs)} should contain the
+same entries as the \code{seqnames} (first) column of \code{gtf}.}
 
 \item{exononly}{if \code{TRUE} (as it is by default), only create transcript sequences from the
 features labeled \code{exon} in \code{gtf}}
@@ -28,6 +30,14 @@ in \code{gtf}
 \description{
 Given a GTF file (for transcript structure) and DNA sequences, return a DNAStringSet
 of transcript sequences
+}
+\examples{
+\dontrun{
+  require(Biostrings)
+  load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+  data(gtf_dataframe)
+  chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
+}
 }
 \references{
 \url{http://www.ensembl.org/info/website/upload/gff.html}

@@ -16,4 +16,11 @@ DNAStringSet equivalent to \code{tFrags} but with random sequencing errors inser
 \description{
 simulate sequencing error by randomly changing the sequenced nucleotide on some of the reads
 }
+\examples{
+require(Biostrings)
+  data(srPhiX174)
+  set.seed(174)
+  srPhiX174_withError = add_error(srPhiX174)
+  #error was introduced in, e.g., position 10 of 2nd string in set.
+}
 

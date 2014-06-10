@@ -15,4 +15,10 @@ NB(basemeans, size, seed = NULL)
 \description{
 Draw nonzero negative binomial random numbers
 }
+\examples{
+\dontrun{
+randomNBs = NB(c(100, 4, 29), size=c(50, 2, 4), seed=21)
+randomNBs  # 115, 5, 15
+}
+}
 
