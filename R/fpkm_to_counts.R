@@ -17,7 +17,7 @@
 #' }
 #' 
 
-fpkm_to_counts = function(bg, mean_rps=100e6, threshold=NULL){
+fpkm_to_counts = function(bg, mean_rps=100e6, threshold=0){
     tmeas = as.matrix(ballgown::texpr(bg, "FPKM"))
     trowm = rowMeans(tmeas)
     index1 = which(trowm > threshold)
