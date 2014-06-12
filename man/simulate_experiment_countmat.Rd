@@ -57,7 +57,7 @@ readmat = matrix(20, ncol=10, nrow=numtx)
 readmat[1:30, 1:5] = 40
 
 outdir = ifelse(.Platform$OS.type == 'windows', '.\\\\simdata\\\\', './simdata/')
-simulate_experiment_countmat(fastapath, readmat, outdir=outdir, seed=5)
+simulate_experiment_countmat(fasta=fastapath, readmat=readmat, outdir=outdir, seed=5)
 }
 }
 
