@@ -38,10 +38,7 @@ create_read_numbers = function(mu, fit, p0, m=NULL, n=NULL, mod=NULL, beta=NULL,
         index = sample(1:length(mu),size=m)
         mus = mu[index]
         p0s = p0[index]
-        mumat = log(mus + 0.001) %*% t(rep(1,n))
-        muvec = as.vector(mumat)
-        sizevec = predict(fit,muvec)$y
-    
+        mumat = log(mus + 0.001) %*% t(rep(1,n))    
     } else {
         m = dim(beta)[1]
         n = dim(mod)[1]
@@ -57,8 +54,11 @@ create_read_numbers = function(mu, fit, p0, m=NULL, n=NULL, mod=NULL, beta=NULL,
   
     muvec = as.vector(mumat)
     sizevec = predict(fit,muvec)$y
-    p0vec = rep(p0s,m)
-    counts = matrix(rbinom(m*n, 
-        prob=(1-p0vec), size=1)*rnbinom(m*n, size=exp(sizevec), mu=exp(muvec)), nrow=m)
+    sizemat = matrix(sizevec,nrow=m)
+    counts = sizemat*NA
+    for(i in 1:m){
+      counts[i,] = rbinom(n,prob=(1-p0s[i]),size=1)*
+        rnbinom(n,mu=exp(mumat[i,]),size=exp(sizemat[i,]))
+    }
     return(counts)
 }
