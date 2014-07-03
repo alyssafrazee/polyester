@@ -64,6 +64,7 @@
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
     fold_changes, size=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,
+    library_type = c("stranded", "firststrand", "secondstrand"), strand_error_rate = 0.001,
     ...){
 
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
@@ -141,7 +142,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
         tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd)
 
         #reverse_complement some of those fragments
-        rctFrags = reverse_complement(tFrags)
+        rctFrags = reverse_complement(tFrags, library_type, strand_error_rate)
 
         #add sequencing error
         errFrags = add_error(rctFrags, error_rate)
