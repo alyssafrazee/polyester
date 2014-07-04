@@ -36,7 +36,11 @@
 #' simulate_experiment_countmat(fasta=fastapath, readmat=readmat, outdir=outdir, seed=5)
 #'}
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, readmat, outdir="./", 
-    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL, ...){
+    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL,
+    library_type = c("unstranded", "firststrand", "secondstrand"), strand_error_rate = 0.001,
+    ...){
+    
+    library_type = match.arg(library_type)
 
     if(!is.null(seed)) set.seed(seed)
     
@@ -64,7 +68,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, read
         tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd)
 
         #reverse_complement some of those fragments
-        rctFrags = reverse_complement(tFrags)
+        rctFrags = reverse_complement(tFrags, library_type, strand_error_rate)
 
         #add sequencing error
         errFrags = add_error(rctFrags, error_rate)
