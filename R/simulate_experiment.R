@@ -1,3 +1,9 @@
+.makepretty = function(x){
+    msg = gsub('\n', ' ', x)
+    msg = gsub('    ', '', msg)
+    msg
+}
+
 #' simulate RNA-seq experiment using negative binomial model
 #'
 #' create FASTA files containing RNA-seq reads simulated from provided transcripts, with optional 
@@ -76,6 +82,28 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
         stop('must provide either fasta or both gtf and seqpath')
     }
 
+    # check argument lengths:
+    ntx = length(transcripts)
+    if(length(fold_changes)!=ntx){
+        stop(.makepretty('fold_changes must be a vector with one entry per transcript in fasta or
+            gtf; use count_transcripts to find out how many transcripts are in fasta or gtf.'))
+    }
+    if(length(reads_per_transcript)!=1 & length(reads_per_transcript)!=ntx){
+        stop(.makepretty('reads_per_transcript must be a single number or a vector with one entry
+            per transcript in fasta or gtf; use count_transcripts to find out how many
+            transcripts are in fasta or gtf.'))
+    }
+    if(length(size)!=0 & length(size)!=1 & length(size)!=ntx){
+        stop(.makepretty('size must be a single number or a vector with one entry
+            per transcript in fasta or gtf; use count_transcripts to find out how many
+            transcripts are in fasta or gtf.'))
+    }
+    if(length(transcriptid)!=0 & length(size)!=ntx){
+        stop(.makepretty('transcriptid must be a character vector with one entry
+            per transcript in fasta or gtf; use count_transcripts to find out how many
+            transcripts are in fasta or gtf.'))
+    }
+
     L = width(transcripts)
     if(!is.null(transcriptid)){
         names(transcripts) = transcriptid
@@ -94,9 +122,9 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
 
     ## get baseline means for each group from fold changes:
     if(exp(mean(log(fold_changes))) != 1){
-        warning('provided fold changes mean that one group will have
-            more overall expression than the other, so some of
-            the DE signal might be lost due to library size adjustment.')
+        warning(.makepretty('provided fold changes mean that one group will have more overall
+            expression than the other, so some of the DE signal might be lost due to library size
+            adjustment.'))
     }
     basemeans1 = ifelse(fold_changes > 1, 
         reads_per_transcript*fold_changes, reads_per_transcript)
