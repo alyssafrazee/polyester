@@ -19,7 +19,7 @@ count_transcripts = function(f, fasta=TRUE, identifier='transcript_id', attrsep=
         if(substr(f, flength-1, flength) != 'fa' & substr(f, flength-4, flength) != 'fasta'){
             stop('if f is a FASTA file, f must have extension ".fa" or ".fasta"')
         }
-        return(length(readDNAStringSet(fasta)))    
+        return(length(readDNAStringSet(f)))    
     }
 
     # else, it's a GTF file
