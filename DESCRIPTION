@@ -10,9 +10,11 @@ Description: This package can be used to simulate RNA-seq reads from
     aligned and used to perform comparisons of methods for differential
     expression.
 VignetteBuilder: knitr
+Depends:
+    R (>= 3.0.0)
 Imports:
-    Biostrings,
-    IRanges
+    Biostrings (>= 2.32.0),
+    IRanges (>= 1.22.6)
 Suggests:
     knitr,
     ballgown
