@@ -51,7 +51,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, read
     }
 
     stopifnot(class(readmat) == 'matrix')
-    stopifnot(nrow(readmat) != length(transcripts))
+    stopifnot(nrow(readmat) == length(transcripts))
 
     sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){
