@@ -18,8 +18,8 @@
 #' @author Jeff Leek
 #' @examples \dontrun{
 #'   require(ballgown)
-#'   data(simgown)
-#'   countmat = fpkm_to_counts(simgown, mean_rps=400000)
+#'   data(bg)
+#'   countmat = fpkm_to_counts(bg, mean_rps=400000)
 #'   params = get_params(countmat)
 #' }
 

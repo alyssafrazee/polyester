@@ -32,8 +32,8 @@ Generate a simulated data set based on known model parameters
 \examples{
 \dontrun{
   require(ballgown)
-  data(simgown)
-  countmat = fpkm_to_counts(simgown, mean_rps=400000)
+  data(bg)
+  countmat = fpkm_to_counts(bg, mean_rps=400000)
   params = get_params(countmat)
   Ntranscripts = 200
   Nsamples = 10
