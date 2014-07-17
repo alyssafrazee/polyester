@@ -3,7 +3,7 @@ Maintainer: Alyssa Frazee <alyssa.frazee@gmail.com>, Jeff Leek
     <jtleek@gmail.com>
 Author: Andrew Jaffe, Alyssa Frazee, Jeff Leek
 Version: 0.99.0
-License: GPL-3
+License: Artistic 2.0
 Title: Simulate RNA-seq reads
 Description: This package can be used to simulate RNA-seq reads from
     differential expression experiments with replicates. The reads can then be
