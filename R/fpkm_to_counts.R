@@ -6,14 +6,14 @@
 #' @param mean_rps This should be the number of reads per sample in total for use in backing out the
 #' FPKM calculations
 #' 
-#' @return counts A matrix of counts with the same number of rows and columns as the ballgown object
+#' @return A matrix of counts with the same number of rows and columns as the ballgown object
 #' 
 #' @export
 #' @author Jeff Leek
 #' @examples \dontrun{
 #'   require(ballgown)
-#'   data(simgown)
-#'   countmat = fpkm_to_counts(simgown, mean_rps=400000) 
+#'   data(bg)
+#'   countmat = fpkm_to_counts(bg, mean_rps=400000) 
 #' }
 #' 
 

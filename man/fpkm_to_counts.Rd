@@ -15,7 +15,7 @@ than \code{threshold}}
 FPKM calculations}
 }
 \value{
-counts A matrix of counts with the same number of rows and columns as the ballgown object
+A matrix of counts with the same number of rows and columns as the ballgown object
 }
 \description{
 Turn FPKMs from a ballgown object into estimated counts for transcripts
@@ -23,8 +23,8 @@ Turn FPKMs from a ballgown object into estimated counts for transcripts
 \examples{
 \dontrun{
   require(ballgown)
-  data(simgown)
-  countmat = fpkm_to_counts(simgown, mean_rps=400000)
+  data(bg)
+  countmat = fpkm_to_counts(bg, mean_rps=400000)
 }
 }
 \author{
