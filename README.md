@@ -15,13 +15,19 @@ Polyester was developed with several specific features in mind:
 
 Start R and run:
 
-
 ```r
 source("http://bioconductor.org/biocLite.R")
 biocLite("polyester")
 ```
 
-Polyester depends on the `Biostrings` and `IRanges` libraries from Bioconductor.
+Polyester depends on the `Biostrings`, `IRanges`, and `S4Vectors` libraries from Bioconductor. 
+
+The development version of Polyester can be installed from GitHub:
+
+```r
+install.packages('devtools') #if needed
+devtools::install_github('polyester', 'alyssafrazee')
+```
 
 # Required Input
 You will need either:
@@ -55,7 +61,7 @@ outdir = 'simulated_reads/'
 # ~20x coverage ----> reads per transcript = length/readlength * 20
 # "width" is operating on a DNAStringSet (from Biostrings)
 readspertx = round(20 * width(fasta) / 100)
-simulate_experiment(fasta_file, reads_per_transcript=readspertx, num_reps=10, fold_changes=fold_changes, outdir=outdir)
+simulate_experiment(fasta_file, reads_per_transcript=readspertx, num_reps=10, fold_changes=fold_changes, outdir=outdir) # will take about 30 seconds per rep, so about 10 minutes (10 reps per group; 2 groups)
 ```
 
 The `simulate_experiment` function draws the number of reads to simulate from each transcript from a negative binomial model. See below for details. Depending on your use case, it may be important to account for transcript length when deciding on the baseline mean number of reads to simulate from that transcript (as we did above with `readspertx`).
@@ -85,7 +91,7 @@ countmat[up_late, 10] = 6*countmat[up_late, 10]
 countmat[up_late, 11] = round(1.2*countmat[up_late, 11])
 
 # simulate reads:
-simulate_experiment_countmat(fasta_file, countmat, outdir='timecourse_reads/')
+simulate_experiment_countmat(fasta_file, countmat, outdir='timecourse_reads/') # will take several minutes
 ```
 
 ### More on the negative binomial model
@@ -96,7 +102,7 @@ The `simulate_experiment` function draws the number of reads to simulate from ea
     - Fold changes compare the mean number of reads in group 1 to group 2. So a fold change of 0.5 means group 2's baseline mean number of reads for this transcript is twice that of group 1.
     - Long transcripts usually produce more reads in RNA-seq experiments than short ones, so you may want to specify `reads_per_transcript` as a function of transcript length
     - Default is 300 (regardless of transcript length).
-* `size`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```. You can specify the size for each transcript. By default, size is defined as 1/3 of the transcript's mean.
+* `size`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```. You can specify the size for each transcript. By default, size is defined as 1/3 of the transcript's mean, which (in our experience) creates a somewhat idealized, low-variance situation.  Decrease the value of `size` to introduce more variance into your simulations.
 
 ### More on the count-matrix model 
 The `simulate_experiment_readmat` function takes a count matrix as an argunent. Each row of this matrix represents a transcript, and each column represents a sample in the experiment. Entry `i,j` of the matrix specifies how many reads should be sampled from transcript `i` for sample `j`, allowing you to precisely and flexibly define the (differential) transcript expression structure for the experiment.
@@ -114,6 +120,23 @@ For both `simulate_experiment` and `simulate_experiment_countmat`, you can chang
 If you'd like to explore specific steps in the sequencing process (fragmentation, reverse-complementing, error-adding), the functions called within `simulate_experiment` are also available and individually documented in Polyester.
 
 See `?simulate_experiment` and `?simulate_experiment_countmat` for details on how to change these parameters.
+
+### Using real data to guide simulation
+
+To create a count matrix that resembles a real dataset, use the `create_read_numbers` function. To run this example, you will need the [Ballgown R package](https://github.com/alyssafrazee/ballgown):
+
+
+```r
+require(ballgown)
+data(bg)
+countmat = fpkm_to_counts(bg, mean_rps=400000)
+params = get_params(countmat)
+Ntranscripts = 200
+Nsamples = 10
+custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103)
+```
+
+The Ballgown package is not required: the mean/variance relationship for each transcript can be estimated from any matrix of counts using `get_params`. You can add differential expression to the output from `create_read_numbers` (here, `custom_readmat`) and pass the resulting matrix to `simulate_experiment_countmat`.
 
 ## Output
 A call to `simulate_experiment` or `simulate_experiment_countmat` will write FASTA files to the directory specified by the `outdir` argument. Reads in the FASTA file will be labeled with the transcript from which they were simulated.
