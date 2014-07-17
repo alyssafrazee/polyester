@@ -7,7 +7,7 @@
 #' @return vector of nucleotide positions included in the transcript
 #' @seealso \url{http://useast.ensembl.org/info/website/upload/gff.html}, for specifics of the
 #' GFF/GTF file format.
-#' @author Wolfgang Huber, in \code{davidTiling}
+#' @author Wolfgang Huber, in the \code{davidTiling} package (LGPL license)
 #' @export
 #' @examples \dontrun{
 #' # pre-loaded GTF file from chr22 (could also use gffRead in "ballgown" package):

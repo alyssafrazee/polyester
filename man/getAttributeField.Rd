@@ -29,7 +29,7 @@ gtf_dataframe$gene_id = getAttributeField(gtf_dataframe$attributes, field="gene_
 }
 }
 \author{
-Wolfgang Huber, in \code{davidTiling}
+Wolfgang Huber, in the \code{davidTiling} package (LGPL license)
 }
 \seealso{
 \url{http://useast.ensembl.org/info/website/upload/gff.html}, for specifics of the
