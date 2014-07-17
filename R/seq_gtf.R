@@ -74,6 +74,7 @@ seq_gtf = function(gtf, seqs, exononly=TRUE, idfield="transcript_id", attrsep=";
         }
         these_seqs = subseq(rep(fullseq, times=nrow(dftmp)), start=dftmp$start, end=dftmp$end)
         names(these_seqs) = getAttributeField(dftmp$attributes, idfield, attrsep=attrsep)
+        for(i in which(dftmp$strand == "-")) {these_seqs[i] = reverse_complement(these_seqs[i], library_type, 0)} # strand_error_rate=0 
         these_seqs
     })
 
