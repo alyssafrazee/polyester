@@ -64,7 +64,7 @@
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 
     fold_changes, size=NULL, outdir="./", write_info=TRUE, transcriptid=NULL, seed=NULL,
-    library_type = c("unstranded", "firststrand", "secondstrand"), strand_error_rate = 0.001,
+    library_type = c("unstranded", "firststrand", "secondstrand"), strand_error_rate = 0,
     ...){
     
     library_type = match.arg(library_type)
