@@ -18,7 +18,8 @@
 #' Jeffrey T Leek (2014). Flexible isoform-level differential expression analysis with Ballgown.
 #' BioRxiv preprint: \url{http://biorxiv.org/content/early/2014/03/30/003665}. 
 #' @import Biostrings
-#' @importFrom S4Vectors Rle
+#' @import IRanges
+#' @import S4Vectors
 #' @docType package
 #' @author Andrew Jaffe, Alyssa Frazee, Jeff Leek
 #' @name polyester
