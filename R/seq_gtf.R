@@ -24,7 +24,7 @@
 #'   data(gtf_dataframe)
 #'   chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
 #' }
-seq_gtf = function(gtf, seqs, exononly=TRUE, idfield="transcript_id", attrsep="; "){
+seq_gtf = function(gtf, seqs, library_type, strand_error_rate, exononly=TRUE, idfield="transcript_id", attrsep="; "){
 
     gtfClasses = c("character", "character", "character", "integer", "integer", "character", 
         "character", "character", "character")
