@@ -150,3 +150,5 @@ In `simulate_experiment`, by default, a table called `sim_info.txt` is written t
 # Bug reports
 Report bugs as issues on our [GitHub repository](https://github.com/alyssafrazee/polyester). 
 
+Polyester was designed for small simulation experiments: all reads from all transcripts for each biological replicate are held in R's memory, which can limit the number of reads that can be generated with a single function call. Development of features enabling larger simulations is ongoing. 
+
