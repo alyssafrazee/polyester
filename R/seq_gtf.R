@@ -74,7 +74,10 @@ seq_gtf = function(gtf, seqs, library_type, strand_error_rate, exononly=TRUE, id
         }
         these_seqs = subseq(rep(fullseq, times=nrow(dftmp)), start=dftmp$start, end=dftmp$end)
         names(these_seqs) = getAttributeField(dftmp$attributes, idfield, attrsep=attrsep)
-        lapply(which(dftmp$strand == "-"), function(i) {these_seqs[i] <<- reverse_complement(these_seqs[i], library_type, strand_error_rate)})
+        if(library_type != "unstranded"){
+            lapply(which(dftmp$strand == "-"),
+                    function(i) {these_seqs[i] <<- reverse_complement(these_seqs[i], library_type, strand_error_rate)})  
+        }
         these_seqs
     })
 
