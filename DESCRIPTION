@@ -19,3 +19,4 @@ Imports:
 Suggests:
     knitr,
     ballgown
+biocViews: Sequencing, DifferentialExpression
