@@ -98,7 +98,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
             per transcript in fasta or gtf; use count_transcripts to find out how many
             transcripts are in fasta or gtf.'))
     }
-    if(length(transcriptid)!=0 & length(size)!=ntx){
+    if(length(transcriptid)!=0 & length(transcriptid)!=ntx){
         stop(.makepretty('transcriptid must be a character vector with one entry
             per transcript in fasta or gtf; use count_transcripts to find out how many
             transcripts are in fasta or gtf.'))
