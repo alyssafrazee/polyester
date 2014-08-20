@@ -30,8 +30,10 @@ get_reads = function(tFrags, readlen, paired=TRUE){
             rc = reverseComplement(x)
             names(rc) = paste0(seq(along=x), "b")
             out = c(x,rc)
-            outShort = out[order(names(out))] # puts pairs of reads next to each other
-            names(outShort) = paste0(rep(names(tFrags)[isShort],each=2))
+            outInds = rep(1:length(x), each=2)
+            outInds[seq(2, length(outInds), by=2)] = (1:length(x))+length(x)
+            outShort = out[outInds] # puts pairs of reads next to each other
+            names(outShort) = paste0(rep(names(tFrags)[isShort], each=2))
         }
     
         if(sum(isLong) > 0){
@@ -42,11 +44,13 @@ get_reads = function(tFrags, readlen, paired=TRUE){
             rr = reverseComplement(rr)
             names(rr) = paste0(seq(along=x), "b")
             out = c(lr, rr)
-            outLong = out[order(names(out))] # puts pairs of reads next to each other
-            names(outLong) = paste0(rep(names(tFrags)[isLong],each=2))    
+            outInds = rep(1:length(lr), each=2)
+            outInds[seq(2, length(outInds), by=2)] = (1:length(lr))+length(lr)
+            outLong = out[outInds] # puts pairs of reads next to each other
+            names(outLong) = paste0(rep(names(tFrags)[isLong], each=2))    
         }
       
-        if(sum(isLong) > 0 & sum(isShort)) {
+        if(sum(isLong) > 0 & sum(isShort) > 0) {
             theReads = c(outLong, outShort)
         } else if(sum(isLong) > 0) {
             theReads = outLong
@@ -57,7 +61,6 @@ get_reads = function(tFrags, readlen, paired=TRUE){
         return(theReads)
     
     } else { #single end
-      
       theReads = tFrags
       theReads[isLong] = subseq(tFrags[isLong], start=1, end=readlen)
       return(theReads)
