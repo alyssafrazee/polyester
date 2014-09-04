@@ -14,7 +14,7 @@ Polyester was developed with several specific features in mind:
 # Installation
 
 Start R and run:
-
+<!--
 ```r
 source("http://bioconductor.org/biocLite.R")
 biocLite("polyester")
@@ -23,7 +23,7 @@ biocLite("polyester")
 Polyester depends on the `Biostrings`, `IRanges`, and `S4Vectors` libraries from Bioconductor. 
 
 The development version of Polyester can be installed from GitHub:
-
+-->
 ```r
 install.packages('devtools') #if needed
 devtools::install_github('polyester', 'alyssafrazee')
