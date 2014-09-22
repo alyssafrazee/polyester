@@ -1,0 +1,7 @@
+New in version 0.99.1, 22 September 2014:
+    * fixed bug where read names were incorrect in output fasta files
+    * updated vignette
+    * added biocViews
+    * fixed coding style
+
+Package submission, version 0.99.0, 18 July 2014
