@@ -43,69 +43,7 @@ To simulate a two-group experiment with 10 biological replicates in each group w
 ```r
 library(polyester)
 library(Biostrings)
-```
 
-```
-## Warning: package 'Biostrings' was built under R version 3.1.1
-```
-
-```
-## Loading required package: BiocGenerics
-```
-
-```
-## Warning: package 'BiocGenerics' was built under R version 3.1.1
-```
-
-```
-## Loading required package: parallel
-## 
-## Attaching package: 'BiocGenerics'
-## 
-## The following objects are masked from 'package:parallel':
-## 
-##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-##     clusterExport, clusterMap, parApply, parCapply, parLapply,
-##     parLapplyLB, parRapply, parSapply, parSapplyLB
-## 
-## The following object is masked from 'package:stats':
-## 
-##     xtabs
-## 
-## The following objects are masked from 'package:base':
-## 
-##     anyDuplicated, append, as.data.frame, as.vector, cbind,
-##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
-##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
-##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
-##     table, tapply, union, unique, unlist, unsplit
-## 
-## Loading required package: S4Vectors
-```
-
-```
-## Warning: package 'S4Vectors' was built under R version 3.1.1
-```
-
-```
-## Loading required package: stats4
-## Loading required package: IRanges
-```
-
-```
-## Warning: package 'IRanges' was built under R version 3.1.1
-```
-
-```
-## Loading required package: XVector
-```
-
-```
-## Warning: package 'XVector' was built under R version 3.1.1
-```
-
-```r
 fasta_file = system.file('extdata', 'chr22.fa', package='polyester')
 fasta = readDNAStringSet(fasta_file)
 small_fasta = fasta[1:20]
@@ -187,24 +125,9 @@ biocLite("ballgown")
 library(ballgown)
 ```
 
-```
-## Warning: package 'ballgown' was built under R version 3.1.1
-```
-
-```
-## 
-## Attaching package: 'ballgown'
-## 
-## The following object is masked from 'package:polyester':
-## 
-##     getAttributeField
-## 
-## The following object is masked from 'package:base':
-## 
-##     structure
-```
 
 ```r
+library(ballgown)
 data(bg)
 countmat = fpkm_to_counts(bg, threshold=0.01, mean_rps=400000)
 params = get_params(countmat)
@@ -252,7 +175,7 @@ sessionInfo()
 ## other attached packages:
 ##  [1] ballgown_0.99.5      Biostrings_2.33.14   XVector_0.5.8       
 ##  [4] IRanges_1.99.28      S4Vectors_0.2.4      BiocGenerics_0.11.5 
-##  [7] polyester_0.99.0     knitr_1.6            devtools_1.5        
+##  [7] polyester_0.99.1     knitr_1.6            devtools_1.5        
 ## [10] BiocInstaller_1.15.5
 ## 
 ## loaded via a namespace (and not attached):
