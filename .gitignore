@@ -1,3 +1,6 @@
 .Rhistory
 .DS_Store
-vignettes/vignette.md
+vignettes/polyester.md
+inst/extdata/illumina*
+inst/extdata/roche*
+R/add_platform_error.R
