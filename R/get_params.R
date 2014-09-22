@@ -16,12 +16,12 @@
 #' 
 #' @export
 #' @author Jeff Leek
-#' @examples \dontrun{
-#'   require(ballgown)
+#' @examples
+#'   library(ballgown)
 #'   data(bg)
 #'   countmat = fpkm_to_counts(bg, mean_rps=400000)
 #'   params = get_params(countmat)
-#' }
+#'
 
 get_params = function(counts, threshold=NULL){
   

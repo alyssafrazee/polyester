@@ -18,12 +18,12 @@
 #' @references \url{http://www.ensembl.org/info/website/upload/gff.html}
 #' @return DNAStringSet containing transcript sequences, with names corresponding to \code{idfield}
 #' in \code{gtf}
-#' @examples \dontrun{
-#'   require(Biostrings)
+#' @examples 
+#'   library(Biostrings)
 #'   load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
 #'   data(gtf_dataframe)
 #'   chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
-#' }
+#'
 seq_gtf = function(gtf, seqs, exononly=TRUE, idfield="transcript_id", attrsep="; "){
 
     gtfClasses = c("character", "character", "character", "integer", "integer", "character", 

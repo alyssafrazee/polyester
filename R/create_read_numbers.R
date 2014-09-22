@@ -14,16 +14,16 @@
 #' @export
 #' 
 #' @author Jeff Leek
-#' @examples \dontrun{
-#'   require(ballgown)
+#' @examples
+#'   library(ballgown)
 #'   data(bg)
 #'   countmat = fpkm_to_counts(bg, mean_rps=400000)
 #'   params = get_params(countmat)
-#'   Ntranscripts = 200
+#'   Ntranscripts = 50
 #'   Nsamples = 10
 #'   custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, p0=params$p0, 
 #'       m=Ntranscripts, n=Nsamples, seed=103)
-#' }
+#'
 
 
 create_read_numbers = function(mu, fit, p0, m=NULL, n=NULL, mod=NULL, beta=NULL, seed=NULL){

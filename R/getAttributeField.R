@@ -9,13 +9,12 @@
 #' GFF/GTF file format.
 #' @author Wolfgang Huber, in the \code{davidTiling} package (LGPL license)
 #' @export
-#' @examples \dontrun{
-#' # pre-loaded GTF file from chr22 (could also use gffRead in "ballgown" package):
-#' data(gtf_dataframe)
-#' 
-#' # extract gene IDs from attributes column:
-#' gtf_dataframe$gene_id = getAttributeField(gtf_dataframe$attributes, field="gene_id")
-#' }
+#' @examples
+#'   gtfPath = system.file('extdata', 'annot.gtf.gz', package='ballgown')
+#'   gffdata = gffRead(gtfPath)
+#'   gffdata$transcriptID = getAttributeField(gffdata$attributes, 
+#'     field = "transcript_id")
+#'
 getAttributeField = function (x, field, attrsep = "; ") 
 {
     s = strsplit(x, split = attrsep, fixed = TRUE)

@@ -53,19 +53,18 @@
 #' \code{fasta} argument) or from a GTF file plus DNA sequences (provided with the \code{gtf} and 
 #' \code{seqpath} arguments). Simulating from a GTF file and DNA sequences may be a bit slower: 
 #' it took about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X, and Y in hg19.
-#' @examples \dontrun{
-#' ## simulate a few reads from chromosome 22
+#' @examples \donttest{
+#'   ## simulate a few reads from chromosome 22
 #' 
-#' fastapath = system.file("extdata", "chr22.fa", package="polyester")
-#' numtx = count_transcripts(fastapath)
-#' set.seed(4)
-#' fold_changes = sample(c(0.5, 1, 2), size=numtx, prob=c(0.05, 0.9, 0.05), replace=TRUE)
-#' require(Biostrings)
-#' tNames = gsub("'", "", names(readDNAStringSet(fastapath))) #remove quotes in transcript IDs
+#'   fastapath = system.file("extdata", "chr22.fa", package="polyester")
+#'   numtx = count_transcripts(fastapath)
+#'   set.seed(4)
+#'   fold_changes = sample(c(0.5, 1, 2), size=numtx, prob=c(0.05, 0.9, 0.05), replace=TRUE)
+#'   library(Biostrings)
+#'   tNames = gsub("'", "", names(readDNAStringSet(fastapath))) #remove quotes in transcript IDs
 #' 
-#' outdir = ifelse(.Platform$OS.type == 'windows', '.\\simdata\\', './simdata/')
-#' simulate_experiment(fastapath, reads_per_transcript=10, fold_changes=fold_changes, 
-#'     outdir=outdir, transcriptid=tNames, seed=12)
+#'   simulate_experiment(fastapath, reads_per_transcript=10, fold_changes=fold_changes, 
+#'     outdir='simulated_reads/', transcriptid=tNames, seed=12)
 #'}
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, fraglen=250, 
     fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, reads_per_transcript=300, 

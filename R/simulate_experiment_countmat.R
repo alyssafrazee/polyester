@@ -26,14 +26,14 @@
 #' \code{fasta} argument) or from a GTF file plus DNA sequences (provided with the \code{gtf} and 
 #' \code{seqpath} arguments). Simulating from a GTF file and DNA sequences may be a bit slower: 
 #' it took about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X, and Y in hg19.
-#' @examples \dontrun{
-#' fastapath = system.file("extdata", "chr22.fa", package="polyester")
-#' numtx = count_transcripts(fastapath)
-#' readmat = matrix(20, ncol=10, nrow=numtx)
-#' readmat[1:30, 1:5] = 40
+#' @examples \donttest{
+#'   fastapath = system.file("extdata", "chr22.fa", package="polyester")
+#'   numtx = count_transcripts(fastapath)
+#'   readmat = matrix(20, ncol=10, nrow=numtx)
+#'   readmat[1:30, 1:5] = 40
 #' 
-#' outdir = ifelse(.Platform$OS.type == 'windows', '.\\simdata\\', './simdata/')
-#' simulate_experiment_countmat(fasta=fastapath, readmat=readmat, outdir=outdir, seed=5)
+#'   simulate_experiment_countmat(fasta=fastapath, 
+#'     readmat=readmat, outdir='simulated_reads_2/', seed=5)
 #'}
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, readmat, outdir="./", 
     fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, seed=NULL, ...){
