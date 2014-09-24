@@ -3,4 +3,3 @@
 vignettes/polyester.md
 inst/extdata/illumina*
 inst/extdata/roche*
-R/add_platform_error.R
