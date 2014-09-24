@@ -51,7 +51,7 @@ fasta = readDNAStringSet(fasta_file)
 small_fasta = fasta[1:20]
 writeXStringSet(small_fasta, 'chr22_small.fa')
 fold_changes = c(4, 4, 1/4, 1/4, rep(1, 16))
-outdir = 'simulated_reads/'
+outdir = 'simulated_reads'
 
 # ~20x coverage ----> reads per transcript = length/readlength * 20
 # "width" is operating on a DNAStringSet (from Biostrings)
@@ -79,7 +79,7 @@ countmat[up_late, 11] = round(1.2*countmat[up_late, 11])
 
 # simulate reads:
 simulate_experiment_countmat('chr22_small.fa', readmat=countmat, 
-    outdir='timecourse_reads/') 
+    outdir='timecourse_reads') 
 ```
 
 In this scenario, we simulated 12 total timepoints. We also added differential expression: transcripts 1 and 2 are overexpressed (compared to baseline) at timepoints 2 and 3, with a fold change of 3 at timepoint 2 and a fold change of 1.5 at timepoint 3. Similarly, transcripts 3 and 4 are overexpressed at timepoints 10 and 11, with a fold change of 6 at timepoint 10 and a fold change of 1.2 at timepoint 11. 
