@@ -79,14 +79,14 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         #reverse_complement some of those fragments
         rctFrags = reverse_complement(tFrags)
 
-        #add sequencing error
-        errFrags = add_error(rctFrags, error_rate)
-
         #get reads from fragments
-        reads = get_reads(errFrags, readlen, paired)
+        reads = get_reads(rctFrags, readlen, paired)
+
+        #add sequencing error
+        errReads = add_error(reads, error_rate)
 
         #write read pairs
-        write_reads(reads, readlen=readlen, 
+        write_reads(errReads, readlen=readlen, 
             fname=paste0(outdir, '/sample_', sprintf('%02d', i)), 
             paired=paired)
     }
