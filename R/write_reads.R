@@ -19,6 +19,9 @@
 #'   and \code{paired} is \code{TRUE}, make sure \code{reads} is ordered 
 #'   properly (i.e., that mate pairs appear together and that the left mate 
 #'   appears first).
+#' @return No return, but FASTA file(s) containing the sequences in \code{reads} 
+#'   are written to \code{fname.fasta} (if \code{paired} is FALSE) or 
+#'   \code{fname_1.fasta} and \code{fname_2.fasta} if \code{paired} is TRUE.
 #' @seealso \code{\link{get_reads}}
 #' @examples
 #'   library(Biostrings)

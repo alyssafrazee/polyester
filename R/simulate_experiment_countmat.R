@@ -27,6 +27,7 @@
 #'   reproducibility.
 #' @param ... Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not
 #'   \code{NULL}.
+#' @return No return, but simulated reads are written to \code{outdir}.
 #' @export
 #' @details Reads can either be simulated from a FASTA file of transcripts
 #'   (provided with the \code{fasta} argument) or from a GTF file plus DNA

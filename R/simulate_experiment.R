@@ -55,6 +55,8 @@
 #'   reproducibility.
 #' @param ... additional arguments to pass to \code{seq_gtf} if using 
 #'   \code{gtf} and \code{seqpath}
+#' @return No return, but simulated reads and a simulation info file are written
+#'   to \code{outdir}.
 #' @export
 #' @details Reads can either be simulated from a FASTA file of transcripts 
 #'   (provided with the \code{fasta} argument) or from a GTF file plus DNA 

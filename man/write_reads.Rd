@@ -20,6 +20,11 @@ written to \code{fname_1.fasta} and the even-numbered
 reads are written to \code{fname_2.fasta}. If \code{FALSE}, reads are
 assumed to be single-end and just one file, \code{fname.fasta}, is written.}
 }
+\value{
+No return, but FASTA file(s) containing the sequences in \code{reads}
+  are written to \code{fname.fasta} (if \code{paired} is FALSE) or
+  \code{fname_1.fasta} and \code{fname_2.fasta} if \code{paired} is TRUE.
+}
 \description{
 given a DNAStringSet representing simulated sequencing reads, write FASTA
   files to disk representing the simulated reads.

@@ -13,13 +13,16 @@ relationship); one per draw}
 
 \item{seed}{optional seed to set before drawing}
 }
+\value{
+vector of negative binomial draws from specified distributions,
+  where any zero draw is replaced with a 1. Length of return vector is
+  equal to \code{length(basemeans)}.
+}
 \description{
 Draw nonzero negative binomial random numbers
 }
 \examples{
-\dontrun{
 randomNBs = NB(c(100, 4, 29), size=c(50, 2, 4), seed=21)
-randomNBs  # 115, 5, 15
-}
+  randomNBs  # 115, 5, 15
 }
 

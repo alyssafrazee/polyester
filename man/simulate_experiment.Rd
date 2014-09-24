@@ -74,6 +74,10 @@ reproducibility.}
 \item{...}{additional arguments to pass to \code{seq_gtf} if using
 \code{gtf} and \code{seqpath}}
 }
+\value{
+No return, but simulated reads and a simulation info file are written
+  to \code{outdir}.
+}
 \description{
 create FASTA files containing RNA-seq reads simulated from provided
   transcripts, with optional differential expression between two groups
