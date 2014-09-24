@@ -8,7 +8,7 @@
 #' @return DNAStringSet equivalent to \code{tFrags} but with random sequencing
 #'   errors inserted
 #' @examples
-#'   require(Biostrings)
+#'   library(Biostrings)
 #'   data(srPhiX174)
 #'   set.seed(174)
 #'   srPhiX174_withError = add_error(srPhiX174)
