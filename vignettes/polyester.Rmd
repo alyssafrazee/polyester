@@ -130,7 +130,8 @@ countmat = fpkm_to_counts(bg, threshold=0.01, mean_rps=400000)
 params = get_params(countmat)
 Ntranscripts = 50
 Nsamples = 10
-custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103)
+custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit,
+    p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103)
 ```
 
 The Ballgown package here is optional: the mean/variance relationship for each transcript can be estimated from any matrix of counts using `get_params`. You can add differential expression to the output from `create_read_numbers` (here, `custom_readmat`) and pass the resulting matrix to `simulate_experiment_countmat`.
