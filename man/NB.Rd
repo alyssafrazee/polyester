@@ -8,7 +8,8 @@ NB(basemeans, size, seed = NULL)
 \arguments{
 \item{basemeans}{vector of means, one per draw}
 
-\item{size}{vector of size parameters (controlling the mean/variance relationship); one per draw}
+\item{size}{vector of size parameters (controlling the mean/variance
+relationship); one per draw}
 
 \item{seed}{optional seed to set before drawing}
 }

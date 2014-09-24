@@ -10,8 +10,9 @@ Illumina iGenomes, hg19, 6 March 2013 version:
 }
 \description{
 In the data frame \code{gtf_dataframe}, each
-row corresponds to an exon / coding sequence / start codon / stop codon, and the columns
-correspond to standard GTF columns denoting annotated genomic features. See
-\url{http://www.ensembl.org/info/website/upload/gff.html}.
+  row corresponds to an exon / coding sequence / start codon / stop codon,
+  and the columns correspond to standard GTF columns denoting annotated
+  genomic features. See
+  \url{http://www.ensembl.org/info/website/upload/gff.html}.
 }
 

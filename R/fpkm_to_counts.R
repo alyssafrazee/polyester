@@ -1,12 +1,13 @@
 #' Turn FPKMs from a ballgown object into estimated counts for transcripts
 #'
 #' @param bg ballgown object created from real RNA-seq dataset
-#' @param threshold only estimate parameters from transcripts with mean FPKM measurements larger 
-#' than \code{threshold}
-#' @param mean_rps This should be the number of reads per sample in total for use in backing out the
-#' FPKM calculations
+#' @param threshold only estimate parameters from transcripts with mean FPKM 
+#'   measurements larger than \code{threshold}
+#' @param mean_rps This should be the number of reads per sample in total for
+#'   use in backing out the FPKM calculations
 #' 
-#' @return A matrix of counts with the same number of rows and columns as the ballgown object
+#' @return A matrix of counts with the same number of rows and columns as the
+#'   ballgown object
 #' 
 #' @export
 #' @author Jeff Leek

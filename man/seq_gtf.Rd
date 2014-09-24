@@ -7,29 +7,32 @@ seq_gtf(gtf, seqs, exononly = TRUE, idfield = "transcript_id",
   attrsep = "; ")
 }
 \arguments{
-\item{gtf}{one of path to GTF file, or data frame representing a canonical GTF file.}
+\item{gtf}{one of path to GTF file, or data frame representing a canonical
+GTF file.}
 
-\item{seqs}{one of path to folder containing one FASTA file (\code{.fa} extension) for each
-chromosome in \code{gtf}, or named DNAStringSet containing one DNAString per chromosome in
-\code{gtf}, representing its sequence. In the latter case, \code{names(seqs)} should contain the
+\item{seqs}{one of path to folder containing one FASTA file (\code{.fa}
+extension) for each chromosome in \code{gtf}, or named DNAStringSet
+containing one DNAString per chromosome in \code{gtf}, representing its
+sequence. In the latter case, \code{names(seqs)} should contain the
 same entries as the \code{seqnames} (first) column of \code{gtf}.}
 
-\item{exononly}{if \code{TRUE} (as it is by default), only create transcript sequences from the
-features labeled \code{exon} in \code{gtf}}
+\item{exononly}{if \code{TRUE} (as it is by default), only create transcript
+sequences from the features labeled \code{exon} in \code{gtf}.}
 
-\item{idfield}{in the \code{attributes} column of \code{gtf}, what is the name of the field
-identifying transcripts? Should be character. Default \code{"transcript_id"}.}
+\item{idfield}{in the \code{attributes} column of \code{gtf}, what is the
+name of the field identifying transcripts? Should be character. Default
+\code{"transcript_id"}.}
 
-\item{attrsep}{in the \code{attributes} column of \code{gtf}, how are attributes separated?
-Default \code{"; "}.}
+\item{attrsep}{in the \code{attributes} column of \code{gtf}, how are
+attributes separated? Default \code{"; "}.}
 }
 \value{
-DNAStringSet containing transcript sequences, with names corresponding to \code{idfield}
-in \code{gtf}
+DNAStringSet containing transcript sequences, with names
+  corresponding to \code{idfield} in \code{gtf}
 }
 \description{
-Given a GTF file (for transcript structure) and DNA sequences, return a DNAStringSet
-of transcript sequences
+Given a GTF file (for transcript structure) and DNA sequences,
+  return a DNAStringSet of transcript sequences
 }
 \examples{
 library(Biostrings)

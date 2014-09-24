@@ -125,7 +125,6 @@ library(ballgown)
 ```
 
 ```{r datasim}
-library(ballgown)
 data(bg)
 countmat = fpkm_to_counts(bg, threshold=0.01, mean_rps=400000)
 params = get_params(countmat)

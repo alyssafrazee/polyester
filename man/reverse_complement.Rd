@@ -8,18 +8,18 @@ reverse_complement(tObj, seed = NULL)
 \arguments{
 \item{tObj}{DNAStringSet representing sequences.}
 
-\item{seed}{optional seed to set before randomly selecting the sequences to be
-reverse-complemented.}
+\item{seed}{optional seed to set before randomly selecting the sequences to
+be reverse-complemented.}
 }
 \value{
-DNAStringSet that is the same as \code{tObj}, but with about half the sequences
-reverse-complemented.
+DNAStringSet that is the same as \code{tObj}, but with about half
+  the sequences reverse-complemented.
 }
 \description{
 randomly reverse-complement half of the sequences in a DNAStringSet
 }
 \examples{
-require(Biostrings)
+library(Biostrings)
   data(srPhiX174)
   srPhiX174_halfrc = reverse_complement(srPhiX174, seed=174)
 }

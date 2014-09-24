@@ -5,17 +5,20 @@
 #' 
 #' @param tFrags DNAStringSet representing fragments
 #' @param readlen Read length.
-#' @param paired If \code{FALSE}, return only the first \code{readlen} bases of each element of 
-#' \code{tFrags} in the result; if \code{TRUE}, also return last \code{readlen} bases.
+#' @param paired If \code{FALSE}, return only the first \code{readlen} bases of 
+#'   each element of \code{tFrags} in the result; if \code{TRUE}, also return
+#'   last \code{readlen} bases.
 #' @export
 #' @return DNAStringSet representing simulated RNA-seq reads
-#' @seealso \code{\link{simulate_experiment}}, \code{\link{simulate_experiment_countmat}}
+#' @seealso \code{\link{simulate_experiment}}, 
+#'   \code{\link{simulate_experiment_countmat}}
 #' @examples
-#'   require(Biostrings)
+#'   library(Biostrings)
 #'   data(srPhiX174)
 #'   set.seed(174)
 #'   srPhiX174_reads = get_reads(srPhiX174, readlen=15, paired=FALSE)
-#'   srPhiX174_reads  # set of single-end, 15bp reads, treating srPhiX174 as the fragments
+#'   srPhiX174_reads  
+#'   # set of single-end, 15bp reads, treating srPhiX174 as the fragments
 get_reads = function(tFrags, readlen, paired=TRUE){
   
     # when fragments are shorter than reads:

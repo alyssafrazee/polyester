@@ -6,25 +6,30 @@
 get_params(counts, threshold = NULL)
 }
 \arguments{
-\item{counts}{A matrix of counts. If you want to simulate from a ballgown object, see
-\code{\link{fpkm_to_counts}}}
+\item{counts}{A matrix of counts. If you want to simulate from a ballgown
+object, see \code{\link{fpkm_to_counts}}}
 
-\item{threshold}{Only estimate parameters from transcripts with row means greater than threshold}
+\item{threshold}{Only estimate parameters from transcripts with row means
+  greater than threshold}
 }
 \value{
-p0 A vector of probabilities that the count will be zero, one for each gene/transcript.
+p0 A vector of probabilities that the count will be zero, one for
+  each gene/transcript.
 
-mu The estimated negative binomial mean by method of moments for the non-zero counts
+mu The estimated negative binomial mean by method of moments for the
+  non-zero counts
 
-size The estimated negative binomial size by method of moments for the non-zero counts
+size The estimated negative binomial size by method of moments for
+  the non-zero counts
 
-fit A fit relating log mean to log size for use in simulating new data.
+fit A fit relating log mean to log size for use in simulating new
+  data.
 }
 \description{
 This function estimates the parameters of a zero inflated negative binomial
-distribution based on a real count data set based on the method of moments.  The function
-also returns a spline fit of log mean to log size which can be used when generating
-new simulated data.
+distribution based on a real count data set based on the method of moments.
+The function also returns a spline fit of log mean to log size which can be
+used when generating new simulated data.
 }
 \examples{
 library(ballgown)

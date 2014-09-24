@@ -1,7 +1,8 @@
 #' Draw nonzero negative binomial random numbers
 #'
 #' @param  basemeans vector of means, one per draw
-#' @param  size vector of size parameters (controlling the mean/variance relationship); one per draw
+#' @param  size vector of size parameters (controlling the mean/variance 
+#'   relationship); one per draw
 #' @param  seed optional seed to set before drawing
 #' @examples \dontrun{
 #' randomNBs = NB(c(100, 4, 29), size=c(50, 2, 4), seed=21)

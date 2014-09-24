@@ -8,14 +8,15 @@ fpkm_to_counts(bg, mean_rps = 1e+08, threshold = 0)
 \arguments{
 \item{bg}{ballgown object created from real RNA-seq dataset}
 
-\item{mean_rps}{This should be the number of reads per sample in total for use in backing out the
-FPKM calculations}
+\item{mean_rps}{This should be the number of reads per sample in total for
+  use in backing out the FPKM calculations}
 
-\item{threshold}{only estimate parameters from transcripts with mean FPKM measurements larger
-than \code{threshold}}
+\item{threshold}{only estimate parameters from transcripts with mean FPKM
+measurements larger than \code{threshold}}
 }
 \value{
-A matrix of counts with the same number of rows and columns as the ballgown object
+A matrix of counts with the same number of rows and columns as the
+  ballgown object
 }
 \description{
 Turn FPKMs from a ballgown object into estimated counts for transcripts

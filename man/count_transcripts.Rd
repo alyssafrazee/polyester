@@ -9,13 +9,15 @@ count_transcripts(f, fasta = TRUE, identifier = "transcript_id",
 \arguments{
 \item{f}{character, path to a file in FASTA or GTF format}
 
-\item{fasta}{TRUE if \code{f} is a fasta file; FALSE if \code{f} is a GTF file}
+\item{fasta}{TRUE if \code{f} is a fasta file; FALSE if \code{f} is a GTF
+file}
 
-\item{identifier}{if \code{f} is a GTF file, how are transcripts identified in the
-attributes field (9th column) of the file? Default \code{transcript_id}.}
+\item{identifier}{if \code{f} is a GTF file, how are transcripts identified
+in the attributes field (9th column) of the file? Default
+\code{transcript_id}.}
 
-\item{attrsep}{if \code{f} is a GTF file, how are attributes separated in the attributes field
-(9th column) of the file? Default "; ".}
+\item{attrsep}{if \code{f} is a GTF file, how are attributes separated in
+the attributes field (9th column) of the file? Default "; ".}
 }
 \value{
 Number of transcripts annotated in \code{f}

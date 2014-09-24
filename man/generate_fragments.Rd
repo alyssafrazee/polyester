@@ -6,21 +6,24 @@
 generate_fragments(tObj, fraglen, fragsd = 25)
 }
 \arguments{
-\item{tObj}{DNAStringSet of sequences from which fragments should be extracted}
+\item{tObj}{DNAStringSet of sequences from which fragments should be
+extracted}
 
 \item{fraglen}{Mean fragment length.}
 
-\item{fragsd}{Standard deviation of fragment length. Fragment lengths are drawn from a normal
+\item{fragsd}{Standard deviation of fragment length. Fragment lengths are
+  drawn from a normal
 distribution with mean \code{fraglen} and standard deviation \code{fragsd}.}
 }
 \value{
-DNAStringSet consisting of one randomly selected subsequence per element of \code{tObj}.
+DNAStringSet consisting of one randomly selected subsequence per
+  element of \code{tObj}.
 }
 \description{
 Convert each sequence in a DNAStringSet to a "fragment" (subsequence)
 }
 \examples{
-require(Biostrings)
+library(Biostrings)
   data(srPhiX174)
   set.seed(174)
   srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3)

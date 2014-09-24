@@ -11,10 +11,12 @@ add_error(tFrags, error_rate = 0.005)
 \item{error_rate}{error probability}
 }
 \value{
-DNAStringSet equivalent to \code{tFrags} but with random sequencing errors inserted
+DNAStringSet equivalent to \code{tFrags} but with random sequencing
+  errors inserted
 }
 \description{
-simulate sequencing error by randomly changing the sequenced nucleotide on some of the reads
+simulate sequencing error by randomly changing the sequenced nucleotide on
+  some of the reads
 }
 \examples{
 require(Biostrings)
