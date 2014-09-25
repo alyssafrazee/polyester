@@ -1,5 +1,4 @@
 .Rhistory
 .DS_Store
 vignettes/polyester.md
-inst/extdata/illumina*
-inst/extdata/roche*
+make_error_models.R

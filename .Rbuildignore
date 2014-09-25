@@ -1,6 +1,4 @@
 .gitignore
 README.md
 vignettes/polyester.md
-inst/extdata/illumina*
-inst/extdata/roche454_single_read_stats.txt
 make_error_models.R

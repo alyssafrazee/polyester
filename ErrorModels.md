@@ -2,7 +2,7 @@
 
 The empirical error models that ship with Polyester were created using the [GemSIM framework](http://www.biomedcentral.com/1471-2164/13/74)<sup>1</sup>. GemSIM ships with error models estimated from real datasets sequenced on three different platforms: Illumina Genome Analyzer IIx with Illumina Sequencing Kit v4 chemistry (referred to as 'Illumina v4'), Illumina Genome Analyzer IIx with TrueSeq SBS Kit v5-GA (referred to as 'Illumina v5'), and Roche/454 FLX Titanium (referred to as 'Roche 454'). 
 
-From these error models, we estimated error probabilities for each nucleotide in a read based on the read position and on the reference nucleotide at that base. The GemSIM error model accounted for known SNPs. Separate error probabilities were estimated for each of 4 specific sequencing errors (i.e., wrongly sequencing the base as each of the three incorrect nucleotides, or 'N'). 
+From these error models, we estimated error probabilities for each nucleotide in a read based on the read position and on the reference nucleotide at that base. Separate error probabilities were estimated for each of 4 specific sequencing errors (i.e., wrongly sequencing the base as each of the three incorrect nucleotides, or 'N'). 
 
 To create the error models that ship with Polyester, we used the code in `build_error_models.py`. This code depends on [numpy](http://www.numpy.org/). I ran this in Python 2.7.5 on OSX 10.9.
 
