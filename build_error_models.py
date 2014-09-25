@@ -12,9 +12,13 @@ import numpy as np
 parser = argparse.ArgumentParser(description='get file paths from user')
 parser.add_argument('model_path', type=str, help='directory containing GemSIM sequencing models')
 parser.add_argument('outfolder', type=str, help='directory for output')
+parser.add_argument('--prefix', type=str, help='prefix (custom error models only)')
+parser.add_argument('--paired', action='store_true', help='is the error model paired-end? (custom error models only)')
 args = parser.parse_args()
 model_path = args.model_path
 outfolder = args.outfolder
+prefix = args.prefix
+paired = args.paired
 
 def get_matrices(gzipFile, paired):
     f = gzip.open(gzipFile)
@@ -86,8 +90,12 @@ def release_models(modelpath, modelname, outfolder, paired):
         save_model(model, outfolder+'/'+modelname+'_single')
 
 ### create error model files for release
-for model in ['ill100v4', 'ill100v5', 'r454ti']:
-    release_models(model_path, model, outfolder, False)
-    if model != 'r454ti':
-        release_models(model_path, model, outfolder, True)
+if prefix is not None:
+    # custom error model:
+    release_models(model_path, prefix, outfolder, paired)
+else:
+    for model in ['ill100v4', 'ill100v5', 'r454ti']:
+        release_models(model_path, model, outfolder, False)
+        if model != 'r454ti':
+            release_models(model_path, model, outfolder, True)
 
