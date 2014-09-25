@@ -136,6 +136,32 @@ custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit,
 
 The Ballgown package here is optional: the mean/variance relationship for each transcript can be estimated from any matrix of counts using `get_params`. You can add differential expression to the output from `create_read_numbers` (here, `custom_readmat`) and pass the resulting matrix to `simulate_experiment_countmat`.
 
+### error models
+Sequencing error is part of the read generation process, so Polyester provides three options for simulating this sequencing error:
+
+#### option 1: uniform error model
+Simulate a uniform error model (equal probability of making each sequencing error at each base) by speficying a single parameter, `error_rate`, in your call to `simulate_experiment` or `simulate_experiment_countmat`. 
+
+#### option 2: built-in empirical error model
+Simulate sequencing error based on one of three empirical error models published with GemSIM ([paper](http://www.biomedcentral.com/1471-2164/13/74), [software](http://sourceforge.net/projects/gemsim/)). The GemSIM software ships with three different empirical error models: one from Illumina Genome Analyzer IIx with Illumina Sequencing Kit v4 chemistry (`illumina4`), Illumina Genome Analyzer IIx with TrueSeq SBS Kit v5-GA (`illumina5`), and Roche/454 FLX Titanium (`roche454`). Specify, e.g., `error_model = 'illumina4` in your call to `simulate_experiment` or `simulate_experiment_countmat` to use an empirical error model. The error rate for each nucleotide in a sequencing read depends on the following:
+
+* position in the read (error probability tends to increase at the end of a read)
+* which mate in a pair the read is (if paired)
+* the true nucleotide being sequenced at that position.
+
+In addition, separate error probabilities are estimated for each of the 4 possible sequencing errors (the 3 incorrect nucleotides + 'N'). Details on the GemSIM error model are available in the [GemSIM paper](http://www.biomedcentral.com/1471-2164/13/74), and details/code we used to create the error models that ship with Polyester are available at our [GitHub repository](https://github.com/alyssafrazee/polyester/blob/master/ErrorModels.md). 
+
+#### option 3: use your own empirical error model
+If you would like to simulate reads with a sequencing error model derived from a set of aligned reads, you can do so by running the `GemErr.py` program from [GemSIM](http://www.biomedcentral.com/1471-2164/13/74). The software is available from [Sourceforge](http://sourceforge.net/projects/gemsim/) and includes a Manual with detailed instructions. You can provide a list of known SNP locations when estimating sequencing error probabilities. 
+
+You will then need to run our script, `[build_error_models.py](https://github.com/alyssafrazee/polyester/blob/master/build_error_models.py)`, using the output directory from `GemErr.py` as the `model_path` argument and specifying `--prefix mymodelname`, where the output file from `GemErr.py` is either `mymodelname_p.gzip` (paired-end model) or `mymodelname_s.gzip` (single-end model). If your error model is paired end, you will also need to specify `--paired`. So your full command could look like:
+
+```
+python build_error_model.py /path/to/gemerr_output /path/to/custom_output --prefix mymodelname --paired
+```
+
+When using the custom error model in the Polyester R package, you will need to provide `/path/to/custom_output` and whatever was given as the `--prefix` argument, in your call to `simulate_experiment` or `simulate_experiment_countmat`. You will also need to specify `error_model = 'custom'`. 
+
 ## Output
 A call to `simulate_experiment` or `simulate_experiment_countmat` will write FASTA files to the directory specified by the `outdir` argument. Reads in the FASTA file will be labeled with the transcript from which they were simulated.
 
