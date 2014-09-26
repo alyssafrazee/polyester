@@ -1,0 +1,33 @@
+#' @name model
+#' @title Empirical sequencing error model
+#' @description 7 sequencing error models are included as data sets with 
+#'   Polyester. Each error model has the same format, but different error models
+#'   are included for (a) Illumina Genome Analyzer IIx with 
+#'   Illumina Sequencing Kit v4 (data sets beginning with \code{ill100v4}), 
+#'   (b) Illumina Genome Analyzer IIx with TrueSeq SBS Kit v5-GA (data sets 
+#'   beginning with \code{ill100v5}), and (c) Roche/454 FLX Titanium (data set
+#'   \code{r454ti_single.rda}). For the Illumina technologies, separate models
+#'   are included for mate 1 and mate 2 of paired-end reads, and for single-end
+#'   reads. For all 7 data sets, the data frame called \code{model} contains 
+#'   the probability of not making a sequencing error, and of making each of
+#'   the 4 possible types of sequencing errors. The reference base (truth) 
+#'   is in column 1, and the probabilities of sequencing that base given its 
+#'   read position (column 7) as each of the 5 possible bases (A, T, G, C, and 
+#'   N) is given in columns 2 through 6, respectively. So for example, for 
+#'   Illumina v4, mate 1 of a paired-end read, at position 8, if the true base
+#'   is A, the probability of correctly calling that base an A is 0.9998, 
+#'   the probability of making an error by sequencing a T is 2.64e-05, the 
+#'   probability of making an error by sequencing a G is 1.58e-04, the 
+#'   probability of making an error by sequencing a C is 3.05e-05, and the 
+#'   probability of reading an 'N' at position 8 is 0. This can be seen by 
+#'   examining \code{model[model$pos == 8,]}. Note that position indexing is 
+#'   1-based, though a 0 position is included as described in the GemSIM 
+#'   documentation. 
+#' @docType data
+#' @format data frame named \code{model}, 7 columns, 505 rows
+#' @source processed from the Illumina v4 error model that ships with GemSIM
+#'   (see references)
+#' @references McElroy KE, Luciani F, Thomas T (2012). GemSIM: general, 
+#' error-model based simulator of next-generation sequencing data. 
+#' BMC Genomics 13(1), 74.
+NULL 

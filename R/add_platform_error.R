@@ -55,6 +55,7 @@ add_platform_error = function(tFrags, platform, paired){
             available for reads < 102bp right now'))
     }
 
+    model = NULL #model will be overwritten later
     nt = c('A', 'T', 'G', 'C', 'N')
 
     if(paired){
