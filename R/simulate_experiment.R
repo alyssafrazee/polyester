@@ -81,7 +81,8 @@
 #'      transcriptid=tNames, seed=12)
 #'}
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
-    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, paired=TRUE, 
+    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, 
+    error_model='uniform', model_path=NULL, model_prefix=NULL, paired=TRUE, 
     reads_per_transcript=300, fold_changes, size=NULL, outdir=".", 
     write_info=TRUE, transcriptid=NULL, seed=NULL, ...){
 
@@ -118,6 +119,36 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
             per transcript in fasta or gtf; use count_transcripts to find out
             how many transcripts are in fasta or gtf.'))
     }
+
+    # check error model:
+    error_model = match.arg(error_model, c('uniform', 'illumina4', 'illumina5',
+        'roche454', 'custom'))
+    if(error_model == 'uniform'){
+        stopifnot(error_rate >= 0 & error_rate <= 1)
+    }
+    if(error_model == 'custom'){
+        if(is.null(model_path) | is.null(model_prefix)){
+            stop(.makepretty('with custom error models, you must provide both
+                the path to the folder that holds your error model
+                (model_path) and the prefix of your error model (model_prefix),
+                where the prefix is whatever comes before _mate1 and _mate2
+                (for paired reads) or _single (for single-end reads). (You
+                provided prefix when running build_error_models.py)'))
+        }
+        if(paired){
+            if(!is.file(paste0(model_path, '/', model_prefix, '_mate1')) |
+                !is.file(paste0(model_path, '/', model_prefix, '_mate2'))){
+                stop('could not find error model.')
+            }
+        }else if(!is.file(paste0(model_path, '/', model_prefix, '_single'))){
+                stop('could not find error model.')
+        }
+        path = paste0(model_path, '/', model_prefix)
+    }    
+    if(error_model == 'roche454' & paired){
+        stop(.makepretty('The Roche 454 error model is only available for
+            single-end reads'))
+    } 
 
     L = width(transcripts)
     if(!is.null(transcriptid)){
@@ -167,7 +198,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
         numreadsList[[i]] = NB(basemeans2, nbdp2)
     }
 
-
     ## simulate reads for each sample:
     #######################################
     sysoutdir = gsub(' ', '\\\\ ', outdir)
@@ -190,7 +220,13 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
         reads = get_reads(rctFrags, readlen, paired)
 
         #add sequencing error
-        errReads = add_error(reads, error_rate)
+        if(error_model == 'uniform'){
+            errReads = add_error(reads, error_rate)
+        }else if(error_model == 'custom'){
+            errReads = add_platform_error(reads, 'custom', paired, path)
+        }else{
+            errReads = add_platform_error(reads, error_model, paired)
+        }
 
         #write read pairs
         write_reads(errReads, readlen=readlen, 
