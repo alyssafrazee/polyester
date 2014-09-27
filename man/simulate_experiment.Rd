@@ -5,7 +5,8 @@
 \usage{
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, paired = TRUE, reads_per_transcript = 300,
+  error_rate = 0.005, error_model = "uniform", model_path = NULL,
+  model_prefix = NULL, paired = TRUE, reads_per_transcript = 300,
   fold_changes, size = NULL, outdir = ".", write_info = TRUE,
   transcriptid = NULL, seed = NULL, ...)
 }

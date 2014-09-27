@@ -5,7 +5,8 @@
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
   readmat, outdir = ".", fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, paired = TRUE, seed = NULL, ...)
+  error_rate = 0.005, error_model = "uniform", model_path = NULL,
+  model_prefix = NULL, paired = TRUE, seed = NULL, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate

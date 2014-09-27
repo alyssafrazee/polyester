@@ -3,7 +3,7 @@
 \alias{add_platform_error}
 \title{Simulate sequencing error using empirical error model}
 \usage{
-add_platform_error(tFrags, platform, paired)
+add_platform_error(tFrags, platform, paired, path = NULL)
 }
 \arguments{
 \item{tFrags}{DNAStringSetList containing error-free sequencing reads. If
@@ -11,11 +11,18 @@ simulating a paired-end experiment, mate-pairs should appear next to each
 other in tFrags.}
 
 \item{platform}{Which sequencing platform should the error model be estimated
-from? Currently supports \code{'illumina4'}, \code{'illumina5'}, and
-\code{'roche454'}.}
+from? Currently supports \code{'illumina4'}, \code{'illumina5'},
+\code{'roche454'}, and \code{'custom'}.}
 
 \item{paired}{Does \code{tFrags} contain paired end reads, with mate pairs
 next to each other? (TRUE if yes.)}
+
+\item{path}{if platform is \code{'custom'}, provide the path to the error model.
+After processing the error model with \code{build_error_models.py}, you
+will have either two files (ending in _mate1 and _mate2, if your model was
+for paired-end reads) or one file (ending in _single, if your model was
+for single-end reads). The \code{path} argument should be the path to
+the error model \emph{up to but not including} _mate1/_mate2/_single.}
 }
 \value{
 \code{DNAStringSet} object that is the same as \code{tFrags} except
@@ -33,8 +40,10 @@ This function adds sequencing error to a set of reads based on the
   (reading a T when it should have been A, reading a G when it should have
   been T, etc.) were calculated for each of three platforms using the
   empirical error models available with the GemSIM software (see references).
-  Functionality allowing users to estimate an error model from their own data
-  is under active development.
+  Users can also estimate an error model from their own data using GemSIM
+  and can use that error model with Polyester as described in the vignette.
+  (You will need to run a Python script available at the Polyester
+  GitHub repository to process the error model).
 }
 \examples{
 library(Biostrings)
