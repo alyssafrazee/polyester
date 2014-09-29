@@ -21,6 +21,16 @@
 #' @param readlen Read length
 #' @param error_rate Sequencing error rate. Must be between 0 and 1. A uniform 
 #'   error model is assumed. 
+#' @param error_model one of \code{'uniform'}, \code{'custom'}, 
+#'   \code{'illumina4'}, \code{'illumina5'}, or \code{'roche454'} specifying
+#'   which sequencing error model to use while generating reads. See 
+#'   \code{?add_platform_error} for more information.
+#' @param model_path If using a custom error model, the output folder you
+#'   provided to \code{build_error_model.py}. Should contain either two files 
+#'   suffixed _mate1 and _mate2, or a file suffixed _single.
+#' @param model_prefix If using a custom error model, the prefix argument you
+#'   provided to \code{build_error_model.py}. This is whatever comes before
+#'   _mate1 and _mate2 or _single files in \code{model_path}.
 #' @param paired If \code{TRUE}, paired-end reads are simulated; else single-end
 #'   reads are simulated.
 #' @param seed Optional seed to set before simulating reads, for 
@@ -80,11 +90,11 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
                 provided prefix when running build_error_models.py)'))
         }
         if(paired){
-            if(!is.file(paste0(model_path, '/', model_prefix, '_mate1')) |
-                !is.file(paste0(model_path, '/', model_prefix, '_mate2'))){
+            if(!file.exists(paste0(model_path, '/', model_prefix, '_mate1')) |
+                !file.exists(paste0(model_path, '/', model_prefix, '_mate2'))){
                 stop('could not find error model.')
             }
-        }else if(!is.file(paste0(model_path, '/', model_prefix, '_single'))){
+        }else if(!file.exists(paste0(model_path, '/', model_prefix, '_single'))){
                 stop('could not find error model.')
         }
         path = paste0(model_path, '/', model_prefix)

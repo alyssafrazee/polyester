@@ -3,7 +3,7 @@
 \name{model7}
 \alias{model7}
 \title{Empirical error model Roche/454 FLX Titanium, single-end read}
-\format{data frame named \code{model}, 7 columns, 505 rows}
+\format{data frame named \code{model7}, 7 columns, 505 rows}
 \source{
 processed from the Roche 454 error model that ships with GemSIM
   (see references)
@@ -22,7 +22,7 @@ for each position in a single-end read generated with
   sequencing a G is 0.0001, the probability of making an error by
   sequencing an A is 0.0002, and the probability of reading an 'N' at
   position 8 is 0. This can be seen by looking at
-  \code{model[model$pos == 8,]}. Note that position indexing is 1-based,
+  \code{model7[model7$pos == 8,]}. Note that position indexing is 1-based,
   though a 0 position is included as described in the GemSIM documentation.
 }
 \references{

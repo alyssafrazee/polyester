@@ -33,8 +33,21 @@ end(s) of these fragments.}
 
 \item{readlen}{Read length.}
 
-\item{error_rate}{Sequencing error rate. Must be between 0 and 1. A uniform
-error model is assumed.}
+\item{error_rate}{Sequencing error rate. Must be between 0 and 1. Only used
+if error_model is \code{'uniform'}.}
+
+\item{error_model}{one of \code{'uniform'}, \code{'custom'},
+\code{'illumina4'}, \code{'illumina5'}, or \code{'roche454'} specifying
+which sequencing error model to use while generating reads. See
+\code{?add_platform_error} for more information.}
+
+\item{model_path}{If using a custom error model, the output folder you
+provided to \code{build_error_model.py}. Should contain either two files
+suffixed _mate1 and _mate2, or a file suffixed _single.}
+
+\item{model_prefix}{If using a custom error model, the prefix argument you
+provided to \code{build_error_model.py}. This is whatever comes before
+_mate1 and _mate2 or _single files in \code{model_path}.}
 
 \item{paired}{If \code{TRUE}, paired-end reads are simulated; else
 single-end reads are simulated.}

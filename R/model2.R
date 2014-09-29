@@ -14,10 +14,10 @@
 #'   sequencing a G is 0.00023, the probability of making an error by 
 #'   sequencing a C is 6.02e-05, and the probability of reading an 'N' at 
 #'   position 8 is 1.15e-05. This can be seen by looking at 
-#'   \code{model[model$pos == 8,]}. Note that position indexing is 1-based, 
+#'   \code{model2[model2$pos == 8,]}. Note that position indexing is 1-based, 
 #'   though a 0 position is included as described in the GemSIM documentation. 
 #' @docType data
-#' @format data frame named \code{model}, 7 columns, 505 rows
+#' @format data frame named \code{model2}, 7 columns, 505 rows
 #' @source processed from the Illumina v4 error model that ships with GemSIM
 #'   (see references)
 #' @references McElroy KE, Luciani F, Thomas T (2012). GemSIM: general, 

@@ -90,10 +90,10 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             data("ill100v4_mate2")
             m2 = model2
         }else if(platform == 'illumina5'){
-            data(ill100v5_mate1)
-            m1 = model3
-            data(ill100v5_mate2)
-            m2 = model4           
+            data("ill100v5_mate1")
+            m1 = model4
+            data("ill100v5_mate2")
+            m2 = model5           
         }else{
             # platform is 'custom'
             m1 = process_custom(paste0(path, '_mate1'))
@@ -153,13 +153,13 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
         return(ret) 
     } else {
         if(platform == 'illumina4'){
-            data(ill100v4_single)
-            model = model5
+            data("ill100v4_single")
+            model = model3
         }else if(platform == 'illumina5'){
-            data(ill100v5_single)
+            data("ill100v5_single")
             model = model6
         }else if(platform == 'roche454'){
-            data(r454ti_single)
+            data("r454ti_single")
             model = model7
         }else{
             model = process_custom(paste0(path, '_single'))
