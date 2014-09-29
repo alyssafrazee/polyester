@@ -5,10 +5,10 @@
 \usage{
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, error_model = "uniform", model_path = NULL,
-  model_prefix = NULL, paired = TRUE, reads_per_transcript = 300,
-  fold_changes, size = NULL, outdir = ".", write_info = TRUE,
-  transcriptid = NULL, seed = NULL, ...)
+  lib_sizes = NULL, error_rate = 0.005, error_model = "uniform",
+  model_path = NULL, model_prefix = NULL, paired = TRUE,
+  reads_per_transcript = 300, fold_changes, size = NULL, outdir = ".",
+  write_info = TRUE, transcriptid = NULL, seed = NULL, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -32,6 +32,14 @@ end(s) of these fragments.}
 \item{fragsd}{Standard deviation of fragment lengths.}
 
 \item{readlen}{Read length.}
+
+\item{lib_sizes}{Library size factors for the biological replicates. If
+\code{num_reps} is an integer, \code{lib_sizes} should have length
+\code{2*num_reps}. If \code{num_reps} is a length-2 vector,
+\code{lib_sizes} should have length \code{sum(num_reps)}. For each
+replicate, once the number of reads to simulate from each transcript for
+that replicate is known, all read numbers across all transcripts from that
+replicate are multiplied by the corresponding entry in \code{lib_sizes}.}
 
 \item{error_rate}{Sequencing error rate. Must be between 0 and 1. Only used
 if error_model is \code{'uniform'}.}
@@ -75,7 +83,9 @@ written, with *no* slash at the end. By default, reads are
 written to current working directory.}
 
 \item{write_info}{If \code{TRUE}, write a file matching transcript IDs to
-differential expression status into the file \code{outdir/sim_info.txt}.}
+differential expression status into the file \code{outdir/sim_tx_info.txt}
+and a file matching biological replicate IDs to group membership and
+library size into the file \code{outdir/sim_rep_info.txt}.}
 
 \item{transcriptid}{optional vector of transcript IDs to be written into
 \code{sim_info.txt} and used as transcript identifiers in the fasta files.

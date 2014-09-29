@@ -14,15 +14,22 @@
 #'   should be simulated. See details.
 #' @param seqpath path to folder containing one FASTA file (\code{.fa} 
 #'   extension) for each chromosome in \code{gtf}. See details. 
-#' @param  num_reps How many biological replicates should be in each group? If
+#' @param num_reps How many biological replicates should be in each group? If
 #'   \code{num_reps} is a single integer, \code{num_reps} replicates will be 
 #'   simulated in each group. Otherwise, \code{num_reps} can be a length-2 
 #'   vector, where \code{num_reps[1]} and \code{num_reps[2]} replicates will be
 #'   simulated in each of the two groups.
-#' @param  fraglen Mean RNA fragment length. Sequences will be read off the 
+#' @param fraglen Mean RNA fragment length. Sequences will be read off the 
 #'   end(s) of these fragments.
 #' @param fragsd Standard deviation of fragment lengths. 
 #' @param readlen Read length.
+#' @param lib_sizes Library size factors for the biological replicates. If 
+#'   \code{num_reps} is an integer, \code{lib_sizes} should have length 
+#'   \code{2*num_reps}. If \code{num_reps} is a length-2 vector, 
+#'   \code{lib_sizes} should have length \code{sum(num_reps)}. For each
+#'   replicate, once the number of reads to simulate from each transcript for 
+#'   that replicate is known, all read numbers across all transcripts from that
+#'   replicate are multiplied by the corresponding entry in \code{lib_sizes}. 
 #' @param error_rate Sequencing error rate. Must be between 0 and 1. Only used
 #'   if error_model is \code{'uniform'}. 
 #' @param error_model one of \code{'uniform'}, \code{'custom'}, 
@@ -35,7 +42,7 @@
 #' @param model_prefix If using a custom error model, the prefix argument you
 #'   provided to \code{build_error_model.py}. This is whatever comes before
 #'   _mate1 and _mate2 or _single files in \code{model_path}.
-#' @param  paired If \code{TRUE}, paired-end reads are simulated; else 
+#' @param paired If \code{TRUE}, paired-end reads are simulated; else 
 #'   single-end reads are simulated.
 #' @param reads_per_transcript baseline mean number of reads to simulate 
 #'   from each transcript. Can be an integer, in which case this many reads
@@ -56,7 +63,9 @@
 #'   written, with *no* slash at the end. By default, reads are 
 #'   written to current working directory.
 #' @param write_info If \code{TRUE}, write a file matching transcript IDs to 
-#'   differential expression status into the file \code{outdir/sim_info.txt}.
+#'   differential expression status into the file \code{outdir/sim_tx_info.txt}
+#'   and a file matching biological replicate IDs to group membership and 
+#'   library size into the file \code{outdir/sim_rep_info.txt}. 
 #' @param transcriptid optional vector of transcript IDs to be written into 
 #'   \code{sim_info.txt} and used as transcript identifiers in the fasta files.
 #'   Defaults to \code{names(readDNAStringSet(fasta))}. This option is useful
@@ -91,7 +100,7 @@
 #'      transcriptid=tNames, seed=12)
 #'}
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10, 
-    fraglen=250, fragsd=25, readlen=100, error_rate=0.005, 
+    fraglen=250, fragsd=25, readlen=100, lib_sizes=NULL, error_rate=0.005,
     error_model='uniform', model_path=NULL, model_prefix=NULL, paired=TRUE, 
     reads_per_transcript=300, fold_changes, size=NULL, outdir=".", 
     write_info=TRUE, transcriptid=NULL, seed=NULL, ...){
@@ -128,6 +137,18 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
         stop(.makepretty('transcriptid must be a character vector with one entry
             per transcript in fasta or gtf; use count_transcripts to find out
             how many transcripts are in fasta or gtf.'))
+    }
+    nreps = ifelse(length(num_reps)==1, 2*num_reps, sum(num_reps))
+    if(is.null(lib_sizes)){
+        lib_sizes = rep(1, nreps)
+    }else{
+        if(length(lib_sizes) != nreps){
+            stop(.makepretty('lib_sizes must have length equal to total number
+                of reps in the experiment, which is either 2*num_reps if
+                num_reps is a single number, or sum(num_reps) if num_reps is
+                a length-2 vector.'))
+        }
+        stopifnot(all(lib_sizes > 0))
     }
 
     # check error model:
@@ -218,7 +239,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
     }
     for(i in 1:(n1+n2)){
         
-        tObj = rep(transcripts, times=numreadsList[[i]])
+        tObj = rep(transcripts, times=ceiling(numreadsList[[i]]*lib_sizes[i]))
         
         #get fragments
         tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd)
@@ -251,6 +272,17 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
         sim_info = data.frame(transcriptid=transcriptid, 
             foldchange=fold_changes, DEstatus=fold_changes!=1)
         write.table(sim_info, row.names=FALSE, quote=FALSE, sep="\t", 
-            file=paste0(outdir, '/sim_info.txt'))
+            file=paste0(outdir, '/sim_tx_info.txt'))
+
+        rep_info = data.frame(
+            rep_id=paste0('sample_', sprintf('%02d', 1:(n1+n2))),
+            group=rep(c(1,2), times=c(n1, n2)))
+        if(is.null(lib_sizes)){
+            rep_info$lib_size = 1
+        }else{
+            rep_info$lib_size = lib_sizes
+        }
+        write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t', 
+            file=paste0(outdir, '/sim_rep_info.txt'))
     }
 }
