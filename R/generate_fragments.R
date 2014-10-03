@@ -3,13 +3,42 @@
 #' Convert each sequence in a DNAStringSet to a "fragment" (subsequence)
 #' @param tObj DNAStringSet of sequences from which fragments should be 
 #'   extracted
-#' @param fraglen Mean fragment length. 
-#' @param fragsd Standard deviation of fragment length. Fragment lengths are 
-#'   drawn from a normal 
-#' distribution with mean \code{fraglen} and standard deviation \code{fragsd}. 
+#' @param fraglen Mean fragment length, if drawing fragment lengths from a
+#'   normal distribution. 
+#' @param fragsd Standard deviation of fragment lengths, if drawing lengths
+#'   from a normal distribution. 
+#' @param empirical If \code{TRUE}, draw fragment lengths from a fragment
+#'   length distribution estimated from a real data set rather than a normal
+#'   distribution. \code{fraglen} and \code{fragsd} are ignored if 
+#'   \code{empirical} is \code{TRUE}. 
+#' @param bias One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none' 
+#'   represents uniform fragment selection (every possible fragment in a 
+#'   transcript has equal probability of being in the experiment); 'rnaf'
+#'   represents positional bias that arises in protocols using RNA
+#'   fragmentation, and 'cdnaf' represents positional bias arising in protocols
+#'   that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
+#'   coverage is higher in the middle of the transcript and lower at both ends,
+#'   and in the 'cdnaf' model, coverage increases toward the 3' end of the
+#'   transcript. The probability models used come from Supplementary Figure S3
+#'   of Li and Jiang (2012).
 #' @export
 #' @return DNAStringSet consisting of one randomly selected subsequence per 
 #'   element of \code{tObj}.
+#' @details
+#'   The empirical fragment length distribution was estimated using 7 randomly 
+#'   selected RNA-seq samples from the GEUVADIS dataset ('t Hoen et al 2013),
+#'   one sample from each laboratory that performed sequencing for that data 
+#'   set. We used Picard's "CollectInsertSizeMetrics" 
+#'   (http://broadinstitute.github.io/picard/), version 1.121, to estimate the
+#'   insert size distribution based on the read alignments. 
+#' @references
+#'   't Hoen PA, et al (2013): Reproducibility of high-throughput mRNA and 
+#'   small RNA sequencing across laboratories. Nature Biotechnology 31(11):
+#'   1015-1022.
+#'  
+#'   Li W and Jiang T (2012): Transcriptome assembly and isoform expression
+#'   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
+#'   2914-2921.
 #' @examples
 #'   library(Biostrings)
 #'   data(srPhiX174)
@@ -24,7 +53,14 @@
 #'   empirical_frags = generate_fragments(srPhiX174, empirical=TRUE)
 #'   empirical_frags
 #'   
-generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE){
+#'   ## get fragments with lengths from a normal distribution, but include
+#'   ## positional bias from cDNA fragmentation:
+#'   biased_frags = generate_fragments(sfPhiX174, bias='cdnaf')
+#'   biased_frags
+#'  
+generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE,
+    bias='none'){
+    bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
     L = width(tObj)
     if(empirical){
         data('empirical_density')
@@ -33,10 +69,20 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE){
         fraglens = round(rnorm(L, mean=fraglen, sd=fragsd)) 
     }    
     s = which(fraglens < L)
-    tObj[s] = subseq(tObj[s], 
-        start = floor(runif(length(s), 
-            min=rep(1,length(s)), max=L[s]-fraglens[s])), 
-        width=fraglens[s])
+    n = length(s)
+    if(bias == 'none'){
+        start_pos = floor(runif(n, min=rep(1,n), max=L[s]-fraglens[s]))
+    }else if(bias == 'rnaf'){
+        data(rnaf)
+        starts_pct = sample(rnaf$pospct, size=n, prob=rnaf$prob)
+        start_pos = round(starts_pct * (L[s]-fraglens[s]))
+    }else{
+        # bias == 'cdnaf'
+        data(cdnaf)
+        starts_pct = sample(cdnaf$pospct, size=n, prob=cdnaf$prob)
+        start_pos = round(starts_pct * (L[s]-fraglens[s]))
+    }
+    tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
     return(tObj)
 }
 

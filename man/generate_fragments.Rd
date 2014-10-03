@@ -3,17 +3,34 @@
 \alias{generate_fragments}
 \title{generate a set of fragments from a set of transcripts}
 \usage{
-generate_fragments(tObj, fraglen = 250, fragsd = 25, empirical = FALSE)
+generate_fragments(tObj, fraglen = 250, fragsd = 25, empirical = FALSE,
+  bias = "none")
 }
 \arguments{
 \item{tObj}{DNAStringSet of sequences from which fragments should be
 extracted}
 
-\item{fraglen}{Mean fragment length.}
+\item{fraglen}{Mean fragment length, if drawing fragment lengths from a
+normal distribution.}
 
-\item{fragsd}{Standard deviation of fragment length. Fragment lengths are
-  drawn from a normal
-distribution with mean \code{fraglen} and standard deviation \code{fragsd}.}
+\item{fragsd}{Standard deviation of fragment lengths, if drawing lengths
+from a normal distribution.}
+
+\item{empirical}{If \code{TRUE}, draw fragment lengths from a fragment
+length distribution estimated from a real data set rather than a normal
+distribution. \code{fraglen} and \code{fragsd} are ignored if
+\code{empirical} is \code{TRUE}.}
+
+\item{bias}{One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none'
+represents uniform fragment selection (every possible fragment in a
+transcript has equal probability of being in the experiment); 'rnaf'
+represents positional bias that arises in protocols using RNA
+fragmentation, and 'cdnaf' represents positional bias arising in protocols
+that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
+coverage is higher in the middle of the transcript and lower at both ends,
+and in the 'cdnaf' model, coverage increases toward the 3' end of the
+transcript. The probability models used come from Supplementary Figure S3
+of Li and Jiang (2012).}
 }
 \value{
 DNAStringSet consisting of one randomly selected subsequence per
@@ -21,6 +38,14 @@ DNAStringSet consisting of one randomly selected subsequence per
 }
 \description{
 Convert each sequence in a DNAStringSet to a "fragment" (subsequence)
+}
+\details{
+The empirical fragment length distribution was estimated using 7 randomly
+  selected RNA-seq samples from the GEUVADIS dataset ('t Hoen et al 2013),
+  one sample from each laboratory that performed sequencing for that data
+  set. We used Picard's "CollectInsertSizeMetrics"
+  (http://broadinstitute.github.io/picard/), version 1.121, to estimate the
+  insert size distribution based on the read alignments.
 }
 \examples{
 library(Biostrings)
@@ -35,5 +60,19 @@ library(Biostrings)
   ## get fragments with lengths drawn from an empirical distribution
   empirical_frags = generate_fragments(srPhiX174, empirical=TRUE)
   empirical_frags
+
+  ## get fragments with lengths from a normal distribution, but include
+  ## positional bias from cDNA fragmentation:
+  biased_frags = generate_fragments(sfPhiX174, bias='cdnaf')
+  biased_frags
+}
+\references{
+'t Hoen PA, et al (2013): Reproducibility of high-throughput mRNA and
+  small RNA sequencing across laboratories. Nature Biotechnology 31(11):
+  1015-1022.
+
+  Li W and Jiang T (2012): Transcriptome assembly and isoform expression
+  level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
+  2914-2921.
 }
 
