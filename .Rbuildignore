@@ -4,3 +4,4 @@ vignettes/polyester.md
 make_error_models.R
 ErrorModels.md
 build_error_models.py
+make_fraglen_model.R
