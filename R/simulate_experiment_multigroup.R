@@ -139,10 +139,10 @@ simulate_experiment_multi = function(fasta=NULL, gtf=NULL, seqpath=NULL,
             transcript in fasta or gtf; use count_transcripts to find out how
             many transcripts are in fasta or gtf.'))
     }
-    if(ncol(fold_changes) != nreps){
+    if(ncol(fold_changes) != length(num_reps)){
         stop(.makepretty('fold_changes must be a matrix with one column per
-            replicate in num_reps. Get the number of replicates with
-            sum(num_reps)'))
+            group in the experiment. Get the number of replicates with
+            length(num_reps).'))
     }
 
     if(length(reads_per_transcript)!=1 & length(reads_per_transcript)!=ntx){
