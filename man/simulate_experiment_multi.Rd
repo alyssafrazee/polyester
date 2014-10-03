@@ -142,8 +142,8 @@ Reads can either be simulated from a FASTA file of transcripts
   # remove quotes from transcript IDs:
   tNames = gsub("'", "", names(readDNAStringSet(fastapath)))
 
-  simulate_experiment(fastapath, reads_per_transcript=10,
-     fold_changes=fold_changes, outdir='simulated_reads',
+  simulate_experiment_multi(fastapath, reads_per_transcript=10,
+     num_reps=c(5,6,4), fold_changes=fold_changes, outdir='simulated_reads',
      transcriptid=tNames, seed=12)
 }
 
