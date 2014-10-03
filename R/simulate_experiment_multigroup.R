@@ -240,7 +240,7 @@ simulate_experiment_multi = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }else{
         system(paste('mkdir -p', sysoutdir))    
     }
-    for(i in 1:(n1+n2)){
+    for(i in 1:sum(numreps)){
         
         tObj = rep(transcripts, times=ceiling(numreadsList[[i]]*lib_sizes[i]))
         
