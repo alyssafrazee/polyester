@@ -3,7 +3,7 @@
 \alias{generate_fragments}
 \title{generate a set of fragments from a set of transcripts}
 \usage{
-generate_fragments(tObj, fraglen, fragsd = 25)
+generate_fragments(tObj, fraglen = 250, fragsd = 25, empirical = FALSE)
 }
 \arguments{
 \item{tObj}{DNAStringSet of sequences from which fragments should be
@@ -25,9 +25,15 @@ Convert each sequence in a DNAStringSet to a "fragment" (subsequence)
 \examples{
 library(Biostrings)
   data(srPhiX174)
+
+  ## get fragments with lengths drawn from normal distrubution
   set.seed(174)
   srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3)
   srPhiX174_fragments
   srPhiX174
+
+  ## get fragments with lengths drawn from an empirical distribution
+  empirical_frags = generate_fragments(srPhiX174, empirical=TRUE)
+  empirical_frags
 }
 

@@ -23,7 +23,8 @@
 #' @import Biostrings
 #' @import IRanges
 #' @import S4Vectors
+#' @import logspline
 #' @docType package
-#' @author Andrew Jaffe, Alyssa Frazee, Jeff Leek
+#' @author Alyssa Frazee, Andrew Jaffe, Jeff Leek
 #' @name polyester
 NULL

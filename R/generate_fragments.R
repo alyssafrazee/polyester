@@ -13,14 +13,25 @@
 #' @examples
 #'   library(Biostrings)
 #'   data(srPhiX174)
+#' 
+#'   ## get fragments with lengths drawn from normal distrubution
 #'   set.seed(174)
 #'   srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3)
 #'   srPhiX174_fragments
 #'   srPhiX174
 #' 
-generate_fragments = function(tObj, fraglen, fragsd=25){
+#'   ## get fragments with lengths drawn from an empirical distribution
+#'   empirical_frags = generate_fragments(srPhiX174, empirical=TRUE)
+#'   empirical_frags
+#'   
+generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE){
     L = width(tObj)
-    fraglens = round(rnorm(L, mean=fraglen, sd=fragsd)) 
+    if(empirical){
+        data('empirical_density')
+        fraglens = round(rlogspline(L, empirical_density))
+    }else{
+        fraglens = round(rnorm(L, mean=fraglen, sd=fragsd)) 
+    }    
     s = which(fraglens < L)
     tObj[s] = subseq(tObj[s], 
         start = floor(runif(length(s), 
