@@ -88,13 +88,19 @@
 #'   through \code{num_reps[1]} are in group 1, samples \code{num_reps[1]+1)}
 #'   through \code{num_reps[1]+num_reps[2]} are in group 2, etc. 
 #' @examples
-#'   ## simulate a few reads from chromosome 22
-#'   print(x) ### YOU NEED TO MAKE NEW EXAMPLES
+#'   ## simulate a few reads from chromosome 22, for a 3-group experiment
+#'  
 #'   fastapath = system.file("extdata", "chr22.fa", package="polyester")
 #'   numtx = count_transcripts(fastapath)
 #'   set.seed(4)
-#'   fold_changes = sample(c(0.5, 1, 2), size=numtx, 
-#'      prob=c(0.05, 0.9, 0.05), replace=TRUE)
+#'   fold_changes = matrix(1, nrow=numtx, ncol=3)
+#'   fold_changes[1:20, 2] = 3
+#'   fold_changes[199:220, 3] = 0.8
+#'   fold_changes[407:422, 1] = 2
+#'   ## these fold changes imply that transcripts 1-20 are overexpressed in 
+#'   ## group 2 (fc=3x), transcripts 199-220 are underexpressed in group 3
+#'   ## (fc=0.8), and transcripts 407-422 are overexpressed in group 1 (fc=2).
+#'   
 #'   library(Biostrings)
 #'   # remove quotes from transcript IDs:
 #'   tNames = gsub("'", "", names(readDNAStringSet(fastapath))) 
@@ -223,7 +229,7 @@ simulate_experiment_multi = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     numreadsList = vector("list", sum(num_reps))
     numreadsList = lapply(1:sum(num_reps), function(i){
         group_id = group_ids[i]
-        polyester:::NB(basemeans[,group_id], size[,group_id])
+        NB(basemeans[,group_id], size[,group_id])
     })
 
     ## simulate reads for each sample:
