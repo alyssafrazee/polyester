@@ -55,7 +55,7 @@
 #'   
 #'   ## get fragments with lengths from a normal distribution, but include
 #'   ## positional bias from cDNA fragmentation:
-#'   biased_frags = generate_fragments(sfPhiX174, bias='cdnaf')
+#'   biased_frags = generate_fragments(srPhiX174, bias='cdnaf')
 #'   biased_frags
 #'  
 generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE,
