@@ -15,7 +15,8 @@ Depends:
 Imports:
     Biostrings (>= 2.32.0),
     IRanges,
-    S4Vectors
+    S4Vectors,
+    logspline
 Suggests:
     knitr,
     ballgown
