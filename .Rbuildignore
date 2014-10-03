@@ -6,3 +6,5 @@ ErrorModels.md
 build_error_models.py
 make_fraglen_model.R
 insert_sizes.sh
+rnaf_pos_bias.csv
+cdna_pos_bias.csv
