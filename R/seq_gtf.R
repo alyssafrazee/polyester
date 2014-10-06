@@ -80,6 +80,8 @@ seq_gtf = function(gtf, seqs, exononly=TRUE, idfield="transcript_id",
             end=dftmp$end)
         names(these_seqs) = getAttributeField(dftmp$attributes, idfield, 
             attrsep=attrsep)
+        revstrand = which(dftmp$strand == '-')
+        these_seqs[revstrand] = reverseComplement(these_seqs[revstrand])
         these_seqs
     })
 
