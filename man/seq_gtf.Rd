@@ -3,8 +3,8 @@
 \alias{seq_gtf}
 \title{Get transcript sequences from GTF file and sequence info}
 \usage{
-seq_gtf(gtf, seqs, exononly = TRUE, idfield = "transcript_id",
-  attrsep = "; ")
+seq_gtf(gtf, seqs, feature = "transcript", exononly = TRUE,
+  idfield = "transcript_id", attrsep = "; ")
 }
 \arguments{
 \item{gtf}{one of path to GTF file, or data frame representing a canonical
@@ -15,6 +15,9 @@ extension) for each chromosome in \code{gtf}, or named DNAStringSet
 containing one DNAString per chromosome in \code{gtf}, representing its
 sequence. In the latter case, \code{names(seqs)} should contain the
 same entries as the \code{seqnames} (first) column of \code{gtf}.}
+
+\item{feature}{one of \code{'transcript'} or \code{'exon'} (default
+transcript), depending on desired return.}
 
 \item{exononly}{if \code{TRUE} (as it is by default), only create transcript
 sequences from the features labeled \code{exon} in \code{gtf}.}
@@ -27,8 +30,11 @@ name of the field identifying transcripts? Should be character. Default
 attributes separated? Default \code{"; "}.}
 }
 \value{
-DNAStringSet containing transcript sequences, with names
-  corresponding to \code{idfield} in \code{gtf}
+If feature is \code{'transcript'}, DNAStringSet containing
+  transcript sequences, with names corresponding to \code{idfield} in
+  \code{gtf}. If feature is \code{'exon'}, DNAStringSet containing exon
+  sequences from \code{gtf}, named by exon location (chr, start, end,
+  strand).
 }
 \description{
 Given a GTF file (for transcript structure) and DNA sequences,
