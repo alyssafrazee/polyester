@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/alyssafrazee/polyester.svg?branch=master)](https://travis-ci.org/alyssafrazee/polyester)
+
 # Introduction
 
 Polyester is an R package designed to simulate an RNA sequencing experiment. Given a set of annotated transcripts, polyester will simulate the steps of an RNA-seq experiment (fragmentation, reverse-complementing, and sequencing) and produce files containing simulated RNA-seq reads. Simulated reads can be analyzed using any of several downstream analysis tools. 
