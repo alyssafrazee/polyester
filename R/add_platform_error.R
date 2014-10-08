@@ -135,12 +135,8 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             }
             newReads = replaceLetterAt(reads, locations, replacements)
             if(mate == 'left'){
-                print(sum(subseq(newReads, 1, L) != m1reads))
-                print(sum(locations)/length(locations))
                 m1reads = subseq(newReads, 1, L)
             }else{
-                print(sum(subseq(newReads, 1, L) != m2reads))
-                print(sum(locations)/length(locations))
                 m2reads = subseq(newReads, 1, L)
             }
         }
