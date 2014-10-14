@@ -3,14 +3,20 @@
 #' Convert each sequence in a DNAStringSet to a "fragment" (subsequence)
 #' @param tObj DNAStringSet of sequences from which fragments should be 
 #'   extracted
+#' @param distr One of 'normal', 'empirical', or 'custom'. If 'normal', draw 
+#'   fragment lengths from a normal distribution with mean \code{fraglen} and 
+#'   standard deviation \code{fragsd}. If 'empirical', draw fragment lengths 
+#'   from a fragment length distribution estimated from a real data set. If
+#'   'custom', draw fragment lengths from a custom distribution, provided as
+#'   the \code{custdens} argument, which should be a density fitted using 
+#'   \code{\link{logspline}}. 
 #' @param fraglen Mean fragment length, if drawing fragment lengths from a
 #'   normal distribution. 
 #' @param fragsd Standard deviation of fragment lengths, if drawing lengths
-#'   from a normal distribution. 
-#' @param empirical If \code{TRUE}, draw fragment lengths from a fragment
-#'   length distribution estimated from a real data set rather than a normal
-#'   distribution. \code{fraglen} and \code{fragsd} are ignored if 
-#'   \code{empirical} is \code{TRUE}. 
+#'   from a normal distribution. Note: \code{fraglen} and \code{fragsd} are 
+#'   ignored unless \code{distr} is 'normal'.
+#' @param custdens If \code{distr} is 'custom', draw fragments from this
+#'   density. Should be an object of class \code{logspline}.
 #' @param bias One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none' 
 #'   represents uniform fragment selection (every possible fragment in a 
 #'   transcript has equal probability of being in the experiment); 'rnaf'
@@ -39,6 +45,9 @@
 #'   Li W and Jiang T (2012): Transcriptome assembly and isoform expression
 #'   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
 #'   2914-2921.
+#'
+#' @seealso \code{\link{logspline}}
+#'
 #' @examples
 #'   library(Biostrings)
 #'   data(srPhiX174)
@@ -58,16 +67,24 @@
 #'   biased_frags = generate_fragments(srPhiX174, bias='cdnaf')
 #'   biased_frags
 #'  
-generate_fragments = function(tObj, fraglen=250, fragsd=25, empirical=FALSE,
-    bias='none'){
+generate_fragments = function(tObj, fraglen=250, fragsd=25, 
+    distr='normal', custdens=NULL, bias='none'){
     bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
+    distr = match.arg(distr, c('normal', 'empirical', 'custom'))
     L = width(tObj)
-    if(empirical){
+    if(distr == 'empirical'){
         data('empirical_density')
         fraglens = round(rlogspline(L, empirical_density))
-    }else{
+    }else if(distr == 'normal'){
         fraglens = round(rnorm(L, mean=fraglen, sd=fragsd)) 
-    }    
+    }else{
+        # distr == 'custom'
+        if(is.null(custdens)){
+            stop('must provide custom logspline density when distr is "custom"')
+        }
+        stopifnot(class(custdens) == 'logspline')
+        fraglens = round(rlogspline(L, custdens))
+    }
     s = which(fraglens < L)
     n = length(s)
     if(bias == 'none'){

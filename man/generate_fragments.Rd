@@ -3,8 +3,8 @@
 \alias{generate_fragments}
 \title{generate a set of fragments from a set of transcripts}
 \usage{
-generate_fragments(tObj, fraglen = 250, fragsd = 25, empirical = FALSE,
-  bias = "none")
+generate_fragments(tObj, fraglen = 250, fragsd = 25, distr = "normal",
+  custdens = NULL, bias = "none")
 }
 \arguments{
 \item{tObj}{DNAStringSet of sequences from which fragments should be
@@ -14,12 +14,19 @@ extracted}
 normal distribution.}
 
 \item{fragsd}{Standard deviation of fragment lengths, if drawing lengths
-from a normal distribution.}
+from a normal distribution. Note: \code{fraglen} and \code{fragsd} are
+ignored unless \code{distr} is 'normal'.}
 
-\item{empirical}{If \code{TRUE}, draw fragment lengths from a fragment
-length distribution estimated from a real data set rather than a normal
-distribution. \code{fraglen} and \code{fragsd} are ignored if
-\code{empirical} is \code{TRUE}.}
+\item{distr}{One of 'normal', 'empirical', or 'custom'. If 'normal', draw
+fragment lengths from a normal distribution with mean \code{fraglen} and
+standard deviation \code{fragsd}. If 'empirical', draw fragment lengths
+from a fragment length distribution estimated from a real data set. If
+'custom', draw fragment lengths from a custom distribution, provided as
+the \code{custdens} argument, which should be a density fitted using
+\code{\link{logspline}}.}
+
+\item{custdens}{If \code{distr} is 'custom', draw fragments from this
+density. Should be an object of class \code{logspline}.}
 
 \item{bias}{One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none'
 represents uniform fragment selection (every possible fragment in a
@@ -74,5 +81,8 @@ library(Biostrings)
   Li W and Jiang T (2012): Transcriptome assembly and isoform expression
   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
   2914-2921.
+}
+\seealso{
+\code{\link{logspline}}
 }
 
