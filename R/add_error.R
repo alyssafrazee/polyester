@@ -14,7 +14,7 @@
 #'   srPhiX174_withError = add_error(srPhiX174)
 #'   #error was introduced in, e.g., position 10 of 2nd string in set.
 add_error = function(tFrags, error_rate = 0.005){
-    adj_error = error_rate*4/3 
+    adj_error = error_rate*5/4 
     #^so you don't have to choose *another* nucleotide for an error: just 
     # choose *a* nucleotide.
     
@@ -23,7 +23,7 @@ add_error = function(tFrags, error_rate = 0.005){
            replace=TRUE, prob = c(adj_error, 1-adj_error)))
   
     newletters = DNAString(
-        paste(sample(c("A", "C", "G", "T"), sum(insertLocs), 
+        paste(sample(c('A', 'C', 'G', 'T', 'N'), sum(insertLocs), 
             replace=TRUE), collapse="") )
     allSeq = replaceLetterAt(allSeq, insertLocs, newletters)
     
