@@ -59,7 +59,7 @@
 #'   srPhiX174
 #' 
 #'   ## get fragments with lengths drawn from an empirical distribution
-#'   empirical_frags = generate_fragments(srPhiX174, empirical=TRUE)
+#'   empirical_frags = generate_fragments(srPhiX174, distr='empirical')
 #'   empirical_frags
 #'   
 #'   ## get fragments with lengths from a normal distribution, but include
