@@ -76,7 +76,12 @@ between groups.}
 \item{size}{the negative binomial \code{size} parameter (see
 \code{\link{NegBinomial}}) for the number of reads drawn per transcript.
 If left blank, defaults to \code{reads_per_transcript / 3}. Negative
-binomial variance is mean + mean^2 / size.}
+binomial variance is mean + mean^2 / size. Can either be left at default,
+a vector of the same length as number of transcripts in \code{fasta},
+if the two groups should have the same size parameters, or a list with 2
+elements, each of which is a vector with length equal to the number of
+transcripts in \code{fasta}, which represent the size parameters for each
+transcript in groups 1 and 2, respectively.}
 
 \item{outdir}{character, path to folder where simulated reads should be
 written, with *no* slash at the end. By default, reads are
