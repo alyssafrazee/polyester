@@ -235,17 +235,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL, num_reps=10,
         }
     }
 
-    # if(is.null(size)){
-    #     size = reads_per_transcript/3
-    # }
-
-    # if(length(size) == 1){
-    #     nbdp1 = nbdp2 = size
-    # }else{
-    #     nbdp1 = size[1:n1]
-    #     nbdp2 = size[(1:n2)+n1] 
-    # }
-
     numreadsList = vector("list", n1+n2)
     for(i in 1:n1){
         numreadsList[[i]] = NB(basemeans1, nbdp1)
