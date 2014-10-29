@@ -18,6 +18,16 @@
 #' @param fraglen Mean RNA fragment length. Sequences will be read off the 
 #'   end(s) of these fragments.
 #' @param fragsd Standard deviation of fragment lengths. 
+#' @param bias One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none' 
+#'   represents uniform fragment selection (every possible fragment in a 
+#'   transcript has equal probability of being in the experiment); 'rnaf'
+#'   represents positional bias that arises in protocols using RNA
+#'   fragmentation, and 'cdnaf' represents positional bias arising in protocols
+#'   that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
+#'   coverage is higher in the middle of the transcript and lower at both ends,
+#'   and in the 'cdnaf' model, coverage increases toward the 3' end of the
+#'   transcript. The probability models used come from Supplementary Figure S3
+#'   of Li and Jiang (2012).
 #' @param readlen Read length
 #' @param error_rate Sequencing error rate. Must be between 0 and 1. A uniform 
 #'   error model is assumed. 
@@ -45,6 +55,10 @@
 #'   Simulating from a GTF file and DNA sequences may be a bit slower: it took
 #'   about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, 
 #'   X, and Y in hg19.
+#' @references
+#'   Li W and Jiang T (2012): Transcriptome assembly and isoform expression
+#'   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
+#'   2914-2921.
 #' @examples \donttest{
 #'   fastapath = system.file("extdata", "chr22.fa", package="polyester")
 #'   numtx = count_transcripts(fastapath)
@@ -55,9 +69,9 @@
 #'     readmat=readmat, outdir='simulated_reads_2', seed=5)
 #'}
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, 
-    readmat, outdir=".", fraglen=250, fragsd=25, readlen=100, error_rate=0.005,
-    error_model='uniform', model_path=NULL, model_prefix=NULL, paired=TRUE,
-    seed=NULL, ...){
+    readmat, outdir=".", fraglen=250, fragsd=25, bias='none', readlen=100, 
+    error_rate=0.005, error_model='uniform', model_path=NULL, model_prefix=NULL,
+    paired=TRUE, seed=NULL, ...){
 
     if(!is.null(seed)) set.seed(seed)
     
@@ -104,6 +118,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
             single-end reads'))
     } 
 
+    bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
 
     sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){
@@ -116,7 +131,8 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         tObj = rep(transcripts, times=readmat[,i])
   
         #get fragments
-        tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd)
+        tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd, 
+            bias=bias)
 
         #reverse_complement some of those fragments
         rctFrags = reverse_complement(tFrags)

@@ -4,9 +4,10 @@
 \title{Simulate RNA-seq experiment}
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = ".", fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, error_model = "uniform", model_path = NULL,
-  model_prefix = NULL, paired = TRUE, seed = NULL, ...)
+  readmat, outdir = ".", fraglen = 250, fragsd = 25, bias = "none",
+  readlen = 100, error_rate = 0.005, error_model = "uniform",
+  model_path = NULL, model_prefix = NULL, paired = TRUE, seed = NULL,
+  ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -30,6 +31,17 @@ written to the working directory.}
 end(s) of these fragments.}
 
 \item{fragsd}{Standard deviation of fragment lengths.}
+
+\item{bias}{One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none'
+represents uniform fragment selection (every possible fragment in a
+transcript has equal probability of being in the experiment); 'rnaf'
+represents positional bias that arises in protocols using RNA
+fragmentation, and 'cdnaf' represents positional bias arising in protocols
+that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
+coverage is higher in the middle of the transcript and lower at both ends,
+and in the 'cdnaf' model, coverage increases toward the 3' end of the
+transcript. The probability models used come from Supplementary Figure S3
+of Li and Jiang (2012).}
 
 \item{readlen}{Read length}
 
@@ -84,5 +96,10 @@ Reads can either be simulated from a FASTA file of transcripts
   simulate_experiment_countmat(fasta=fastapath,
     readmat=readmat, outdir='simulated_reads_2', seed=5)
 }
+}
+\references{
+Li W and Jiang T (2012): Transcriptome assembly and isoform expression
+  level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
+  2914-2921.
 }
 
