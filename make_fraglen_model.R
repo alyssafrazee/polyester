@@ -3,6 +3,7 @@
 ## save empirical distribution as a dataset in Polyester package
 ## I worked in a folder with the same root directory as the "polyester" R package
 
+library(ballgown)
 load('fpkm.rda') #link: http://files.figshare.com/1625419/fpkm.rda
 
 pd = pData(fpkm)
@@ -24,6 +25,7 @@ lab7id = sample(pd$dirname[pd$lab == 'F7'], size=1)
 selected = c(lab1id, lab2id, lab3id, lab4id, lab5id, lab6id, lab7id)
 selected
 # "NA06985" "NA18858" "NA20772" "NA12144" "NA20815" "NA12776" "NA20542"
+# 3 CEU, 1 YRI, 3 TSI
 
 # download the bam files from each of those samples:
 for(s in selected){
@@ -67,3 +69,17 @@ empirical_density = logspline(as.integer(frag_sizes),
 save(empirical_density, file='../polyester/data/empirical_density.rda', compress='xz')
 
 # we can then draw from the empirical density in the fragmentation function!
+
+# plot for the paper:
+d = density(as.integer(frag_sizes))
+pdf('empirical_density.pdf')
+    x = seq(75, max(frag_sizes), by=1)
+    plot(x, dnorm(x, 250, 25), col='blue', 
+        type='l', lwd=2, xlab='Fragment Length', ylab='Density')
+    lines(d, col='red', lwd=2)
+    #with(d, polygon(x=c(min(frag_sizes), d$x, max(frag_sizes)), 
+    #                y=c(0, d$y, 0), col="gray"))
+    legend('topright', col=c('blue', 'red'), c('N(250, 25)', 'Empirical'), 
+        lwd=c(2,2))
+    title('Normal and empirical fragment length distributions')
+dev.off()
