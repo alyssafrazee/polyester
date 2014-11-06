@@ -3,14 +3,16 @@
 library(ballgown)
 library(polyester)
 library(Biostrings)
-load('../polyester_paper/experiments/fpkm.rda') #transcript expression data
+load('../polyester_paper/experiments/fpkm.rda') #transcript expression data. URL: http://files.figshare.com/1625419/fpkm.rda
 load('../polyester_paper/experiments/sequences.rda') #transcript sequences
 
-# here is the code to make "sequences":
+# here is the code used to make "sequences": (sequences.rda)
+# this is the path to this index: ftp://igenome:G3nom3s4u@ussd-ftp.illumina.com/Homo_sapiens/UCSC/hg19/Homo_sapiens_UCSC_hg19.tar.gz
+# (this download will give you up to "Homo_sapiens")
 seqpath = '/amber2/scratch/jleek/iGenomes-index/Homo_sapiens/UCSC/hg19/Sequence/Chromosomes/'
 sequences = seq_gtf(gtfdf, seqpath)
 names(sequences) = substr(names(sequences), 2, nchar(names(sequences))-1)
-save(sequences, file='sequences.rda') #/amber2/scratch/jleek/GEUVADIS/Assembly/merged/sequences.rda
+save(sequences, file='sequences.rda') 
 
 # calculate GC content:
 GC = letterFrequency(sequences, letters='GC', as.prob=TRUE)
@@ -33,6 +35,8 @@ counts = txcounts[,cols_samples %in% samples]
 counts = counts[GC >= 0.25,] #remove some outliers driving loess
 GC = GC[GC >= 0.25]
 lcounts = log2(counts+1)
+
+# this code creates Supplementary Figure 1 in the Polyester paper
 pdf('GC_effects.pdf', height=12, width=6)
 par(mfrow=c(4,2))
 for(i in 1:7){
@@ -47,10 +51,8 @@ for(i in 1:7){
 }
 dev.off()
 
-# these effects look fine.
-# Perhaps I will consider including these in the paper.
 
-# Now save the 7 loess models (deviation-wise) as data sets
+# This code saves the 7 loess models (deviation-wise) as data sets
 lcounts = log2(counts+1)
 for(s in samples){
     i = which(samples == s)
@@ -58,20 +60,3 @@ for(s in samples){
     eval(parse(text=paste0('loessfit', i, ' <- fit')))
     save(list=paste0('loessfit',i), file=paste0('data/', s, '_GC.rda'), compress='xz')
 }
-
-# Then in Polyester, we will shift each observed count by the amount specified by the model.
-# put the counts on the log scale
-# shift by amount predicted (b/c we assume the current mean shift given GC = 0)
-# untransform to get actual number
-# set any negative values to 0.
-
-# TODO:
-# implement this in Polyester
-# that means fit several different loess models from the GEUVADIS data
-# and also allow people to input their own loess fit
-# make things VERY CLEAR that you might need to fit loess on the log scale!!!!
-# write this up in the manuscript.
-
-
-
-
