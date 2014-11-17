@@ -88,16 +88,16 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
     s = which(fraglens < L)
     n = length(s)
     if(bias == 'none'){
-        start_pos = round(runif(n, min=rep(1,n), max=L[s]-fraglens[s]+1))
+        start_pos = floor(runif(n, min=rep(1,n), max=L[s]-fraglens[s]+2))
     }else if(bias == 'rnaf'){
         data(rnaf)
         starts_pct = sample(rnaf$pospct, size=n, prob=rnaf$prob, replace=TRUE)
-        start_pos = round(starts_pct * (L[s]-fraglens[s]+1))
+        start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
     }else{
         # bias == 'cdnaf'
         data(cdnaf)
         starts_pct = sample(cdnaf$pospct, size=n, prob=cdnaf$prob, replace=TRUE)
-        start_pos = round(starts_pct * (L[s]-fraglens[s]+1))
+        start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
     }
     tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
     return(tObj)
