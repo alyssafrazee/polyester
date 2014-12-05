@@ -2,7 +2,6 @@
 
 export(NB)
 export(add_error)
-export(add_gc_bias)
 export(add_platform_error)
 export(count_transcripts)
 export(create_read_numbers)
