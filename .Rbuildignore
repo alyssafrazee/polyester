@@ -11,5 +11,12 @@ cdna_pos_bias.csv
 ^\.travis\.yml$
 make_positional_bias_model.R
 gc_bias.R
-*.pdf
-*.png
+GC_effects.pdf
+illumina4_error.pdf
+illumina4_mate1.pdf
+illumina4_mate2.pdf
+illumina5_mate1.pdf
+illumina5_mate2.pdf
+illumina5_single.pdf
+illumina4_single.pdf
+GC_effects.png
