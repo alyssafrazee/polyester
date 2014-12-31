@@ -11,3 +11,5 @@ cdna_pos_bias.csv
 ^\.travis\.yml$
 make_positional_bias_model.R
 gc_bias.R
+*.pdf
+*.png
