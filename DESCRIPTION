@@ -1,18 +1,24 @@
 Package: polyester
 Maintainer: Alyssa Frazee <alyssa.frazee@gmail.com>, Jeff Leek
     <jtleek@gmail.com>
-Author: Andrew Jaffe, Alyssa Frazee, Jeff Leek
-Version: 0.99.0
-License: GPL-3
+Author: Andrew E. Jaffe, Alyssa C. Frazee, Jeffrey T. Leek
+Version: 1.99.3
+License: Artistic-2.0
 Title: Simulate RNA-seq reads
 Description: This package can be used to simulate RNA-seq reads from
     differential expression experiments with replicates. The reads can then be
     aligned and used to perform comparisons of methods for differential
     expression.
 VignetteBuilder: knitr
+Depends:
+    R (>= 3.0.0)
 Imports:
-    Biostrings,
-    IRanges
+    Biostrings (>= 2.32.0),
+    IRanges,
+    S4Vectors,
+    logspline
 Suggests:
     knitr,
     ballgown
+LazyLoad: true
+biocViews: Sequencing, DifferentialExpression

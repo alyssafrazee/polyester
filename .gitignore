@@ -1,3 +1,5 @@
 .Rhistory
 .DS_Store
-vignettes/vignette.md
+vignettes/polyester.md
+*.pdf
+*.png

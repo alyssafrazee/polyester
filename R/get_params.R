@@ -1,27 +1,32 @@
 #' Estimate zero-inflated negative binomial parameters from a real dataset
 #' 
 #' This function estimates the parameters of a zero inflated negative binomial
-#' distribution based on a real count data set based on the method of moments.  The function
-#' also returns a spline fit of log mean to log size which can be used when generating 
-#' new simulated data. 
+#' distribution based on a real count data set based on the method of moments.
+#' The function also returns a spline fit of log mean to log size which can be
+#' used when generating new simulated data. 
 #'
-#' @param counts A matrix of counts. If you want to simulate from a ballgown object, see 
-#' \code{\link{fpkm_to_counts}}
-#' @param threshold Only estimate parameters from transcripts with row means greater than threshold
+#' @param counts A matrix of counts. If you want to simulate from a ballgown
+#'   object, see \code{\link{fpkm_to_counts}}
+#' @param threshold Only estimate parameters from transcripts with row means 
+#'   greater than threshold
 #' 
-#' @return p0 A vector of probabilities that the count will be zero, one for each gene/transcript.
-#' @return mu The estimated negative binomial mean by method of moments for the non-zero counts
-#' @return size The estimated negative binomial size by method of moments for the non-zero counts
-#' @return fit A fit relating log mean to log size for use in simulating new data. 
+#' @return p0 A vector of probabilities that the count will be zero, one for 
+#'   each gene/transcript.
+#' @return mu The estimated negative binomial mean by method of moments for the
+#'   non-zero counts
+#' @return size The estimated negative binomial size by method of moments for
+#'   the non-zero counts
+#' @return fit A fit relating log mean to log size for use in simulating new
+#'   data. 
 #' 
 #' @export
 #' @author Jeff Leek
-#' @examples \dontrun{
-#'   require(ballgown)
-#'   data(simgown)
-#'   countmat = fpkm_to_counts(simgown, mean_rps=400000)
+#' @examples
+#'   library(ballgown)
+#'   data(bg)
+#'   countmat = fpkm_to_counts(bg, mean_rps=400000)
 #'   params = get_params(countmat)
-#' }
+#'
 
 get_params = function(counts, threshold=NULL){
   
