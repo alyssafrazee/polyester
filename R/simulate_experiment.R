@@ -120,7 +120,9 @@
 #' @param reads_per_transcript baseline mean number of reads to simulate 
 #'   from each transcript. Can be an integer, in which case this many reads
 #'   are simulated from each transcript, or an integer vector whose length
-#'   matches the number of transcripts in \code{fasta}. 
+#'   matches the number of transcripts in \code{fasta}. Default 300. You can 
+#'   also leave \code{reads_per_transcript} empty and set \code{meanmodel=TRUE}
+#'   to draw baseline mean numbers from a model based on transcript length.
 #' @param size the negative binomial \code{size} parameter (see 
 #'   \code{\link{NegBinomial}}) for the number of reads drawn per transcript. 
 #'   It can be a matrix (where the user can specify the size parameter per
@@ -130,7 +132,11 @@
 #'   If left NULL, defaults to \code{reads_per_transcript * fold_changes / 3}. 
 #'   Negative binomial variance is mean + mean^2 / size.
 #' @param fold_changes Matrix specifying multiplicative fold changes 
-#'   between groups. Must have the same number of columns as there are groups as
+#'   between groups. There is no default, so you must provide this argument. 
+#'   In real data sets, lowly-expressed transcripts often show high fold
+#'   changes between groups, so this can be kept in mind when setting 
+#'   \code{fold_changes} and \code{reads_per_transcript}. This argument must 
+#'   have the same number of columns as there are groups as
 #'   specified by \code{num_reps}, and must have the same number of rows as 
 #'   there are transcripts in \code{fasta}. A fold change of X in matrix entry 
 #'   i,j means that for replicate j, the baseline mean number of reads 
@@ -340,6 +346,12 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 
 
     # get baseline means for each group, incl. fold changes:
+    if('meanmodel' %in% names(extras)){
+        b0 = -3.0158
+        b1 = 0.8688
+        logmus = b0 + b1*width(transcripts)
+        reads_per_transcript = 2^logmus-1
+    }
     basemeans = ceiling(reads_per_transcript * fold_changes)
     if(is.null(size)){
         size = basemeans / 3
