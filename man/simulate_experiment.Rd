@@ -218,7 +218,7 @@ Reads can either be simulated from a FASTA file of transcripts
   Several optional parameters can be passed to this function to adjust the
   simulation. The options are:
 
-  \begin{itemize}
+  \itemize{
   \item \code{readlen}: read length. Default 100.
   \item \code{lib_sizes}: Library size factors for the biological replicates.
   \code{lib_sizes} should have length equal to the total number of
@@ -237,7 +237,7 @@ Reads can either be simulated from a FASTA file of transcripts
   provide as the \code{custdens} argument. \code{custdens} should be a
   density fitted using \code{\link{logspline}}.
   \item \code{error_model}: The error model can be one of:
-    \begin{itemize}
+    \itemize{
     \item \code{'uniform'}: errors are distributed uniformly across reads.
     You can also provide an \code{'error_rate'} parameter, giving the overall
     probability of making a sequencing error at any given nucleotide. This
@@ -253,7 +253,7 @@ Reads can either be simulated from a FASTA file of transcripts
     suffixed _single. \code{model_prefix} is the 'prefix' argument you
     provided to \code{build_error_model.py} and is whatever comes before the
     _mate1/_mate2 or _single files in \code{model_path}.
-    \end{itemize}
+    }
   \item \code{bias} One of 'none', 'rnaf', or 'cdnaf'. 'none'
   represents uniform fragment selection (every possible fragment in a
   transcript has equal probability of being in the experiment); 'rnaf'
@@ -292,7 +292,7 @@ Reads can either be simulated from a FASTA file of transcripts
   characters.
   \item You can also include other parameters to pass to
   \code{\link{seq_gtf}} if you're simulating from a GTF file.
-  \end{itemize}
+  }
 }
 \examples{
 \donttest{
