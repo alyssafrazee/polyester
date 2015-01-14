@@ -1,6 +1,11 @@
 .gitignore
 README.md
 vignettes/polyester.md
+vignettes/chr22_small.fa
+vignettes/empirical_reads
+vignettes/simulated_reads
+vignettes/timecourse_reads
+vignettes/polyester.html
 make_error_models.R
 ErrorModels.md
 build_error_models.py
