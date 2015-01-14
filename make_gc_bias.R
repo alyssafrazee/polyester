@@ -16,6 +16,7 @@ save(sequences, file='sequences.rda')
 
 # calculate GC content:
 GC = letterFrequency(sequences, letters='GC', as.prob=TRUE)
+o = order(GC)
 
 # filter to reasonable expression
 expressed = exprfilter(fpkm, cutoff=1)
@@ -44,7 +45,6 @@ for(i in 1:7){
     plot(GC, lcounts[,i] - mean(lcounts[,i]), col='#00000050', pch=19, 
         ylab='Difference from average count (log scale)', xlab='GC %', 
             main=paste0('Model ', i, ': Sample ', sample_id))
-    o = order(GC)
     loessfit = loess(lcounts[,i] - mean(lcounts[,i]) ~ GC, span=0.3)
     lines(GC[o], predict(loessfit)[o], col='deeppink', lwd=3)
     legend('topright', lwd=2, col='deeppink', 'loess fit')
@@ -52,11 +52,13 @@ for(i in 1:7){
 dev.off()
 
 
-# This code saves the 7 loess models (deviation-wise) as data sets
-lcounts = log2(counts+1)
+# This code saves the x,y coords for the 7 loess models as data sets
 for(s in samples){
     i = which(samples == s)
-    fit = loess(lcounts[,i]-mean(lcounts[,i]) ~ GC, span=0.3)
-    eval(parse(text=paste0('loessfit', i, ' <- fit')))
-    save(list=paste0('loessfit',i), file=paste0('data/', s, '_GC.rda'), compress='xz')
+    y = lcounts[,i] - mean(lcounts[,i])
+    x = GC
+    eval(parse(text=paste0('loessfit', i, '<- list(x=x, y=y)')))
+    save(list=paste0('loessfit',i), file=paste0('data/loessfit', i, '.rda'), compress='xz')
+
+    # fit = loess(y ~ x, span=0.3)
 }
