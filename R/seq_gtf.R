@@ -92,6 +92,10 @@ seq_gtf = function(gtf, seqs, feature='transcript', exononly=TRUE,
         if(feature == 'transcript'){
             names(these_seqs) = getAttributeField(dftmp$attributes, idfield, 
                 attrsep=attrsep)
+            if(substr(names(these_seqs)[1],1,1) == '"'){
+                x = names(these_seqs)
+                names(these_seqs) = substr(x, 2, nchar(x)-1)
+            }
         }else{
             names(these_seqs) = paste0(dftmp[,1], ':', dftmp[,4], '-', 
                 dftmp[,5], '(', dftmp[,7], ')')
