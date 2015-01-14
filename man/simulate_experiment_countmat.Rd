@@ -4,18 +4,19 @@
 \title{Simulate RNA-seq experiment}
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = ".", fraglen = 250, fragsd = 25, readlen = 100,
-  error_rate = 0.005, paired = TRUE, seed = NULL, ...)
+  readmat, outdir = ".", paired = TRUE, seed = NULL, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
 reads. See details.}
 
-\item{gtf}{path to GTF file containing transcript structures from which reads
-should be simulated. See details.}
+\item{gtf}{path to GTF file or data frame containing transcript structures
+from which reads should be simulated. See details and
+\code{\link{seq_gtf}}.}
 
 \item{seqpath}{path to folder containing one FASTA file (\code{.fa}
-extension) for each chromosome in \code{gtf}. See details.}
+extension) or DNAStringSet containing one entry for each chromosome in
+\code{gtf}. See details and \code{\link{seq_gtf}}.}
 
 \item{readmat}{matrix with rows representing transcripts and columns
 representing samples. Entry i,j specifies how many reads to simulate from
@@ -25,24 +26,15 @@ transcript i for sample j.}
 written, without a slash at the end of the folder name. By default, reads
 written to the working directory.}
 
-\item{fraglen}{Mean RNA fragment length. Sequences will be read off the
-end(s) of these fragments.}
-
-\item{fragsd}{Standard deviation of fragment lengths.}
-
-\item{readlen}{Read length}
-
-\item{error_rate}{Sequencing error rate. Must be between 0 and 1. A uniform
-error model is assumed.}
-
 \item{paired}{If \code{TRUE}, paired-end reads are simulated; else single-end
 reads are simulated.}
 
 \item{seed}{Optional seed to set before simulating reads, for
 reproducibility.}
 
-\item{...}{Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not
-\code{NULL}.}
+\item{...}{Additional arguments to add nuance to the simulation, as described
+extensively in the details of \code{\link{simulate_experiment}}, or to pass
+to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.}
 }
 \value{
 No return, but simulated reads are written to \code{outdir}.
@@ -70,5 +62,10 @@ Reads can either be simulated from a FASTA file of transcripts
   simulate_experiment_countmat(fasta=fastapath,
     readmat=readmat, outdir='simulated_reads_2', seed=5)
 }
+}
+\references{
+Li W and Jiang T (2012): Transcriptome assembly and isoform expression
+  level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
+  2914-2921.
 }
 

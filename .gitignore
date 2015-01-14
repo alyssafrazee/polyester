@@ -1,0 +1,10 @@
+.Rhistory
+.DS_Store
+vignettes/polyester.md
+*.pdf
+*.png
+vignettes/chr22_small.fa
+vignettes/empirical_reads
+vignettes/simulated_reads
+vignettes/timecourse_reads
+vignettes/polyester.html

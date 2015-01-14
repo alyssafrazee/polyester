@@ -19,7 +19,7 @@ simulate sequencing error by randomly changing the sequenced nucleotide on
   some of the reads
 }
 \examples{
-require(Biostrings)
+library(Biostrings)
   data(srPhiX174)
   set.seed(174)
   srPhiX174_withError = add_error(srPhiX174)
