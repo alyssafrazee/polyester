@@ -19,7 +19,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras){
         #add sequencing error
         if(extras$error_model == 'uniform'){
             errReads = add_error(reads, extras$error_rate)
-        }else if(error_model == 'custom'){
+        }else if(extras$error_model == 'custom'){
             errReads = add_platform_error(reads, 'custom', paired, extras$path)
         }else{
             errReads = add_platform_error(reads, extras$error_model, paired)
