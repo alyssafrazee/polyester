@@ -139,13 +139,19 @@ Reads can either be simulated from a FASTA file of transcripts
   HapMap samples NA06985, NA12144, NA12776, NA18858, NA20542, NA20772,
   and NA20815, respectively. The code used to derive the empirical GC models
   is available at
-  \url{https://github.com/alyssafrazee/polyester/blob/master/gc_bias.R}.
+  \url{https://github.com/alyssafrazee/polyester/blob/master/make_gc_bias.R}.
   A loess entry should be a loess prediction model
   that takes a GC content percent value (between 0 and 1) a transcript's
   deviation from overall mean read count based on that GC value. Counts for
   each replicate will be adjusted based on the GC bias model specified for
   it. Numeric and loess entries can be mixed. By default, no bias is
   included.
+  \item \code{meanmodel}: set to TRUE if you'd like to set
+  \code{reads_per_transcripts} as a function of transcript length. We
+  fit a linear model regressing transcript abundance on transcript length,
+  and setting \code{meanmodel=TRUE} means we will use transcript lengths
+  to draw transcript abundance based on that linear model. You can see our
+  modeling code at \url{http://htmlpreview.github.io/?https://github.com/alyssafrazee/polyester_code/blob/master/length_simulation.html}
   \item \code{write_info}: set to FALSE if you do not want files of
   simulation information written to disk. By default, transcript fold
   changes and expression status & replicate library sizes and group

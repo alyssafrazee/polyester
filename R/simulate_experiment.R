@@ -219,6 +219,12 @@
 #'   each replicate will be adjusted based on the GC bias model specified for
 #'   it. Numeric and loess entries can be mixed. By default, no bias is 
 #'   included. 
+#'   \item \code{meanmodel}: set to TRUE if you'd like to set 
+#'   \code{reads_per_transcripts} as a function of transcript length. We
+#'   fit a linear model regressing transcript abundance on transcript length,
+#'   and setting \code{meanmodel=TRUE} means we will use transcript lengths
+#'   to draw transcript abundance based on that linear model. You can see our
+#'   modeling code at \url{http://htmlpreview.github.io/?https://github.com/alyssafrazee/polyester_code/blob/master/length_simulation.html}
 #'   \item \code{write_info}: set to FALSE if you do not want files of 
 #'   simulation information written to disk. By default, transcript fold
 #'   changes and expression status & replicate library sizes and group
@@ -299,30 +305,16 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     if(length(num_reps) == 1){
         fold_changes = rep(1, length(transcripts))
     }
-
-    # check error model:
-    if(!('error_model' %in% names(extras))){
-        extras$error_model = 'uniform'
-    }
-    .check_error_model(extras$error_model, paired, extras)
-
-    if(!('error_rate' %in% names(extras))){
-        extras$error_rate = 0.005
-    }
-    if(extras$error_model == 'custom'){
-        extras$path = paste0(extras$model_path, '/', extras$model_prefix)
-    }#this should work beause we already checked stuff.
-
     
     # check fold change matrix dimensions:
     .check_fold_changes(fold_changes, num_reps, transcripts)
-
 
     # get baseline means for each group, incl. fold changes:
     if('meanmodel' %in% names(extras)){
         b0 = -3.0158
         b1 = 0.8688
-        logmus = b0 + b1*width(transcripts)
+        sigma = 4.152
+        logmus = b0 + b1*width(transcripts) + rnorm(length(transcripts),0,sigma)
         reads_per_transcript = 2^logmus-1
     }
     basemeans = ceiling(reads_per_transcript * fold_changes)
