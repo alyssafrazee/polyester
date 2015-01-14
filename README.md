@@ -152,7 +152,6 @@ source("http://bioconductor.org/biocLite.R")
 biocLite("ballgown")
 ```
 
-
 ```r
 library(ballgown)
 data(bg)
@@ -170,6 +169,7 @@ names(chr22seq) = '22'
 simulate_experiment_empirical(bg, grouplabels=pData(bg)$group, gtf=gtf,
     seqpath=chr22seq, mean_rps=5000, outdir='empirical_reads', seed=1247)
 ```
+
 
 ```
 ## [1] "fold change direction: 1/0"
