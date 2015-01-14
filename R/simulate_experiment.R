@@ -352,7 +352,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
             readmat = add_gc_bias(readmat, extras$gcbias, transcripts)
         }
     }
-    print(head(readmat))
 
     # prep output directory
     sysoutdir = gsub(' ', '\\\\ ', outdir)

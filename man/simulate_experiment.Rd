@@ -184,22 +184,6 @@ Reads can either be simulated from a FASTA file of transcripts
      fold_changes=fold_changes, outdir='simulated_reads',
      transcriptid=tNames, seed=12)
 }
-\donttest{
-  ## simulate a few reads from chromosome 22
-
-  fastapath = system.file("extdata", "chr22.fa", package="polyester")
-  numtx = count_transcripts(fastapath)
-  set.seed(4)
-  fold_changes = sample(c(0.5, 1, 2), size=numtx,
-     prob=c(0.05, 0.9, 0.05), replace=TRUE)
-  library(Biostrings)
-  # remove quotes from transcript IDs:
-  tNames = gsub("'", "", names(readDNAStringSet(fastapath)))
-
-  simulate_experiment(fastapath, reads_per_transcript=10,
-     fold_changes=fold_changes, outdir='simulated_reads',
-     transcriptid=tNames, seed=12)
-}
 }
 \references{
 't Hoen PA, et al (2013): Reproducibility of high-throughput mRNA and
