@@ -175,10 +175,6 @@ simulate_experiment_empirical(bg, grouplabels=pData(bg)$group, gtf=gtf,
 ## [1] "fold change direction: 1/0"
 ```
 
-```
-## Error in file(file, ifelse(append, "a", "w")): cannot open the connection
-```
-
 # Output
 A call to `simulate_experiment`, `simulate_experiment_countmat`, or `simulate_experiment_empirical` will write FASTA files to the directory specified by the `outdir` argument. Reads in the FASTA file will be labeled with the transcript from which they were simulated.
 
