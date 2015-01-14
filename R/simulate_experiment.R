@@ -68,21 +68,18 @@
     group_ids){
 
     if(!('transcriptid' %in% names(extras))){
-        transcriptid = names(transcripts)
-    }
-    if(!('lib_sizes' %in% names(extras))){
-        lib_sizes = rep(1, sum(num_reps))
+        extras$transcriptid = names(transcripts)
     }
     
     if(is.numeric(fold_changes)){
-        sim_info = data.frame(transcriptid=transcriptid, 
+        sim_info = data.frame(transcriptid=extras$transcriptid, 
             foldchange=fold_changes, DEstatus=fold_changes!=1)        
     }else{
         fcv = apply(fold_changes, 1, function(x){
             paste(x, collapse=';')
         })
         DEstatus = rowSums(fold_changes) != ncol(fold_changes)
-        sim_info = data.frame(transcriptid=transcriptid,
+        sim_info = data.frame(transcriptid=extras$transcriptid,
             foldchange=fcv, DEstatus=DEstatus)
     }
     
@@ -91,7 +88,7 @@
 
     rep_info = data.frame(
         rep_id=paste0('sample_', sprintf('%02d', 1:sum(num_reps))),
-        group=group_ids, lib_sizes=lib_sizes)
+        group=group_ids, lib_sizes=extras$lib_sizes)
     
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t', 
         file=paste0(outdir, '/sim_rep_info.txt'))
@@ -278,39 +275,15 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 
     extras = list(...)
 
-    # set sane defaults if needed
-    if(!('distr' %in% names(extras))){
-        extras$distr = 'normal'
-    }else{
-        extras$distr = match.arg(extras$distr, 
-            c('normal', 'empirical', 'custom'))
-        if(extras$distr == 'custom' & !('custdens' %in% names(extras))){
-            stop(.makepretty('to use custom fragment distribution, provide
-                "custdens", a logspline object representing the distribution.'))
-        }
-    }
-    if(!('fraglen' %in% names(extras))){
-        extras$fraglen = 250
-    }
-    if(!('fragsd' %in% names(extras))){
-        extras$fragsd = 25
-    }## I don't love this--these arguments aren't needed unless distr is normal.
-    # but we store them anyway. should code better?
-    if(!('readlen' %in% names(extras))){
-        extras$readlen = 100
-    }
-
-    if(!('bias' %in% names(extras))){
-        extras$bias = 'none'
-    }else{
-        extras$bias = match.arg(extras$bias, c('none', 'rnaf', 'cdnaf'))
-    }
+    # validate extra arguments/set sane defaults
+    extras = .check_extras(extras, paired)
     if(!('lib_sizes' %in% names(extras))){
         extras$lib_sizes = rep(1, sum(num_reps))
     }else{
         stopifnot(is.numeric(extras$lib_sizes))
         stopifnot(length(extras$lib_sizes) == sum(num_reps))
     }
+
 
     # read in the annotated transcripts to sequence from
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){

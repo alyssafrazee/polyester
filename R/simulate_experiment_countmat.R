@@ -5,48 +5,25 @@
 #'   (designated via read count matrix)
 #' @param fasta path to FASTA file containing transcripts from which to simulate
 #'    reads. See details.
-#' @param gtf path to GTF file containing transcript structures from which reads
-#'   should be simulated. See details.
+#' @param gtf path to GTF file or data frame containing transcript structures
+#'   from which reads should be simulated. See details and 
+#'   \code{\link{seq_gtf}}. 
 #' @param seqpath path to folder containing one FASTA file (\code{.fa} 
-#'   extension) for each chromosome in \code{gtf}. See details. 
+#'   extension) or DNAStringSet containing one entry for each chromosome in 
+#'   \code{gtf}. See details and \code{\link{seq_gtf}}.
 #' @param readmat matrix with rows representing transcripts and columns 
 #'   representing samples. Entry i,j specifies how many reads to simulate from
 #'   transcript i for sample j.
 #' @param outdir character, path to folder where simulated reads should be 
 #'   written, without a slash at the end of the folder name. By default, reads
 #'   written to the working directory.
-#' @param fraglen Mean RNA fragment length. Sequences will be read off the 
-#'   end(s) of these fragments.
-#' @param fragsd Standard deviation of fragment lengths. 
-#' @param bias One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none' 
-#'   represents uniform fragment selection (every possible fragment in a 
-#'   transcript has equal probability of being in the experiment); 'rnaf'
-#'   represents positional bias that arises in protocols using RNA
-#'   fragmentation, and 'cdnaf' represents positional bias arising in protocols
-#'   that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
-#'   coverage is higher in the middle of the transcript and lower at both ends,
-#'   and in the 'cdnaf' model, coverage increases toward the 3' end of the
-#'   transcript. The probability models used come from Supplementary Figure S3
-#'   of Li and Jiang (2012).
-#' @param readlen Read length
-#' @param error_rate Sequencing error rate. Must be between 0 and 1. A uniform 
-#'   error model is assumed. 
-#' @param error_model one of \code{'uniform'}, \code{'custom'}, 
-#'   \code{'illumina4'}, \code{'illumina5'}, or \code{'roche454'} specifying
-#'   which sequencing error model to use while generating reads. See 
-#'   \code{?add_platform_error} for more information.
-#' @param model_path If using a custom error model, the output folder you
-#'   provided to \code{build_error_model.py}. Should contain either two files 
-#'   suffixed _mate1 and _mate2, or a file suffixed _single.
-#' @param model_prefix If using a custom error model, the prefix argument you
-#'   provided to \code{build_error_model.py}. This is whatever comes before
-#'   _mate1 and _mate2 or _single files in \code{model_path}.
 #' @param paired If \code{TRUE}, paired-end reads are simulated; else single-end
 #'   reads are simulated.
 #' @param seed Optional seed to set before simulating reads, for 
 #'   reproducibility.
-#' @param ... Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not
-#'   \code{NULL}.
+#' @param ... Additional arguments to add nuance to the simulation, as described
+#'   extensively in the details of \code{\link{simulate_experiment}}, or to pass
+#'   to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.
 #' @return No return, but simulated reads are written to \code{outdir}.
 #' @export
 #' @details Reads can either be simulated from a FASTA file of transcripts
@@ -68,19 +45,18 @@
 #'   simulate_experiment_countmat(fasta=fastapath, 
 #'     readmat=readmat, outdir='simulated_reads_2', seed=5)
 #'}
+
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, 
-    readmat, outdir=".", fraglen=250, fragsd=25, bias='none', readlen=100, 
-    error_rate=0.005, error_model='uniform', model_path=NULL, model_prefix=NULL,
-    paired=TRUE, seed=NULL, ...){
+    readmat, outdir='.', paired=TRUE, seed=NULL, ...){
+
+    extras = list(...)
 
     if(!is.null(seed)) set.seed(seed)
     
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
         transcripts = readDNAStringSet(fasta)
     }else if(is.null(fasta) & !is.null(gtf) & !is.null(seqpath)){
-        message('parsing gtf and sequences...')
         transcripts = seq_gtf(gtf, seqpath, ...)
-        message('done parsing')
     }else{
         stop('must provide either fasta or both gtf and seqpath')
     }
@@ -88,37 +64,8 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     stopifnot(class(readmat) == 'matrix')
     stopifnot(nrow(readmat) == length(transcripts))
 
-    # check error model
-    error_model = match.arg(error_model, c('uniform', 'illumina4', 'illumina5',
-        'roche454', 'custom'))
-    if(error_model == 'uniform'){
-        stopifnot(error_rate >= 0 & error_rate <= 1)
-    }
-    if(error_model == 'custom'){
-        if(is.null(model_path) | is.null(model_prefix)){
-            stop(.makepretty('with custom error models, you must provide both
-                the path to the folder that holds your error model
-                (model_path) and the prefix of your error model (model_prefix),
-                where the prefix is whatever comes before _mate1 and _mate2
-                (for paired reads) or _single (for single-end reads). (You
-                provided prefix when running build_error_models.py)'))
-        }
-        if(paired){
-            if(!file.exists(paste0(model_path, '/', model_prefix, '_mate1')) |
-                !file.exists(paste0(model_path, '/', model_prefix, '_mate2'))){
-                stop('could not find error model.')
-            }
-        }else if(!file.exists(paste0(model_path, '/', model_prefix, '_single'))){
-                stop('could not find error model.')
-        }
-        path = paste0(model_path, '/', model_prefix)
-    }
-    if(error_model == 'roche454' & paired){
-        stop(.makepretty('The Roche 454 error model is only available for
-            single-end reads'))
-    } 
-
-    bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
+    # validate extra arguments
+    extras = .check_extras(extras, paired)
 
     sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){
