@@ -74,31 +74,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         system(paste('mkdir -p', sysoutdir))    
     }
 
-    for(i in 1:ncol(readmat)){
-        tObj = rep(transcripts, times=readmat[,i])
-  
-        #get fragments
-        tFrags = generate_fragments(tObj, fraglen=fraglen, fragsd=fragsd, 
-            bias=bias)
+    # do the sequencing
+    sgseq(readmat, transcripts, paired, outdir, extras)
 
-        #reverse_complement some of those fragments
-        rctFrags = reverse_complement(tFrags)
-
-        #get reads from fragments
-        reads = get_reads(rctFrags, readlen, paired)
-
-        #add sequencing error
-        if(error_model == 'uniform'){
-            errReads = add_error(reads, error_rate)            
-        }else if(error_model == 'custom'){
-            errReads = add_platform_error(reads, 'custom', paired, path)
-        }else{
-            errReads = add_platform_error(reads, error_model, paired)
-        }
-
-        #write read pairs
-        write_reads(errReads, readlen=readlen, 
-            fname=paste0(outdir, '/sample_', sprintf('%02d', i)), 
-            paired=paired)
-    }
 }
