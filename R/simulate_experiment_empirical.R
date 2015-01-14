@@ -123,6 +123,6 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t', 
         file=paste0(outdir, '/sim_rep_info.txt'))
 
-    simulate_experiment_countmat(readmat=countmat, ...)
+    simulate_experiment_countmat(readmat=countmat, outdir=outdir, ...)
 }
 
