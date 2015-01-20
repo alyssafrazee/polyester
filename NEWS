@@ -1,5 +1,18 @@
+New in version 1.2.1, 14 January 2015:
+    * major refactor: 
+        - reduced number of arguments for wrapper functions (simulate_experiment and simulate_experiment_countmat)
+        - shortened source code in wrapper functions by adding several internal helper functions 
+    * several new features added:
+        - GC bias in expression
+        - empirical fragment length distribution model available
+        - positional bias in fragmentation step
+        - empirical error models available
+        - custom library size factors available
+        - simulate_experiment_empirical function added as quick way to simulate an experiment with abundances derived from a data set
+
 New in version 1.99.3, 5 December 2014:
     * NB function now exported
+    * note that version 1.99.3 on GitHub was version 1.1.0 on Bioconductor.
 
 New in version 1.99.2, 16 November 2014:
     * bug fix in fragment generation (last 2 bases of transcript were never sequenced)
