@@ -102,6 +102,9 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
         start_pos[start_pos==0] = 1
     }
     tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
+    names(tObj)[s] = paste0(names(tObj[s]), ';origin start position:', start_pos)
+    nonseqinds = (1:length(tObj))[-s]
+    names(tObj)[nonseqinds] = paste0(names(tObj[nonseqinds]), ';origin start position:1')
     return(tObj)
 }
 
