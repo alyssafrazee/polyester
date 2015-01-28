@@ -7,8 +7,8 @@ sgseq = function(readmat, transcripts, paired, outdir, extras){
         tObj = rep(transcripts, times=readmat[,i])
         
         #get fragments
-        tFrags = generate_fragments(tObj, extras$fraglen, extras$fragsd, 
-            extras$distr, extras$custdens, extras$bias)
+        tFrags = generate_fragments(tObj, extras$fraglen, extras$fragsd,
+            extras$readlen, extras$distr, extras$custdens, extras$bias)
 
         #reverse_complement some of those fragments
         rctFrags = reverse_complement(tFrags)
