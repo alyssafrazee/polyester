@@ -3,8 +3,8 @@
 \alias{generate_fragments}
 \title{generate a set of fragments from a set of transcripts}
 \usage{
-generate_fragments(tObj, fraglen = 250, fragsd = 25, distr = "normal",
-  custdens = NULL, bias = "none")
+generate_fragments(tObj, fraglen = 250, fragsd = 25, readlen = 100,
+  distr = "normal", custdens = NULL, bias = "none")
 }
 \arguments{
 \item{tObj}{DNAStringSet of sequences from which fragments should be
@@ -16,6 +16,8 @@ normal distribution.}
 \item{fragsd}{Standard deviation of fragment lengths, if drawing lengths
 from a normal distribution. Note: \code{fraglen} and \code{fragsd} are
 ignored unless \code{distr} is 'normal'.}
+
+\item{readlen}{Read length. Default 100. Used only to label read positions.}
 
 \item{distr}{One of 'normal', 'empirical', or 'custom'. If 'normal', draw
 fragment lengths from a normal distribution with mean \code{fraglen} and
@@ -60,7 +62,8 @@ library(Biostrings)
 
   ## get fragments with lengths drawn from normal distrubution
   set.seed(174)
-  srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3)
+  srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3,
+      readlen=4)
   srPhiX174_fragments
   srPhiX174
 
