@@ -158,7 +158,8 @@ simulate_experiment_empirical(bg, grouplabels=pData(bg)$group, gtf=gtf,
 ```
 
 # Output
-A call to `simulate_experiment`, `simulate_experiment_countmat`, or `simulate_experiment_empirical` will write FASTA files to the directory specified by the `outdir` argument. Reads in the FASTA file will be labeled with the transcript from which they were simulated.
+A call to `simulate_experiment`, `simulate_experiment_countmat`, or `simulate_experiment_empirical` will write FASTA files to the directory specified by the `outdir` argument. Reads in the FASTA file will be labeled with the transcript from which they were simulated, based on the identifiers provided in the initial input, as well as the 1-based start and end positions of the simulated reads. The positions for mate 1 and mate 2 are provided in the **same orientation**, as if the transcript were being scanned for read coverage, even though mate 2 is aligned in the **opposite** orientation. Make sure to parse these positions correctly based on how your read alignments are reported.
+
 
 If `paired` is true, you'll get two FASTA files per biological replicate (left mates are designated by the suffix `_1.fasta`; right mates by `_2.fasta`). If single-end reads are generated (`paired=FALSE`) you'll get one FASTA file per replicate. 
 
