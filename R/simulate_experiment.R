@@ -254,7 +254,9 @@ file=paste0(outdir, '/sim_rep_info.txt'))
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 outdir='.', num_reps=c(10,10), reads_per_transcript=300, size=NULL,
-fold_changes, paired=TRUE, ...){
+fold_changes, paired=TRUE,
+library_type = c("unstranded", "firststrand", "secondstrand"), strand_error_rate = 0, ...){
+library_type = match.arg(library_type)
 extras = list(...)
 # set sane defaults if needed
 if(!('distr' %in% names(extras))){
@@ -293,7 +295,7 @@ if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
 transcripts = readDNAStringSet(fasta)
 }else if(is.null(fasta) & !is.null(gtf) & !is.null(seqpath)){
 message('parsing gtf and sequences...')
-transcripts = seq_gtf(gtf, seqpath, ...)
+transcripts = seq_gtf(gtf, seqpath, library_type, strand_error_rate, ...)
 message('done parsing')
 }else{
 stop('must provide either fasta or both gtf and seqpath')
