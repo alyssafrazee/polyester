@@ -1,6 +1,6 @@
 ## internal sequencing function
 
-sgseq = function(readmat, transcripts, paired, outdir, extras){
+sgseq = function(readmat, transcripts, paired, outdir, extras, library_type, strand_error_rate){
 
     for(i in 1:ncol(readmat)){
 
