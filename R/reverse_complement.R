@@ -14,7 +14,7 @@
 reverse_complement = function(tObj, library_type, strand_error_rate, seed=NULL){
   if(!is.null(seed)) set.seed(seed)
   if(library_type != "unstranded"){
-    strand = sample(c(0,1), length(tObj), replace=TRUE, prob = c(1-strand_error_rate, strand_error_rate))
+    strand = sample(c(0,1), length(tObj), replace=TRUE, prob = c(strand_error_rate, 1-strand_error_rate))
   } else {
     # default unstranded option
     strand = sample(c(0,1), length(tObj), replace=TRUE)
