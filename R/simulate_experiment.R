@@ -360,7 +360,7 @@ shell(paste('mkdir', sysoutdir))
 system(paste('mkdir -p', sysoutdir))
 }
 # do the actual sequencing
-sgseq(readmat, transcripts, paired, outdir, extras)
+sgseq(readmat, transcripts, paired, outdir, extras, library_type, strand_error_rate)
 # write out simulation information, if asked for:
 if(!('write_info' %in% names(extras))){
 write_info=TRUE
