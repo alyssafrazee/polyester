@@ -32,7 +32,7 @@
 #' data(gtf_dataframe)
 #' chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
 #'
-seq_gtf = function(gtf, seqs, feature='transcript', exononly=TRUE,
+seq_gtf = function(gtf, seqs, library_type, strand_error_rate, feature='transcript', exononly=TRUE,
 idfield='transcript_id', attrsep="; "){
 feature = match.arg(feature, c('transcript', 'exon'))
 gtfClasses = c("character", "character", "character", "integer",
@@ -90,8 +90,14 @@ attrsep=attrsep)
 names(these_seqs) = paste0(dftmp[,1], ':', dftmp[,4], '-',
 dftmp[,5], '(', dftmp[,7], ')')
 }
-revstrand = which(dftmp$strand == '-')
-these_seqs[revstrand] = reverseComplement(these_seqs[revstrand])
+if(library_type == "firststrand"){
+  lapply(which(dftmp$strand == "-"),
+         function(i) {these_seqs[i] <<- reverse_complement(these_seqs[i], library_type, strand_error_rate)})
+}
+if(library_type == "secondstrand"){
+  lapply(which(dftmp$strand == "+"),
+         function(i) {these_seqs[i] <<- reverse_complement(these_seqs[i], library_type, strand_error_rate)})
+}
 these_seqs
 })
 full_list = do.call(c, seqlist)
