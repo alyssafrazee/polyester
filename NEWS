@@ -1,3 +1,6 @@
+New in version 1.2.2, 9 March 2015:
+    * bug fix in fragment start position simulation with positional bias
+
 New in version 1.2.1, 14 January 2015:
     * major refactor: 
         - reduced number of arguments for wrapper functions (simulate_experiment and simulate_experiment_countmat)
