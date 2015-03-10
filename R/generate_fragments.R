@@ -94,12 +94,14 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
     }else if(bias == 'rnaf'){
         data(rnaf)
         starts_pct = sample(rnaf$pospct, size=n, prob=rnaf$prob, replace=TRUE)
+        starts_pct[starts_pct==1] = 0.999
         start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
         start_pos[start_pos==0] = 1
     }else{
         # bias == 'cdnaf'
         data(cdnaf)
         starts_pct = sample(cdnaf$pospct, size=n, prob=cdnaf$prob, replace=TRUE)
+        starts_pct[starts_pct==1] = 0.999
         start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
         start_pos[start_pos==0] = 1
     }
