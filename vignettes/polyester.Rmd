@@ -137,9 +137,6 @@ To create a count matrix that resembles a real dataset, use the `create_read_num
 ```{r installbg, eval=FALSE}
 source("http://bioconductor.org/biocLite.R")
 biocLite("ballgown")
-```
-
-```{r loadbg, warning=FALSE, message=FALSE}
 library(ballgown)
 data(bg)
 bg = subset(bg, "chr=='22'")
@@ -148,8 +145,9 @@ bg = subset(bg, "chr=='22'")
 gtfpath = system.file('extdata', 'bg.gtf.gz', package='polyester')
 gtf = subset(gffRead(gtfpath), seqname=='22')
      
-# load chromosome sequence corresponding to gtf file (just for this example)
-load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+# load chromosome sequence corresponding to gtf file (just for this example -- requires download because of file size)
+system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
+load('chr22seq.rda')
 names(chr22seq) = '22'
      
 # simulate reads based on this experiment's FPKMs

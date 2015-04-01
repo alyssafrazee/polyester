@@ -1,3 +1,6 @@
+New in version 1.2.3, 31 March 2015:
+    * change URL of example chromosome 22 sequence dataset / do not test internet-connectivity-dependent stuff during check
+
 New in version 1.2.2, 9 March 2015:
     * bug fix in fragment start position simulation with positional bias
 

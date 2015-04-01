@@ -26,12 +26,13 @@
 #'   \code{gtf}. If feature is \code{'exon'}, DNAStringSet containing exon
 #'   sequences from \code{gtf}, named by exon location (chr, start, end, 
 #'   strand).
-#' @examples 
+#' @examples  \dontrun{
 #'   library(Biostrings)
-#'   load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+#'   system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
+#'   load('chr22seq.rda')
 #'   data(gtf_dataframe)
 #'   chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
-#'
+#'}
 seq_gtf = function(gtf, seqs, feature='transcript', exononly=TRUE, 
     idfield='transcript_id', attrsep="; "){
 
