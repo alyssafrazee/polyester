@@ -162,7 +162,8 @@ gtfpath = system.file('extdata', 'bg.gtf.gz', package='polyester')
 gtf = subset(gffRead(gtfpath), seqname=='22')
      
 # load chromosome sequence corresponding to gtf file (just for this example)
-load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
+load('chr22seq.rda')
 names(chr22seq) = '22'
      
 # simulate reads based on this experiment's FPKMs

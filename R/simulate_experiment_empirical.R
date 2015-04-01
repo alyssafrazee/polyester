@@ -26,7 +26,7 @@
 #' @importFrom limma lmFit
 #' @export
 #' @return No return, but reads are written to \code{outdir}.
-#' @examples \donttest{
+#' @examples \dontrun{
 #' 
 #'   library(ballgown) 
 #'   data(bg)
@@ -36,8 +36,9 @@
 #'   gtfpath = system.file('extdata', 'bg.gtf.gz', package='polyester')
 #'   gtf = subset(gffRead(gtfpath), seqname=='22')
 #'  
-#'   # load chromosome sequence (just for this example)
-#'   load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+#'   # load/download chromosome sequence (just for this example)
+#'   system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
+#'   load('chr22seq.rda')
 #'   names(chr22seq) = '22'
 #'
 #'   # simulate reads based on this experiment's FPKMs

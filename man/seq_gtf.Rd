@@ -41,10 +41,13 @@ Given a GTF file (for transcript structure) and DNA sequences,
   return a DNAStringSet of transcript sequences
 }
 \examples{
-library(Biostrings)
-  load(url('http://biostat.jhsph.edu/~afrazee/chr22seq.rda'))
+\dontrun{
+  library(Biostrings)
+  system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
+  load('chr22seq.rda')
   data(gtf_dataframe)
   chr22_processed = seq_gtf(gtf_dataframe, chr22seq)
+}
 }
 \references{
 \url{http://www.ensembl.org/info/website/upload/gff.html}
