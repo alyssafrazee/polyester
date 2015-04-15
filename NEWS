@@ -1,10 +1,10 @@
-New in version 1.2.3, 31 March 2015:
+CHANGES IN VERSION 1.2.3, 31 March 2015:
     * change URL of example chromosome 22 sequence dataset / do not test internet-connectivity-dependent stuff during check
 
-New in version 1.2.2, 9 March 2015:
+CHANGES IN VERSION 1.2.2, 9 March 2015:
     * bug fix in fragment start position simulation with positional bias
 
-New in version 1.2.1, 14 January 2015:
+CHANGES IN VERSION 1.2.1, 14 January 2015:
     * major refactor: 
         - reduced number of arguments for wrapper functions (simulate_experiment and simulate_experiment_countmat)
         - shortened source code in wrapper functions by adding several internal helper functions 
@@ -16,18 +16,18 @@ New in version 1.2.1, 14 January 2015:
         - custom library size factors available
         - simulate_experiment_empirical function added as quick way to simulate an experiment with abundances derived from a data set
 
-New in version 1.99.3, 5 December 2014:
+CHANGES IN VERSION 1.99.3, 5 December 2014:
     * NB function now exported
     * note that version 1.99.3 on GitHub was version 1.1.0 on Bioconductor.
 
-New in version 1.99.2, 16 November 2014:
+CHANGES IN VERSION 1.99.2, 16 November 2014:
     * bug fix in fragment generation (last 2 bases of transcript were never sequenced)
 
-New in version 1.99.0; tiny fixes in version 1.99.1.
+CHANGES IN VERSION 1.99.0; tiny fixes in version 1.99.1.
 
 Version 0.99.1 became release version 1.0.0.
 
-New in version 0.99.1, 22 September 2014:
+CHANGES IN VERSION 0.99.1, 22 September 2014:
     * fixed bug where read names were incorrect in output fasta files
     * updated vignette
     * added biocViews
