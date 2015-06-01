@@ -4,20 +4,19 @@
 \title{Simulate RNA-seq experiment}
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = ".", fraglen = 250, fragsd = 25, bias = "none",
-  readlen = 100, error_rate = 0.005, error_model = "uniform",
-  model_path = NULL, model_prefix = NULL, paired = TRUE, seed = NULL,
-  ...)
+  readmat, outdir = ".", paired = TRUE, seed = NULL, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
 reads. See details.}
 
-\item{gtf}{path to GTF file containing transcript structures from which reads
-should be simulated. See details.}
+\item{gtf}{path to GTF file or data frame containing transcript structures
+from which reads should be simulated. See details and
+\code{\link{seq_gtf}}.}
 
 \item{seqpath}{path to folder containing one FASTA file (\code{.fa}
-extension) for each chromosome in \code{gtf}. See details.}
+extension) or DNAStringSet containing one entry for each chromosome in
+\code{gtf}. See details and \code{\link{seq_gtf}}.}
 
 \item{readmat}{matrix with rows representing transcripts and columns
 representing samples. Entry i,j specifies how many reads to simulate from
@@ -27,48 +26,15 @@ transcript i for sample j.}
 written, without a slash at the end of the folder name. By default, reads
 written to the working directory.}
 
-\item{fraglen}{Mean RNA fragment length. Sequences will be read off the
-end(s) of these fragments.}
-
-\item{fragsd}{Standard deviation of fragment lengths.}
-
-\item{bias}{One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none'
-represents uniform fragment selection (every possible fragment in a
-transcript has equal probability of being in the experiment); 'rnaf'
-represents positional bias that arises in protocols using RNA
-fragmentation, and 'cdnaf' represents positional bias arising in protocols
-that use cDNA fragmentation (Li and Jiang 2012). Using the 'rnaf' model,
-coverage is higher in the middle of the transcript and lower at both ends,
-and in the 'cdnaf' model, coverage increases toward the 3' end of the
-transcript. The probability models used come from Supplementary Figure S3
-of Li and Jiang (2012).}
-
-\item{readlen}{Read length}
-
-\item{error_rate}{Sequencing error rate. Must be between 0 and 1. A uniform
-error model is assumed.}
-
-\item{error_model}{one of \code{'uniform'}, \code{'custom'},
-\code{'illumina4'}, \code{'illumina5'}, or \code{'roche454'} specifying
-which sequencing error model to use while generating reads. See
-\code{?add_platform_error} for more information.}
-
-\item{model_path}{If using a custom error model, the output folder you
-provided to \code{build_error_model.py}. Should contain either two files
-suffixed _mate1 and _mate2, or a file suffixed _single.}
-
-\item{model_prefix}{If using a custom error model, the prefix argument you
-provided to \code{build_error_model.py}. This is whatever comes before
-_mate1 and _mate2 or _single files in \code{model_path}.}
-
 \item{paired}{If \code{TRUE}, paired-end reads are simulated; else single-end
 reads are simulated.}
 
 \item{seed}{Optional seed to set before simulating reads, for
 reproducibility.}
 
-\item{...}{Further arguments to pass to \code{seq_gtf}, if \code{gtf} is not
-\code{NULL}.}
+\item{...}{Additional arguments to add nuance to the simulation, as described
+extensively in the details of \code{\link{simulate_experiment}}, or to pass
+to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.}
 }
 \value{
 No return, but simulated reads are written to \code{outdir}.

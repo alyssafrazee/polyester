@@ -15,6 +15,7 @@
 #' @param fragsd Standard deviation of fragment lengths, if drawing lengths
 #'   from a normal distribution. Note: \code{fraglen} and \code{fragsd} are 
 #'   ignored unless \code{distr} is 'normal'.
+#' @param readlen Read length. Default 100. Used only to label read positions.
 #' @param custdens If \code{distr} is 'custom', draw fragments from this
 #'   density. Should be an object of class \code{logspline}.
 #' @param bias One of 'none', 'rnaf', or 'cdnaf' (default 'none'). 'none' 
@@ -54,7 +55,8 @@
 #' 
 #'   ## get fragments with lengths drawn from normal distrubution
 #'   set.seed(174)
-#'   srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3)
+#'   srPhiX174_fragments = generate_fragments(srPhiX174, fraglen=15, fragsd=3, 
+#'       readlen=4)
 #'   srPhiX174_fragments
 #'   srPhiX174
 #' 
@@ -68,7 +70,7 @@
 #'   biased_frags
 #'  
 generate_fragments = function(tObj, fraglen=250, fragsd=25, 
-    distr='normal', custdens=NULL, bias='none'){
+    readlen=100, distr='normal', custdens=NULL, bias='none'){
     bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
     distr = match.arg(distr, c('normal', 'empirical', 'custom'))
     L = width(tObj)
@@ -92,16 +94,24 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
     }else if(bias == 'rnaf'){
         data(rnaf)
         starts_pct = sample(rnaf$pospct, size=n, prob=rnaf$prob, replace=TRUE)
+        starts_pct[starts_pct==1] = 0.999
         start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
         start_pos[start_pos==0] = 1
     }else{
         # bias == 'cdnaf'
         data(cdnaf)
         starts_pct = sample(cdnaf$pospct, size=n, prob=cdnaf$prob, replace=TRUE)
+        starts_pct[starts_pct==1] = 0.999
         start_pos = floor(starts_pct * (L[s]-fraglens[s]+2))
         start_pos[start_pos==0] = 1
     }
     tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
+    names(tObj)[s] = paste0(names(tObj[s]), ';mate1:', start_pos, '-', 
+        start_pos+readlen-1, ';mate2:', start_pos+fraglens[s]-readlen+1, '-', 
+        start_pos+fraglens[s]-1)
+    nonseqinds = (1:length(tObj))[-s]
+    names(tObj)[nonseqinds] = paste0(names(tObj[nonseqinds]), 
+        ';mate1Start:1;mate2Start:1')
     return(tObj)
 }
 

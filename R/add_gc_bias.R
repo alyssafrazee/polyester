@@ -21,7 +21,7 @@
 #'   library(Biostrings)
 #'   fastapath = system.file("extdata", "chr22.fa", package="polyester")
 #'   numtx = count_transcripts(fastapath)
-#'   transcripts = readDNAStringSet(fasta)
+#'   transcripts = readDNAStringSet(fastapath)
 #' 
 #'   # create a count matrix:
 #'   readmat = matrix(20, ncol=10, nrow=numtx)
@@ -29,9 +29,11 @@
 #'
 #'   # add biases randomly: use built-in bias models
 #'   set.seed(137)
-#'   biases = sample(0:7, 20, replace=TRUE)
+#'   biases = sample(0:7, 10, replace=TRUE)
 #'   readmat_biased = add_gc_bias(readmat, as.list(biases), transcripts)
-##### EXPORT LATER (breaks build)
+#' @export
+#' 
+
 add_gc_bias = function(readmat, gcbias, transcripts){
 
     stopifnot(length(transcripts) == nrow(readmat))
@@ -40,11 +42,13 @@ add_gc_bias = function(readmat, gcbias, transcripts){
     GC = letterFrequency(transcripts, letters='GC', as.prob=TRUE)
     
     for(i in 1:ncol(readmat)){
-        if(class(gcbias)[[i]] == 'loess'){
+        if(class(gcbias[[i]]) == 'loess'){
             fit = gcbias[[i]]
         }else if(gcbias[[i]] != 0){
-            data(paste0('loessfit', gcbias[[i]]))
-            eval(parse(text=paste0('fit <- loessfit', gcbias[[i]])))
+            eval(parse(text=paste0('data(loessfit', gcbias[[i]], ')')))
+            eval(parse(text=paste0('x <- loessfit', gcbias[[i]], '$x')))
+            eval(parse(text=paste0('y <- loessfit', gcbias[[i]], '$y')))
+            fit = loess(y~x, span=0.3)
         }
         shifts = predict(fit, GC)
         adjcounts = log2(readmat+1)[,i] + shifts

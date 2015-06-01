@@ -35,7 +35,7 @@ Designed for internal use in \code{simulate_experiment} functions.
 library(Biostrings)
   fastapath = system.file("extdata", "chr22.fa", package="polyester")
   numtx = count_transcripts(fastapath)
-  transcripts = readDNAStringSet(fasta)
+  transcripts = readDNAStringSet(fastapath)
 
   # create a count matrix:
   readmat = matrix(20, ncol=10, nrow=numtx)
@@ -43,7 +43,7 @@ library(Biostrings)
 
   # add biases randomly: use built-in bias models
   set.seed(137)
-  biases = sample(0:7, 20, replace=TRUE)
+  biases = sample(0:7, 10, replace=TRUE)
   readmat_biased = add_gc_bias(readmat, as.list(biases), transcripts)
 }
 

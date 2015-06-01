@@ -4,127 +4,10 @@
 \title{simulate RNA-seq experiment using negative binomial model}
 \usage{
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
-  num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
-  lib_sizes = NULL, error_rate = 0.005, error_model = "uniform",
-  model_path = NULL, model_prefix = NULL, paired = TRUE,
-  reads_per_transcript = 300, fold_changes, size = NULL, outdir = ".",
-  write_info = TRUE, transcriptid = NULL, seed = NULL, gcbias = NULL,
-  ...)
-
-simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
-  num_reps = 10, fraglen = 250, fragsd = 25, readlen = 100,
-  lib_sizes = NULL, error_rate = 0.005, error_model = "uniform",
-  model_path = NULL, model_prefix = NULL, paired = TRUE,
-  reads_per_transcript = 300, fold_changes, size = NULL, outdir = ".",
-  write_info = TRUE, transcriptid = NULL, seed = NULL, gcbias = NULL,
-  ...)
+  outdir = ".", num_reps = c(10, 10), reads_per_transcript = 300,
+  size = NULL, fold_changes, paired = TRUE, ...)
 }
 \arguments{
-\item{fasta}{path to FASTA file containing transcripts from which to simulate
-reads. See details.}
-
-\item{gtf}{path to GTF file containing transcript structures from which reads
-should be simulated. See details.}
-
-\item{seqpath}{path to folder containing one FASTA file (\code{.fa}
-extension) for each chromosome in \code{gtf}. See details.}
-
-\item{num_reps}{How many biological replicates should be in each group? If
-\code{num_reps} is a single integer, \code{num_reps} replicates will be
-simulated in each group. Otherwise, \code{num_reps} can be a length-2
-vector, where \code{num_reps[1]} and \code{num_reps[2]} replicates will be
-simulated in each of the two groups.}
-
-\item{fraglen}{Mean RNA fragment length. Sequences will be read off the
-end(s) of these fragments.}
-
-\item{fragsd}{Standard deviation of fragment lengths.}
-
-\item{readlen}{Read length.}
-
-\item{lib_sizes}{Library size factors for the biological replicates. If
-\code{num_reps} is an integer, \code{lib_sizes} should have length
-\code{2*num_reps}. If \code{num_reps} is a length-2 vector,
-\code{lib_sizes} should have length \code{sum(num_reps)}. For each
-replicate, once the number of reads to simulate from each transcript for
-that replicate is known, all read numbers across all transcripts from that
-replicate are multiplied by the corresponding entry in \code{lib_sizes}.}
-
-\item{error_rate}{Sequencing error rate. Must be between 0 and 1. Only used
-if error_model is \code{'uniform'}.}
-
-\item{error_model}{one of \code{'uniform'}, \code{'custom'},
-\code{'illumina4'}, or \code{'illumina5'}, specifying
-which sequencing error model to use while generating reads. See
-\code{?add_platform_error} for more information.}
-
-\item{model_path}{If using a custom error model, the output folder you
-provided to \code{build_error_model.py}. Should contain either two files
-suffixed _mate1 and _mate2, or a file suffixed _single.}
-
-\item{model_prefix}{If using a custom error model, the prefix argument you
-provided to \code{build_error_model.py}. This is whatever comes before
-_mate1 and _mate2 or _single files in \code{model_path}.}
-
-\item{paired}{If \code{TRUE}, paired-end reads are simulated; else
-single-end reads are simulated.}
-
-\item{reads_per_transcript}{baseline mean number of reads to simulate
-from each transcript. Can be an integer, in which case this many reads
-are simulated from each transcript, or an integer vector whose length
-matches the number of transcripts in \code{fasta}.}
-
-\item{fold_changes}{Vector of multiplicative fold changes between groups,
-one entry per transcript in \code{fasta}. A fold change > 1 means the
-transcript is overexpressed in the first \code{num_reps} (or
-\code{num_reps[1]}) samples. Fold change < 1 means transcript is
-overexpressed in the last \code{num_reps} (or \code{num_reps[2]}) samples.
-The change is in the mean number of reads generated from the transcript,
-between groups.}
-
-\item{size}{the negative binomial \code{size} parameter (see
-\code{\link{NegBinomial}}) for the number of reads drawn per transcript.
-If left blank, defaults to \code{reads_per_transcript / 3}. Negative
-binomial variance is mean + mean^2 / size. Can either be left at default,
-a vector of the same length as number of transcripts in \code{fasta},
-if the two groups should have the same size parameters, or a list with 2
-elements, each of which is a vector with length equal to the number of
-transcripts in \code{fasta}, which represent the size parameters for each
-transcript in groups 1 and 2, respectively.}
-
-\item{outdir}{character, path to folder where simulated reads should be
-written, with *no* slash at the end. By default, reads are
-written to current working directory.}
-
-\item{write_info}{If \code{TRUE}, write a file matching transcript IDs to
-differential expression status into the file \code{outdir/sim_tx_info.txt}
-and a file matching biological replicate IDs to group membership and
-library size into the file \code{outdir/sim_rep_info.txt}.}
-
-\item{transcriptid}{optional vector of transcript IDs to be written into
-\code{sim_info.txt} and used as transcript identifiers in the fasta files.
-Defaults to \code{names(readDNAStringSet(fasta))}. This option is useful
-if default names are very long or contain special characters.}
-
-\item{seed}{Optional seed to set before simulating reads, for
-reproducibility.}
-
-\item{gcbias}{list indicating which samples to add GC bias to, and from
-which models. Should be the same length as \code{sum(num_reps)};
-entries can be either numeric or of class \code{loess}. A numeric entry of
-0 indicates no GC bias. Numeric entries 1 through 7 correspond to the
-7 empirical GC models that ship with Polyester, estimated from GEUVADIS
-HapMap samples NA06985, NA12144, NA12776, NA18858, NA20542, NA20772,
-and NA20815, respectively. A loess entry should be a loess prediction model
-that takes a GC content percent value (between 0 and 1) a transcript's
-deviation from overall mean read count based on that GC value. Counts for
-each replicate will be adjusted based on the GC bias model specified for
-it. Numeric and loess entries can be mixed. By default, no bias is
-included.}
-
-\item{...}{additional arguments to pass to \code{seq_gtf} if using
-\code{gtf} and \code{seqpath}}
-
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
 reads. See details.}
 
@@ -148,7 +31,9 @@ Defaults to a 2-group experiment with 10 reps per group (i.e.,
 \item{reads_per_transcript}{baseline mean number of reads to simulate
 from each transcript. Can be an integer, in which case this many reads
 are simulated from each transcript, or an integer vector whose length
-matches the number of transcripts in \code{fasta}.}
+matches the number of transcripts in \code{fasta}. Default 300. You can
+also leave \code{reads_per_transcript} empty and set \code{meanmodel=TRUE}
+to draw baseline mean numbers from a model based on transcript length.}
 
 \item{size}{the negative binomial \code{size} parameter (see
 \code{\link{NegBinomial}}) for the number of reads drawn per transcript.
@@ -160,7 +45,11 @@ If left NULL, defaults to \code{reads_per_transcript * fold_changes / 3}.
 Negative binomial variance is mean + mean^2 / size.}
 
 \item{fold_changes}{Matrix specifying multiplicative fold changes
-between groups. Must have the same number of columns as there are groups as
+between groups. There is no default, so you must provide this argument.
+In real data sets, lowly-expressed transcripts often show high fold
+changes between groups, so this can be kept in mind when setting
+\code{fold_changes} and \code{reads_per_transcript}. This argument must
+have the same number of columns as there are groups as
 specified by \code{num_reps}, and must have the same number of rows as
 there are transcripts in \code{fasta}. A fold change of X in matrix entry
 i,j means that for replicate j, the baseline mean number of reads
@@ -180,14 +69,8 @@ single-end reads are simulated. Default \code{TRUE}}
 \value{
 No return, but simulated reads and a simulation info file are written
   to \code{outdir}.
-
-No return, but simulated reads and a simulation info file are written
-  to \code{outdir}.
 }
 \description{
-create FASTA files containing RNA-seq reads simulated from provided
-  transcripts, with optional differential expression between two groups
-
 create FASTA files containing RNA-seq reads simulated from provided
   transcripts, with optional differential expression between two groups
 }
@@ -199,20 +82,10 @@ Reads can either be simulated from a FASTA file of transcripts
   about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X,
   and Y in hg19.
 
-  Details on GC model estimation are available at
-  \url{https://github.com/alyssafrazee/polyester_code}.
-
-Reads can either be simulated from a FASTA file of transcripts
-  (provided with the \code{fasta} argument) or from a GTF file plus DNA
-  sequences (provided with the \code{gtf} and \code{seqpath} arguments).
-  Simulating from a GTF file and DNA sequences may be a bit slower: it took
-  about 6 minutes to parse the GTF/sequence files for chromosomes 1-22, X,
-  and Y in hg19.
-
   Several optional parameters can be passed to this function to adjust the
   simulation. The options are:
 
-  \begin{itemize}
+  \itemize{
   \item \code{readlen}: read length. Default 100.
   \item \code{lib_sizes}: Library size factors for the biological replicates.
   \code{lib_sizes} should have length equal to the total number of
@@ -231,7 +104,7 @@ Reads can either be simulated from a FASTA file of transcripts
   provide as the \code{custdens} argument. \code{custdens} should be a
   density fitted using \code{\link{logspline}}.
   \item \code{error_model}: The error model can be one of:
-    \begin{itemize}
+    \itemize{
     \item \code{'uniform'}: errors are distributed uniformly across reads.
     You can also provide an \code{'error_rate'} parameter, giving the overall
     probability of making a sequencing error at any given nucleotide. This
@@ -247,7 +120,7 @@ Reads can either be simulated from a FASTA file of transcripts
     suffixed _single. \code{model_prefix} is the 'prefix' argument you
     provided to \code{build_error_model.py} and is whatever comes before the
     _mate1/_mate2 or _single files in \code{model_path}.
-    \end{itemize}
+    }
   \item \code{bias} One of 'none', 'rnaf', or 'cdnaf'. 'none'
   represents uniform fragment selection (every possible fragment in a
   transcript has equal probability of being in the experiment); 'rnaf'
@@ -266,13 +139,19 @@ Reads can either be simulated from a FASTA file of transcripts
   HapMap samples NA06985, NA12144, NA12776, NA18858, NA20542, NA20772,
   and NA20815, respectively. The code used to derive the empirical GC models
   is available at
-  \url{https://github.com/alyssafrazee/polyester/blob/master/gc_bias.R}.
+  \url{https://github.com/alyssafrazee/polyester/blob/master/make_gc_bias.R}.
   A loess entry should be a loess prediction model
   that takes a GC content percent value (between 0 and 1) a transcript's
   deviation from overall mean read count based on that GC value. Counts for
   each replicate will be adjusted based on the GC bias model specified for
   it. Numeric and loess entries can be mixed. By default, no bias is
   included.
+  \item \code{meanmodel}: set to TRUE if you'd like to set
+  \code{reads_per_transcripts} as a function of transcript length. We
+  fit a linear model regressing transcript abundance on transcript length,
+  and setting \code{meanmodel=TRUE} means we will use transcript lengths
+  to draw transcript abundance based on that linear model. You can see our
+  modeling code at \url{http://htmlpreview.github.io/?https://github.com/alyssafrazee/polyester_code/blob/master/length_simulation.html}
   \item \code{write_info}: set to FALSE if you do not want files of
   simulation information written to disk. By default, transcript fold
   changes and expression status & replicate library sizes and group
@@ -286,25 +165,9 @@ Reads can either be simulated from a FASTA file of transcripts
   characters.
   \item You can also include other parameters to pass to
   \code{\link{seq_gtf}} if you're simulating from a GTF file.
-  \end{itemize}
+  }
 }
 \examples{
-\donttest{
-  ## simulate a few reads from chromosome 22
-
-  fastapath = system.file("extdata", "chr22.fa", package="polyester")
-  numtx = count_transcripts(fastapath)
-  set.seed(4)
-  fold_changes = sample(c(0.5, 1, 2), size=numtx,
-     prob=c(0.05, 0.9, 0.05), replace=TRUE)
-  library(Biostrings)
-  # remove quotes from transcript IDs:
-  tNames = gsub("'", "", names(readDNAStringSet(fastapath)))
-
-  simulate_experiment(fastapath, reads_per_transcript=10,
-     fold_changes=fold_changes, outdir='simulated_reads',
-     transcriptid=tNames, seed=12)
-}
 \donttest{
   ## simulate a few reads from chromosome 22
 

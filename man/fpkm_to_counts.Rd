@@ -3,16 +3,25 @@
 \alias{fpkm_to_counts}
 \title{Turn FPKMs from a ballgown object into estimated counts for transcripts}
 \usage{
-fpkm_to_counts(bg, mean_rps = 1e+08, threshold = 0)
+fpkm_to_counts(bg = NULL, mat = NULL, tlengths = NULL, mean_rps = 1e+08,
+  threshold = 0)
 }
 \arguments{
 \item{bg}{ballgown object created from real RNA-seq dataset}
 
+\item{mat}{matrix of isoform-level FPKMs from which to derive counts. Rows
+should represent transcripts and columns should represent counts. Provide
+exactly one of \code{bg} or \code{mat}.}
+
+\item{tlengths}{if using \code{mat} instead of \code{bg}, vector of
+transcript lengths. Entries correspond to the rows of \code{mat}. Lengths
+should only count the nucleotides within transcripts' exons.}
+
 \item{mean_rps}{This should be the number of reads per sample in total for
-  use in backing out the FPKM calculations}
+use in backing out the FPKM calculations.}
 
 \item{threshold}{only estimate parameters from transcripts with mean FPKM
-measurements larger than \code{threshold}}
+  measurements at least as large as \code{threshold}.}
 }
 \value{
 A matrix of counts with the same number of rows and columns as the
@@ -20,6 +29,11 @@ A matrix of counts with the same number of rows and columns as the
 }
 \description{
 Turn FPKMs from a ballgown object into estimated counts for transcripts
+}
+\details{
+If transcripts/exons are represented by \code{GRanges} or
+  \code{GRangesList} objects, the \code{width} function is really useful
+  in calculating transcript lengths.
 }
 \examples{
 library(ballgown)
