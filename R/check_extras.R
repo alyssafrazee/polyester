@@ -11,7 +11,7 @@
   }
   
   if(!('strand_error_rate' %in% names(extras))){
-    extras$strand_error_rate = 0,
+    extras$strand_error_rate = 0
   }
   
   if(!('distr' %in% names(extras))){
