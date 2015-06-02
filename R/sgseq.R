@@ -11,7 +11,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras){
             extras$readlen, extras$distr, extras$custdens, extras$bias)
 
         #reverse_complement some of those fragments
-        rctFrags = reverse_complement(tFrags)
+        rctFrags = reverse_complement(tFrags, extras$library_type, extras$strand_error_rate)
 
         #get reads from fragments
         reads = get_reads(rctFrags, extras$readlen, paired)
