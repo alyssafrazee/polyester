@@ -314,7 +314,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         b0 = -3.0158
         b1 = 0.8688
         sigma = 4.152
-        logmus = b0 + b1*width(transcripts) + rnorm(length(transcripts),0,sigma)
+        logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
         reads_per_transcript = 2^logmus-1
     }
     basemeans = ceiling(reads_per_transcript * fold_changes)
