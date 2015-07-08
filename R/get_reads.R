@@ -19,7 +19,7 @@
 #'   srPhiX174_reads = get_reads(srPhiX174, readlen=15, paired=FALSE)
 #'   srPhiX174_reads  
 #'   # set of single-end, 15bp reads, treating srPhiX174 as the fragments
-get_reads = function(tFrags, readlen, paired=TRUE){
+get_reads = function(tFrags, readlen, paired=TRUE, library_type){
   
     # when fragments are shorter than reads:
     isShort = (width(tFrags) <= readlen)
@@ -30,9 +30,15 @@ get_reads = function(tFrags, readlen, paired=TRUE){
         if(sum(isShort) > 0){
             x = tFrags[isShort] # left mate
             names(x) = paste0(seq(along=x), "a")
-            rc = reverseComplement(x) # right mate
-            names(rc) = paste0(seq(along=x), "b")
-            out = c(x,rc)
+            # if unstranded, then reverse complement
+            if(library_type == "unstranded") {
+              rr = reverseComplement(x) # right mate              
+            } else {
+              # if firststrand or secondstrand, don't reverse complement
+              rr = x # right mate                                     
+            }
+            names(rr) = paste0(seq(along=x), "b")
+            out = c(x,rr)
             outInds = rep(1:length(x), each=2)
             outInds[seq(2, length(outInds), by=2)] = (1:length(x))+length(x)
             outShort = out[outInds] # puts pairs of reads next to each other
@@ -44,7 +50,10 @@ get_reads = function(tFrags, readlen, paired=TRUE){
             lr = subseq(x, start=1, end=readlen) # left mate
             names(lr) = paste0(seq(along=x), "a")
             rr = subseq(x, start=(width(x)-readlen+1), end=width(x))
-            rr = reverseComplement(rr) # right mate
+            # if unstranded, then reverse complement
+            if(library_type == "unstranded") {
+              rr = reverseComplement(rr) # right mate              
+            }
             names(rr) = paste0(seq(along=x), "b")
             out = c(lr, rr)
             outInds = rep(1:length(lr), each=2)
