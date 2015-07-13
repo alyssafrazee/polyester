@@ -66,7 +66,7 @@ fasta = readDNAStringSet(fasta_file)
 small_fasta = fasta[1:20]
 writeXStringSet(small_fasta, 'chr22_small.fa')
 
-# ~20x coverage ----> reads per transcript = transcriptlength/readlength * 20
+# ~20x coverage ----> reads per transcript = (transcriptlength - readlength) * 20
 # here all transcripts will have ~equal FPKM
 readspertx = round(20 * width(small_fasta) / 100)
 
