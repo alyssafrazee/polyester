@@ -14,6 +14,7 @@
 
 reverse_complement = function(tObj, library_type, strand_error_rate, seed=NULL){
   if(!is.null(seed)) set.seed(seed)
+  cat("\nlibrary type is", library_type)
   
   if(library_type == 'firststrand'){
     cat("I'm a FIRSTSTRAND simulation...\n")
