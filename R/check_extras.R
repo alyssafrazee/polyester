@@ -12,7 +12,7 @@
     extras$library_type = 'unstranded'
   }else{
     cat("\nlibrary type is not the default...\n")
-    extras$library_type = match.arg(extras$library_type,
+    extras$library_type = match.arg(unlist(extras)["library_type"],
                                     c('unstranded', 'firststrand', 'secondstrand'))
   }
   
