@@ -7,7 +7,7 @@
   print(extras)
   cat("\n end of extras:\n")
   
-  if(!('library_type' %in% names(extras))){
+  if(!('library_type' %in% names(unlist(extras)))){
     cat("\nlibrary type is default\n")
     extras$library_type = 'unstranded'
   }else{
