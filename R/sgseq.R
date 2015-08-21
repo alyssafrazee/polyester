@@ -27,6 +27,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras){
 
         #write read pairs
         write_reads(errReads, readlen=extras$readlen, 
-            fname=paste0(outdir, '/sample_', sprintf('%02d', i)), paired=paired)
+            fname=paste0(outdir, '/sample_', sprintf('%02d', i)), paired=paired,
+            gzip=extras$gzip)
     }
 }

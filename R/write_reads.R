@@ -12,6 +12,7 @@
 #'   written to \code{fname_1.fasta} and the even-numbered
 #'   reads are written to \code{fname_2.fasta}. If \code{FALSE}, reads are 
 #'   assumed to be single-end and just one file, \code{fname.fasta}, is written.
+#' @param gzip If \code{TRUE}, gzip the output fasta files.
 #' @export
 #' @details The \code{\link{get_reads}} function returns a DNAStringSet object
 #'   representing sequencing reads that can be directly passed to 
@@ -29,19 +30,21 @@
 #'   readlen = unique(width(srPhiX174)) #35
 #'   write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE)
 #'
-write_reads = function(reads, fname, readlen, paired=TRUE){
+write_reads = function(reads, fname, readlen, paired=TRUE, gzip){
+    compress = ifelse(is.null(gzip), FALSE, gzip)
     if(paired){
         lefts = reads[seq(1, length(reads), by=2)]
         rights = reads[seq(2, length(reads), by=2)]
         names(lefts) = paste0('read', 1:length(lefts), '/', names(lefts))
         names(rights) = paste0('read', 1:length(rights), '/', names(rights))
         writeXStringSet(lefts, filepath=paste0(fname, '_1.fasta'), 
-            format="fasta", width=readlen)
+            format="fasta", width=readlen, compress=compress)
         writeXStringSet(rights, filepath=paste0(fname, '_2.fasta'), 
-            format="fasta", width=readlen)
+            format="fasta", width=readlen, compress=compress)
     }else{
         outf = paste0(fname, '.fasta')
         names(reads) = paste0('read', 1:length(reads), '/', names(reads))
-        writeXStringSet(reads, filepath=outf, format="fasta", width=readlen)
+        writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
+            compress=compress)
     }
 }

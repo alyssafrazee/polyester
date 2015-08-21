@@ -3,7 +3,7 @@
 \alias{write_reads}
 \title{write sequencing reads to disk}
 \usage{
-write_reads(reads, fname, readlen, paired = TRUE)
+write_reads(reads, fname, readlen, paired = TRUE, gzip)
 }
 \arguments{
 \item{reads}{DNAStringSet representing sequencing reads}
@@ -19,6 +19,8 @@ read pair; same with read 3 and read 4, etc. The odd-numbered reads are
 written to \code{fname_1.fasta} and the even-numbered
 reads are written to \code{fname_2.fasta}. If \code{FALSE}, reads are
 assumed to be single-end and just one file, \code{fname.fasta}, is written.}
+
+\item{gzip}{If \code{TRUE}, gzip the output fasta files.}
 }
 \value{
 No return, but FASTA file(s) containing the sequences in \code{reads}

@@ -236,6 +236,9 @@
 #'   fasta files. Defaults to \code{names(readDNAStringSet(fasta))}. This
 #'   option is useful if default names are very long or contain special 
 #'   characters.
+#'   \item \code{gzip}: pass \code{gzip=TRUE} to write gzipped fasta files as
+#'   output (by default, fasta output files are not compressed when written to
+#'   disk). 
 #'   \item You can also include other parameters to pass to 
 #'   \code{\link{seq_gtf}} if you're simulating from a GTF file.
 #'   }
