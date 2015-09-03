@@ -3,15 +3,9 @@
 
 .check_extras = function(extras, paired){
   
-  cat("\n showing extras:\n")
-  print(extras)
-  cat("\n end of extras:\n")
-  
   if(!('library_type' %in% names(unlist(extras)))){
-    cat("\nlibrary type is default\n")
     extras$library_type = 'unstranded'
   }else{
-    cat("\nlibrary type is not the default...\n")
     extras$library_type = match.arg(unlist(extras)["library_type"],
                                     c('unstranded', 'firststrand', 'secondstrand'))
   }
