@@ -37,12 +37,21 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip){
         rights = reads[seq(2, length(reads), by=2)]
         names(lefts) = paste0('read', 1:length(lefts), '/', names(lefts))
         names(rights) = paste0('read', 1:length(rights), '/', names(rights))
-        writeXStringSet(lefts, filepath=paste0(fname, '_1.fasta'), 
+        left_filepath = paste0(fname, '_1.fasta')
+        right_filepath = paste0(fname, '_2.fasta')
+        if(compress){
+            left_filepath = paste0(left_filepath, '.gz')
+            right_filepath = paste0(right_filepath, '.gz')
+        }
+        writeXStringSet(lefts, filepath=left_filepath, 
             format="fasta", width=readlen, compress=compress)
-        writeXStringSet(rights, filepath=paste0(fname, '_2.fasta'), 
+        writeXStringSet(rights, filepath=right_filepath, 
             format="fasta", width=readlen, compress=compress)
     }else{
         outf = paste0(fname, '.fasta')
+        if(compress){
+            outf = paste0(outf, '.gz')
+        }
         names(reads) = paste0('read', 1:length(reads), '/', names(reads))
         writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
             compress=compress)
