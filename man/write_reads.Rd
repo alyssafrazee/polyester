@@ -43,7 +43,8 @@ The \code{\link{get_reads}} function returns a DNAStringSet object
 library(Biostrings)
   data(srPhiX174) # pretend srPhiX174 represents a DNAStringSet of *reads*
   readlen = unique(width(srPhiX174)) #35
-  write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE)
+  write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE,
+      gzip=FALSE)
 }
 \seealso{
 \code{\link{get_reads}}
