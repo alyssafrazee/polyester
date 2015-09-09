@@ -177,8 +177,9 @@ Reads can either be simulated from a FASTA file of transcripts
   fastapath = system.file("extdata", "chr22.fa", package="polyester")
   numtx = count_transcripts(fastapath)
   set.seed(4)
-  fold_changes = sample(c(0.5, 1, 2), size=numtx,
+  fold_change_values = sample(c(0.5, 1, 2), size=2*numtx,
      prob=c(0.05, 0.9, 0.05), replace=TRUE)
+  fold_changes = matrix(fold_change_values, nrow=numtx)
   library(Biostrings)
   # remove quotes from transcript IDs:
   tNames = gsub("'", "", names(readDNAStringSet(fastapath)))
