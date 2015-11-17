@@ -14,7 +14,8 @@
 #'   assumed to be single-end and just one file, \code{fname.fasta}, is written.
 #' @param gzip If \code{TRUE}, gzip the output fasta files.
 #' @export
-#' @param offset Number to start assigning read numbers at.
+#' @param offset An integer number greater or equal to 1 to start assigning 
+#' read numbers at.
 #' @details The \code{\link{get_reads}} function returns a DNAStringSet object
 #'   representing sequencing reads that can be directly passed to
 #'   \code{write_reads}. If output other than that from \code{get_reads} is used
@@ -32,8 +33,21 @@
 #'   write_reads(srPhiX174, fname='./srPhiX174', readlen=readlen, paired=FALSE,
 #'       gzip=FALSE)
 #'
-write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1){
+#' ## If the file is too big, you can subset it and write it in chunks.
+#' ## Here we split our 'reads' into two chunks and save them to the same file.
+#' write_reads(srPhiX174[1:100], fname='./srPhiX174-offset', readlen=readlen, 
+#'    paired=FALSE, gzip=FALSE, offset = 1L)
+#' write_reads(srPhiX174[101:length(srPhiX174)], fname='./srPhiX174-offset', 
+#'    readlen=readlen, paired=FALSE, gzip=FALSE, offset = 101L)
+#'
+#' ## We can verify that we get the same results
+#' srPhi <- readDNAStringSet('./srPhiX174.fasta')
+#' srPhiOffset <- readDNAStringSet('./srPhiX174-offset.fasta')
+#' identical(srPhi, srPhiOffset)
+#'
+write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
     compress = ifelse(is.null(gzip), FALSE, gzip)
+    stopifnot(is.integer(offset) & offset >= 1)
     append = ifelse(offset == 1, FALSE, TRUE)
     if(paired){
         lefts = reads[seq(1, length(reads), by=2)]
