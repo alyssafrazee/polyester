@@ -1,8 +1,19 @@
+## Might need to use https://github.com/metacran/r-builder if R-devel
+## becomes necessary. 
+## See https://github.com/leekgroup/derfinderHelper/blob/testTravis/.travis.yml 
+## for an example. Just change RVERSION=devel.
 language: r
 sudo: required
+
+r_build_args: "--no-manual --no-resave-data"
+r_check_args: "--no-build-vignettes --no-manual --timings"
 
 bioc_required: true
 notifications:
   email:
     on_success: change
     on_failure: change
+
+env:
+  global:
+    - _R_CHECK_TIMINGS_="0"
