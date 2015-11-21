@@ -25,6 +25,6 @@
 #' @import S4Vectors
 #' @import logspline
 #' @docType package
-#' @author Alyssa Frazee, Andrew Jaffe, Jeff Leek
+#' @author Alyssa Frazee, Andrew Jaffe, Rory Kirchner, Jeff Leek
 #' @name polyester
 NULL
