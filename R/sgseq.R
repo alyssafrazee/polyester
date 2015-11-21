@@ -2,12 +2,12 @@
 
 sgseq = function(readmat, transcripts, paired, outdir, extras){
 
-  for(i in 1:ncol(readmat)){
+  for(i in seq_len(ncol(readmat))) {
     tObj = rep(transcripts, times=readmat[,i])
-    iterations = ceiling(length(tObj) / 1e6)
-    offset = 1
-    for(iteration in 1:iterations) {
-      tSubset = tObj[offset:min(offset+1e6, length(tObj))]
+    iterations = ceiling(length(tObj) / 1e6L)
+    offset = 1L
+    for(iteration in seq_len(iterations)) {
+      tSubset = tObj[offset:min(offset+1e6L, length(tObj))]
       tFrags = generate_fragments(tSubset, extras$fraglen, extras$fragsd,
                                   extras$readlen, extras$distr, extras$custdens,
                                   extras$bias)
@@ -30,7 +30,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras){
       write_reads(errReads, readlen=extras$readlen,
           fname=paste0(outdir, '/sample_', sprintf('%02d', i)), paired=paired,
           gzip=extras$gzip, offset=offset)
-      offset = offset + 1e6
+      offset = offset + 1e6L
     }
   }
 }
