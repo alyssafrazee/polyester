@@ -281,7 +281,7 @@
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     outdir='.', num_reps=c(10,10), reads_per_transcript=300, size=NULL,
-    fold_changes, paired=TRUE, ...){
+    fold_changes, paired=TRUE, reportCoverage=F ...){
 
     extras = list(...)
 
@@ -366,7 +366,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }
 
     # do the actual sequencing
-    sgseq(readmat, transcripts, paired, outdir, extras)
+    sgseq(readmat, transcripts, paired, outdir, extras, reportCoverage)
 
     # write out simulation information, if asked for:
     if(!('write_info' %in% names(extras))){
