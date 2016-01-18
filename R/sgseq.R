@@ -8,7 +8,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=F)
             for(i in 1:length(templates)){coverage_matrices = c(coverage_matrices, list(matrix(0, ncol=dim(readmat)[2], width(templates)[i])))}
             names(coverage_matrices) = names(templates)
       }
-      
+
   for(i in seq_len(ncol(readmat))) {
     tObj = rep(transcripts, times=readmat[,i])
     iterations = ceiling(length(tObj) / 1e6L)
@@ -17,7 +17,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=F)
       tSubset = tObj[offset:min(offset+1e6L, length(tObj))]
       tFrags = generate_fragments(tSubset, extras$fraglen, extras$fragsd,
                                   extras$readlen, extras$distr, extras$custdens,
-                                  extras$bias)      
+                                  extras$bias)
       #reverse_complement some of those fragments
       rctFrags = reverse_complement(tFrags)
 
@@ -35,9 +35,10 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=F)
                   coords2 = unlist(str_split(read[3], "-"))
                   coverage_matrices[[target]][coords1[1]:coords1[2],i]=coverage_matrices[[target]][coords1[1]:coords1[2],i]+1
                   coverage_matrices[[target]][coords2[1]:coords2[2],i]=coverage_matrices[[target]][coords2[1]:coords2[2],i]+1
+                  save(coverage_matrices, file=file.path(outdir, 'sample_coverages.rda') )
             }
       }
-      
+
       #add sequencing error
       if(extras$error_model == 'uniform'){
           errReads = add_error(reads, extras$error_rate)
@@ -54,6 +55,5 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=F)
       offset = offset + 1e6L
     }
   }
-  save(coverage_matrices, file=paste0(outdir, '/sample_coverages.rda') )
-  
+
 }
