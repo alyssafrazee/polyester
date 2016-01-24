@@ -24,7 +24,7 @@ See the vignette by typing \code{browseVignettes("polyester")} in
   the R prompt.
 }
 \author{
-Alyssa Frazee, Andrew Jaffe, Jeff Leek
+Alyssa Frazee, Andrew Jaffe, Rory Kirchner, Jeff Leek
 }
 \references{
 Alyssa C Frazee, Geo Pertea, Andrew E Jaffe, Ben Langmead,
