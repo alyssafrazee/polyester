@@ -326,7 +326,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         }
         transcripts = seq_gtf(gtf, seqpath, feature='transcript',
             exononly=exononly, idfield=idfield, attrsep=attrsep)
-        message(paste('n transcripts:', length(transcripts)))
         message('done parsing')
     }else{
         stop('must provide either fasta or both gtf and seqpath')
