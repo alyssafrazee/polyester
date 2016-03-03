@@ -1,7 +1,7 @@
 ## internal sequencing function
 
-sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=F){
-      #report theoretically perfect coverage if reportCoverage=T, will write a file
+sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE){
+      #report theoretically perfect coverage if reportCoverage=TRUE, will write a file
       if(reportCoverage==T){
             templates = unique(transcripts)
             coverage_matrices = list()

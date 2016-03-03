@@ -1,4 +1,7 @@
-CHANGES IN VERSION 17.1, 17 November 2015:
+CHANGES IN VERSION 1.7.2, 23 January 2016:
+    * Fixes bug where extra keyword-arguments passed to simulate_experiment when using a GTF file would cause an error.
+
+CHANGES IN VERSION 1.7.1, 17 November 2015:
     * Now supports writing more than 1 million reads by chunks. Changes implemented by Rory Kirchner and verified by Leonardo Collado-Torres.
 CHANGES IN VERSION 1.2.3, 31 March 2015:
     * change URL of example chromosome 22 sequence dataset / do not test internet-connectivity-dependent stuff during check

@@ -239,8 +239,16 @@
 #'   \item \code{gzip}: pass \code{gzip=TRUE} to write gzipped fasta files as
 #'   output (by default, fasta output files are not compressed when written to
 #'   disk).
-#'   \item You can also include other parameters to pass to
-#'   \code{\link{seq_gtf}} if you're simulating from a GTF file.
+#'   \item \code{exononly}: (passed to \code{\link{seq_gtf}}) if \code{TRUE}
+#'   (as it is by default), only create transcript sequences from the features
+#'   labeled \code{exon} in \code{gtf}.
+#'   \item \code{idfield}: (passed to \code{\link{seq_gtf}})in the
+#'   \code{attributes} column of \code{gtf}, what is the name of the field
+#'   identifying transcripts? Should be character. Default
+#'   \code{"transcript_id"}.
+#'   \item \code{attrsep}: (passed to \code{\link{seq_gtf}}) in the
+#'   \code{attributes} column of \code{gtf}, how are attributes separated?
+#'   Default \code{"; "}.
 #'   }
 #'
 #' @references
@@ -281,7 +289,7 @@
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     outdir='.', num_reps=c(10,10), reads_per_transcript=300, size=NULL,
-    fold_changes, paired=TRUE, reportCoverage=F, ...){
+    fold_changes, paired=TRUE, reportCoverage=FALSE, ...){
 
     extras = list(...)
 
@@ -300,7 +308,24 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         transcripts = readDNAStringSet(fasta)
     }else if(is.null(fasta) & !is.null(gtf) & !is.null(seqpath)){
         message('parsing gtf and sequences...')
-        transcripts = seq_gtf(gtf, seqpath, ...)
+        # parse out any extra seq_gtf arguments from the ... args
+        if('exononly' %in% names(extras)){
+            exononly = extras$exononly
+        }else{
+            exononly = TRUE
+        }
+        if('idfield' %in% names(extras)){
+            idfield = extras$idfield
+        }else{
+            idfield = 'transcript_id'        
+        }
+        if('attrsep' %in% names(extras)){
+            attrsep = extras$attrsep
+        }else{
+            attrsep = '; '
+        }
+        transcripts = seq_gtf(gtf, seqpath, feature='transcript',
+            exononly=exononly, idfield=idfield, attrsep=attrsep)
         message('done parsing')
     }else{
         stop('must provide either fasta or both gtf and seqpath')
