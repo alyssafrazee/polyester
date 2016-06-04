@@ -18,7 +18,7 @@ add_error = function(tFrags, error_rate = 0.005){
     #^so you don't have to choose *another* nucleotide for an error: just 
     # choose *a* nucleotide.
     
-    allSeq = Biostrings::unlist(tFrags)
+    allSeq = unlist(tFrags)
     insertLocs = Rle(sample(c(TRUE,FALSE), size = length(allSeq), 
            replace=TRUE, prob = c(adj_error, 1-adj_error)))
   
