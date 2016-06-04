@@ -68,7 +68,9 @@ single-end reads are simulated. Default \code{TRUE}}
 }
 \value{
 No return, but simulated reads and a simulation info file are written
-  to \code{outdir}.
+  to \code{outdir}. Note that the reads written to file are grouped by transcript, 
+  and so need to be shuffled before using a streaming quantification algorithm,
+  such as eXpress or Salmon.
 }
 \description{
 create FASTA files containing RNA-seq reads simulated from provided
