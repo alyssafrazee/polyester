@@ -2,6 +2,11 @@
 
 # Introduction
 
+This is a fork of the
+[polyester](https://github.com/alyssafrazee/polyester)
+devel branch. For the fork that is used in the alpine manuscript see
+[polyesterAlpineMs](https://github.com/mikelove/polyesterAlpineMs).
+
 Polyester is an R package designed to simulate RNA sequencing experiments with differential transcript expression. 
 
 Given a set of annotated transcripts, Polyester will simulate the steps of an RNA-seq experiment (fragmentation, reverse-complementing, and sequencing) and produce files containing simulated RNA-seq reads. Simulated reads can be analyzed using your choice of downstream analysis tools. 
