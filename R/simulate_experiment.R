@@ -319,7 +319,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     extras = list(...)
 
     # validate extra arguments/set sane defaults
-    extras = .check_extras(extras, paired, num_reps)
+    extras = .check_extras(extras, paired, total.n=sum(num_reps))
 
     # read in the annotated transcripts to sequence from
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){

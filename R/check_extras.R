@@ -1,7 +1,7 @@
 # function to make sure everything is compatible and assign sane defaults
 # internal
 
-.check_extras = function(extras, paired, num_reps){
+.check_extras = function(extras, paired, total.n){
 
     if(!('distr' %in% names(extras))){
         extras$distr = 'normal'
@@ -17,21 +17,21 @@
     # I don't love this--fraglen and fragsd aren't needed unless distr is normal.
     # but we store them anyway. should code better?
     if (!('fraglen' %in% names(extras))) {
-        extras$fraglen = rep(250, sum(num_reps))
+        extras$fraglen = rep(250, total.n)
     } else {
       if (length(extras$fraglen) == 1) {
-        extras$fraglen = rep(extras$fraglen, sum(num_reps))
+        extras$fraglen = rep(extras$fraglen, total.n)
       } else {
-        stopifnot(length(extras$fraglen) == sum(num_reps))
+        stopifnot(length(extras$fraglen) == total.n)
       }
     }
     if (!('fragsd' %in% names(extras))) {
-        extras$fragsd = rep(25, sum(num_reps))
+        extras$fragsd = rep(25, total.n)
     } else {
       if (length(extras$fragsd) == 1) {
-        extras$fragsd = rep(extras$fragsd, sum(num_reps))
+        extras$fragsd = rep(extras$fragsd, total.n)
       } else {
-        stopifnot(length(extras$fragsd) == sum(num_reps))
+        stopifnot(length(extras$fragsd) == total.n)
       }
     }
 
@@ -64,10 +64,10 @@
     }
 
     if(!('lib_sizes' %in% names(extras))){
-        extras$lib_sizes = rep(1, sum(num_reps))
+        extras$lib_sizes = rep(1, total.n)
     }else{
         stopifnot(is.numeric(extras$lib_sizes))
-        stopifnot(length(extras$lib_sizes) == sum(num_reps))
+        stopifnot(length(extras$lib_sizes) == total.n)
     }
 
     if (!('frag_GC_bias' %in% names(extras))) {
@@ -75,7 +75,7 @@
     } else {
       stopifnot(is.matrix(extras$frag_GC_bias))
       stopifnot(nrow(extras$frag_GC_bias) == 101)
-      stopifnot(ncol(extras$frag_GC_bias) == sum(num_reps))
+      stopifnot(ncol(extras$frag_GC_bias) == total.n)
       stopifnot(all(extras$frag_GC_bias >= 0 & extras$frag_GC_bias <= 1))
     }
 
