@@ -290,7 +290,9 @@
 #'   Genomics 13(1), 74.
 #'
 #' @return No return, but simulated reads and a simulation info file are written
-#'   to \code{outdir}.
+#'   to \code{outdir}. Note that reads are written out transcript by transcript
+#'   and so need to be shuffled if used as input to quantification algorithms such
+#'   as eXpress or Salmon.
 #'
 #' @export
 #'
