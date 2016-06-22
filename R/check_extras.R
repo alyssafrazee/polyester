@@ -78,6 +78,10 @@
       stopifnot(ncol(extras$frag_GC_bias) == sum(num_reps))
       stopifnot(all(extras$frag_GC_bias >= 0 & extras$frag_GC_bias <= 1))
     }
+
+    if (!('strand_specific' %in% names(extras))) {
+      extras$strand_specific <- FALSE
+    }
     
     return(extras)
 
