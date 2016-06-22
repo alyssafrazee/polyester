@@ -1,7 +1,7 @@
 # function to make sure everything is compatible and assign sane defaults
 # internal
 
-.check_extras = function(extras, paired){
+.check_extras = function(extras, paired, num_reps){
 
     if(!('distr' %in% names(extras))){
         extras$distr = 'normal'
@@ -13,13 +13,28 @@
                 "custdens", a logspline object representing the distribution.'))
         }
     }
-    if(!('fraglen' %in% names(extras))){
-        extras$fraglen = 250
-    }
-    if(!('fragsd' %in% names(extras))){
-        extras$fragsd = 25
-    }## I don't love this--these arguments aren't needed unless distr is normal.
+
+    # I don't love this--fraglen and fragsd aren't needed unless distr is normal.
     # but we store them anyway. should code better?
+    if (!('fraglen' %in% names(extras))) {
+        extras$fraglen = rep(250, sum(num_reps))
+    } else {
+      if (length(extras$fraglen) == 1) {
+        extras$fraglen = rep(extras$fraglen, sum(num_reps))
+      } else {
+        stopifnot(length(extras$fraglen) == sum(num_reps))
+      }
+    }
+    if (!('fragsd' %in% names(extras))) {
+        extras$fragsd = rep(25, sum(num_reps))
+    } else {
+      if (length(extras$fragsd) == 1) {
+        extras$fragsd = rep(extras$fragsd, sum(num_reps))
+      } else {
+        stopifnot(length(extras$fragsd) == sum(num_reps))
+      }
+    }
+
     if(!('readlen' %in% names(extras))){
         extras$readlen = 100
     }
@@ -48,6 +63,22 @@
         extras$bias = match.arg(extras$bias, c('none', 'rnaf', 'cdnaf'))
     }
 
+    if(!('lib_sizes' %in% names(extras))){
+        extras$lib_sizes = rep(1, sum(num_reps))
+    }else{
+        stopifnot(is.numeric(extras$lib_sizes))
+        stopifnot(length(extras$lib_sizes) == sum(num_reps))
+    }
+
+    if (!('frag_GC_bias' %in% names(extras))) {
+      extras$frag_GC_bias <- 'none'
+    } else {
+      stopifnot(is.matrix(extras$frag_GC_bias))
+      stopifnot(nrow(extras$frag_GC_bias) == 101)
+      stopifnot(ncol(extras$frag_GC_bias) == sum(num_reps))
+      stopifnot(all(extras$frag_GC_bias >= 0 & extras$frag_GC_bias <= 1))
+    }
+    
     return(extras)
 
 }

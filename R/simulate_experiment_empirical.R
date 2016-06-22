@@ -56,7 +56,7 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
             stop('bg does not contain transcript FPKMs')
         }
         fpkmMat = ballgown::texpr(bg, 'FPKM')
-        rownames(fpkmMat) = texpr(bg, 'all')$t_name
+        rownames(fpkmMat) = ballgown::texpr(bg, 'all')$t_name
     }
     if(is.null(bg)){
         if(is.null(rownames(fpkmMat))){

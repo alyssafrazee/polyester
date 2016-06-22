@@ -24,6 +24,9 @@
 #' @import IRanges
 #' @import S4Vectors
 #' @import logspline
+#' @importFrom stats loess model.matrix predict rbinom rnbinom rnorm runif smooth.spline
+#' @importFrom utils data read.table write.table
+#' 
 #' @docType package
 #' @author Alyssa Frazee, Andrew Jaffe, Rory Kirchner, Jeff Leek
 #' @name polyester

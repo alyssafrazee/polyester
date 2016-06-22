@@ -28,6 +28,7 @@
 #'   and in the 'cdnaf' model, coverage increases toward the 3' end of the
 #'   transcript. The probability models used come from Supplementary Figure S3
 #'   of Li and Jiang (2012).
+#' @param frag_GC_bias See explanation in \code{\link{simulate_experiment}}.
 #' @export
 #' @return DNAStringSet consisting of one randomly selected subsequence per 
 #'   element of \code{tObj}.
@@ -70,7 +71,9 @@
 #'   biased_frags
 #'  
 generate_fragments = function(tObj, fraglen=250, fragsd=25, 
-    readlen=100, distr='normal', custdens=NULL, bias='none'){
+  readlen=100, distr='normal', custdens=NULL, bias='none',
+  frag_GC_bias='none') {
+  
     bias = match.arg(bias, c('none', 'rnaf', 'cdnaf'))
     distr = match.arg(distr, c('normal', 'empirical', 'custom'))
     L = width(tObj)
@@ -112,6 +115,17 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
     nonseqinds = (1:length(tObj))[-s]
     names(tObj)[nonseqinds] = paste0(names(tObj[nonseqinds]), 
         ';mate1Start:1;mate2Start:1')
+
+    # fragment GC bias coin flips (Bernoulli trials)
+    gc <- as.numeric(letterFrequency(tObj, "GC", as.prob=TRUE))
+    if (is.numeric(frag_GC_bias)) {
+      gc.idx <- as.integer(cut(gc, breaks=c(-Inf,(0:99)/100+.005,Inf)))
+      prob <- frag_GC_bias[gc.idx]
+      stopifnot(all(prob >= 0 & prob <= 1))
+      coinflip <- rbinom(length(tObj), 1, prob) # flip a coin
+      tObj <- tObj[ coinflip == 1 ] # only return successes
+    }
+
     return(tObj)
 }
 

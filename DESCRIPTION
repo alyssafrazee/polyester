@@ -23,3 +23,4 @@ Suggests:
     ballgown
 LazyLoad: true
 biocViews: Sequencing, DifferentialExpression
+RoxygenNote: 5.0.1
