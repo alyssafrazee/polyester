@@ -123,6 +123,10 @@ The following parameters can be provided to `simulate_experiment` and `simulate_
 * `error_rate`: In the uniform error model, probability that the sequencer records the wrong nucleotide at any given base (default 0.005). 
 * `bias`: Positional bias model to use when fragmenting transcripts. By default, all fragments from a transcript are equally likely (`'none'`). Other choices are `'rnaf'` and `'cdnaf'`, which mimic positional bias arising from different fragmentation protocols. See `?generate_fragments` and our manuscript (Frazee et al, 2014) for details.
 * `gc_bias`: sample-specific GC bias models to be used to change expression values after read numbers are assigned. We modeled transcript expression as a function of GC content for 7 biological replicates in a real data set, and shift expression values accordingly. See `?add_gc_bias` for details. Ignored in `simulate_experiment_countmat`.
+* `frag_GC_bias`: A sample-specific GC content bias on the
+  fragment level instead of the transcript level. See `?simulate_experiment`
+* `strand_specific`: Whether the experiment should be strand-specific
+  or not, default is `FALSE` so an unstranded experiment.
 * `meanmodel`: Set to TRUE to estimate `reads_per_transcript` as a data-driven function of transcript length. Ignored in `simulate_experiment_countmat`. 
 * `lib_sizes`: multiplicative library size factor for each replicate in the experiment. Ignored in `simulate_experiment_countmat`. 
 

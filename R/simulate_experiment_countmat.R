@@ -65,7 +65,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     stopifnot(nrow(readmat) == length(transcripts))
 
     # validate extra arguments
-    extras = .check_extras(extras, paired)
+    extras = .check_extras(extras, paired, total.n=ncol(readmat))
 
     sysoutdir = gsub(' ', '\\\\ ', outdir)
     if(.Platform$OS.type == 'windows'){

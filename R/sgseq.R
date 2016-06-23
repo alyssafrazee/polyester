@@ -1,38 +1,49 @@
 ## internal sequencing function
 
 sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE){
-      #report theoretically perfect coverage if reportCoverage=TRUE, will write a file
-      if(reportCoverage==T){
-            templates = unique(transcripts)
-            coverage_matrices = list()
-            for(i in 1:length(templates)){coverage_matrices = c(coverage_matrices, list(matrix(0, ncol=dim(readmat)[2], width(templates)[i])))}
-            names(coverage_matrices) = names(templates)
-      }
-
+  #report theoretically perfect coverage if reportCoverage=TRUE, will write a file
+  if(reportCoverage==TRUE){
+    templates = unique(transcripts)
+    coverage_matrices = list()
+    for(i in 1:length(templates)){coverage_matrices = c(coverage_matrices, list(matrix(0, ncol=dim(readmat)[2], width(templates)[i])))}
+    names(coverage_matrices) = names(templates)
+  }
+  
   for(i in seq_len(ncol(readmat))) {
+    ##$ begin small chunk regarding fragment GC bias or not
+    if (is.matrix(extras$frag_GC_bias)) {
+      frag_GC_bias <- extras$frag_GC_bias[,i]
+    } else {
+      frag_GC_bias <- 'none'
+    }
+    ### end 
     tObj = rep(transcripts, times=readmat[,i])
     iterations = ceiling(length(tObj) / 1e6L)
     offset = 1L
     for(iteration in seq_len(iterations)) {
       tSubset = tObj[offset:min(offset+1e6L, length(tObj))]
-      tFrags = generate_fragments(tSubset, extras$fraglen, extras$fragsd,
+      tFrags = generate_fragments(tSubset, extras$fraglen[i], extras$fragsd[i],
                                   extras$readlen, extras$distr, extras$custdens,
-                                  extras$bias)
-      #reverse_complement some of those fragments
-      rctFrags = reverse_complement(tFrags)
+                                  extras$bias, frag_GC_bias)
 
+      if (!extras$strand_specific) {
+        #reverse_complement some of those fragments
+        rctFrags = reverse_complement(tFrags)
+      }
+      
       #get reads from fragments
       reads = get_reads(rctFrags, extras$readlen, paired)
 
-      if(reportCoverage==T){
+      if(reportCoverage==TRUE){
             read_info = unique(names(reads))
             read_info_split = strsplit(read_info, ";mate1:|;mate2:")
             read_info_matrix = matrix(unlist(read_info_split), ncol=3, byrow=T)
             for(j in 1:dim(read_info_matrix)[1]){
                   read = read_info_matrix[j,]
                   target = which(names(coverage_matrices)==read[1])
-                  coords1 = unlist(str_split(read[2], "-"))
-                  coords2 = unlist(str_split(read[3], "-"))
+                  # ML: changing these to strsplit (str_split requires stringr depends or imports)
+                  coords1 = unlist(strsplit(read[2], "-"))
+                  coords2 = unlist(strsplit(read[3], "-"))
                   coverage_matrices[[target]][coords1[1]:coords1[2],i]=coverage_matrices[[target]][coords1[1]:coords1[2],i]+1
                   coverage_matrices[[target]][coords2[1]:coords2[2],i]=coverage_matrices[[target]][coords2[1]:coords2[2],i]+1
                   save(coverage_matrices, file=file.path(outdir, 'sample_coverages.rda') )
