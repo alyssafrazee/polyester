@@ -169,7 +169,8 @@ Reads can either be simulated from a FASTA file of transcripts
   applying fragment GC bias.
   \item \code{strand_specific} defaults to \code{FALSE}, which means fragments are
   generated with equal probability from both strands of the transcript sequence.
-  set to \code{TRUE} for strand-specific simulation.
+  set to \code{TRUE} for strand-specific simulation (1st read forward strand,
+  2nd read reverse strand with respect to transcript sequence).
   \item \code{meanmodel}: set to TRUE if you'd like to set
   \code{reads_per_transcripts} as a function of transcript length. We
   fit a linear model regressing transcript abundance on transcript length,
