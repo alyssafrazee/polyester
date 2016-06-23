@@ -65,7 +65,7 @@
 }
 
 .write_info = function(extras, transcripts, num_reps, fold_changes, outdir,
-    group_ids){
+    group_ids, counts_matrix){
 
     if(!('transcriptid' %in% names(extras))){
         extras$transcriptid = names(transcripts)
@@ -91,7 +91,11 @@
         group=group_ids, lib_sizes=extras$lib_sizes)
 
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t',
-        file=paste0(outdir, '/sim_rep_info.txt'))
+                file=paste0(outdir, '/sim_rep_info.txt'))
+
+    rownames(counts_matrix) <- names(transcripts)
+    colnames(counts_matrix) <- rep_info$rep_id
+    save(counts_matrix, file=paste0(outdir, '/sim_counts_matrix.rda'))
 }
 
 
@@ -145,6 +149,9 @@
 #'   your simulation).
 #' @param paired If \code{TRUE}, paired-end reads are simulated; else
 #'   single-end reads are simulated. Default \code{TRUE}
+#' @param reportCoverage whether to write out coverage information to
+#'   \code{sample_coverages.rda} file in the \code{outdir}.
+#'   defaults to \code{FALSE}
 #' @param ... any of several other arguments that can be used to add nuance
 #'   to the simulation. See details.
 #'
@@ -171,7 +178,9 @@
 #'   'normal', draw fragment lengths from a normal distribution. You can provide
 #'   the mean of that normal distribution with \code{fraglen} (defaults to 250)
 #'   and the standard deviation of that normal distribution with \code{fragsd}
-#'   (defaults to 25). If 'empirical', draw fragment lengths
+#'   (defaults to 25). You can provide a single number for each, or a
+#'   vector with length equal to the total number of samples.
+#'   If 'empirical', draw fragment lengths
 #'   from a fragment length distribution estimated from a real data set. If
 #'   'custom', draw fragment lengths from a custom distribution, which you can
 #'   provide as the \code{custdens} argument. \code{custdens} should be a
@@ -219,6 +228,21 @@
 #'   each replicate will be adjusted based on the GC bias model specified for
 #'   it. Numeric and loess entries can be mixed. By default, no bias is
 #'   included.
+#'   \item \code{frag_GC_bias} Either a matrix of dimensions 101 x \code{sum(num_reps)}
+#'   or 'none'. The default is 'none'. If specified, the matrix contains the probabilities
+#'   (a number in the range [0,1]) that a fragment will appear in the output given its GC content.
+#'   The first row corresponds to a fragment with GC content of 0 percent, the second row
+#'   1 percent, the third row 2 percent, etc., and the last row 100 percent.
+#'   The columns correspond to different probabilites for each sample. Internally,
+#'   a coin flip (a Bernoulli trial) determines if each fragment is kept, depending on its GC content.
+#'   Note that the final library size will depend on the elements of the matrix, and
+#'   it might make sense to scale up the \code{lib_size} of the samples with low
+#'   probabilites in the matrix in the range of the transcriptome GC content distribution.
+#'   Note that the \code{count_matrix} written to \code{outdir} contains the counts before
+#'   applying fragment GC bias.
+#'   \item \code{strand_specific} defaults to \code{FALSE}, which means fragments are
+#'   generated with equal probability from both strands of the transcript sequence.
+#'   set to \code{TRUE} for strand-specific simulation.
 #'   \item \code{meanmodel}: set to TRUE if you'd like to set
 #'   \code{reads_per_transcripts} as a function of transcript length. We
 #'   fit a linear model regressing transcript abundance on transcript length,
@@ -227,8 +251,9 @@
 #'   modeling code at \url{http://htmlpreview.github.io/?https://github.com/alyssafrazee/polyester_code/blob/master/length_simulation.html}
 #'   \item \code{write_info}: set to FALSE if you do not want files of
 #'   simulation information written to disk. By default, transcript fold
-#'   changes and expression status & replicate library sizes and group
-#'   identifiers are written to \code{outdir}.
+#'   changes and expression status, replicate library sizes and group
+#'   identifiers, and an R data object of the counts matrix (before
+#'   application of fragment GC bias) are written to \code{outdir}.
 #'   \item \code{seed}: specify a seed (e.g. \code{seed=142} or some other
 #'   integer) to set before randomly drawing read numbers, for reproducibility.
 #'   \item \code{transcriptid}: optional vector of transcript IDs to be written
@@ -265,7 +290,9 @@
 #'   Genomics 13(1), 74.
 #'
 #' @return No return, but simulated reads and a simulation info file are written
-#'   to \code{outdir}.
+#'   to \code{outdir}. Note that reads are written out transcript by transcript
+#'   and so need to be shuffled if used as input to quantification algorithms such
+#'   as eXpress or Salmon.
 #'
 #' @export
 #'
@@ -294,14 +321,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     extras = list(...)
 
     # validate extra arguments/set sane defaults
-    extras = .check_extras(extras, paired)
-    if(!('lib_sizes' %in% names(extras))){
-        extras$lib_sizes = rep(1, sum(num_reps))
-    }else{
-        stopifnot(is.numeric(extras$lib_sizes))
-        stopifnot(length(extras$lib_sizes) == sum(num_reps))
-    }
-
+    extras = .check_extras(extras, paired, total.n=sum(num_reps))
 
     # read in the annotated transcripts to sequence from
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
@@ -346,7 +366,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
         reads_per_transcript = 2^logmus-1
     }
-    basemeans = ceiling(reads_per_transcript * fold_changes)
+    basemeans = reads_per_transcript * fold_changes
     if(is.null(size)){
         size = basemeans / 3
     }else if(class(size) == 'numeric'){
@@ -369,7 +389,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         NB(as.matrix(basemeans)[,group_id], as.matrix(size)[,group_id])
     })
     readmat = matrix(unlist(numreadsList), ncol=sum(num_reps))
-    readmat = ceiling(t(extras$lib_sizes * t(readmat)))
+    readmat = t(extras$lib_sizes * t(readmat))
     if('gcbias' %in% names(extras)){
         stopifnot(length(extras$gcbias) == sum(num_reps))
         gcclasses = unique(sapply(extras$gcbias, class))
@@ -399,10 +419,12 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }
 
     if(write_info){
-        .write_info(extras, transcripts, num_reps, fold_changes, outdir,
-        group_ids)
+      # save the *unbiased* counts matrix: the counts for each
+      # transcript and each sample *before* fragment GC bias is applied
+      counts_matrix <- readmat
+      .write_info(extras, transcripts, num_reps, fold_changes, outdir,
+                  group_ids, counts_matrix)
     }
-
 }
 
 # simulate_experiment(fastapath, reads_per_transcript=10, outdir='~/Desktop/tmp', num_reps=1)

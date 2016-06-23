@@ -2,7 +2,7 @@ Package: polyester
 Maintainer: Jack Fu <jmfu@jhsph.edu>, Jeff Leek
     <jtleek@gmail.com>
 Author: Alyssa C. Frazee, Andrew E. Jaffe, Rory Kirchner, Jeffrey T. Leek
-Version: 1.9.3
+Version: 1.9.4
 License: Artistic-2.0
 Title: Simulate RNA-seq reads
 Description: This package can be used to simulate RNA-seq reads from
@@ -13,7 +13,6 @@ VignetteBuilder: knitr
 Depends:
     R (>= 3.0.0)
 Imports:
-    BiocGenerics,
     Biostrings (>= 2.32.0),
     IRanges,
     S4Vectors,
@@ -24,3 +23,4 @@ Suggests:
     ballgown
 LazyLoad: true
 biocViews: Sequencing, DifferentialExpression
+RoxygenNote: 5.0.1
