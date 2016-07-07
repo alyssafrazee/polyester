@@ -42,7 +42,7 @@ get_reads = function(tFrags, readlen, paired=TRUE){
         if(sum(isLong) > 0){
             x = tFrags[isLong]
             lr = subseq(x, start=1, end=readlen) # left mate
-            names(lr) = stringf("%sa", seq(along=x))
+            names(lr) = sprintf("%sa", seq(along=x))
             rr = subseq(x, start=(width(x)-readlen+1), end=width(x))
             rr = reverseComplement(rr) # right mate
             names(rr) = sprintf("%sb", seq(along=x))
