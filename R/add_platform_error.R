@@ -117,18 +117,14 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             for(pos in 1:max(L)){
                 p = as.character(subseq(reads, pos, pos))
                 errMat = m[m$pos == pos, 2:6]
-                errBases = ifelse(
-                    p=='A', 
-                    sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
-                    ifelse(p=='T', 
-                        sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
-                    ifelse(p=='G', 
-                        sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
-                    ifelse(p=='C', 
-                        sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
-                    ifelse(p=='N', 
-                        sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]), 
-                    p)))))
+                errBases = switch(p,
+                                A = sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
+                                T = sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
+                                G = sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
+                                C = sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
+                                N = sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]),
+                                p)
+
                 ei = which(errBases != p)
                 locations[ei, pos] = TRUE
                 replacements[ei] = paste0(replacements[ei], errBases[ei])
@@ -169,17 +165,13 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
         for(pos in 1:max(L)){
             p = as.character(subseq(reads, pos, pos))
             errMat = model[model$pos == pos, 2:6]
-            errBases = ifelse(
-                p=='A', sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
-                ifelse(p=='T', 
-                    sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
-                ifelse(p=='G', 
-                    sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
-                ifelse(p=='C', 
-                    sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
-                ifelse(p=='N', 
-                    sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]), p)
-            ))))
+            errBases = switch(p,
+                                A = sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
+                                T = sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
+                                G = sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
+                                C = sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
+                                N = sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]),
+                                p)
             ei = which(errBases != p)
             locations[ei, pos] = TRUE
             replacements[ei] = paste0(replacements[ei], errBases[ei])
