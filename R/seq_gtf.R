@@ -69,7 +69,7 @@ seq_gtf = function(gtf, seqs, feature='transcript', exononly=TRUE,
     chrs = unique(gtf_dat$seqname)
     if(is.character(seqs)){
         fafiles = list.files(seqs)
-        lookingFor = paste0(chrs, '.fa')
+        lookingFor = sprintf('%s.fa', chrs)
     } else {
         fafiles = names(seqs)
         lookingFor = chrs
@@ -81,7 +81,7 @@ seq_gtf = function(gtf, seqs, feature='transcript', exononly=TRUE,
     seqlist = lapply(chrs, function(chr){
         dftmp = gtf_dat[gtf_dat[,1] == chr,]
         if(is.character(seqs)){
-            fullseq = readDNAStringSet(paste0(seqs, '/', chr, '.fa'))
+            fullseq = readDNAStringSet(sprintf('%s/%s.fa', seqs, chr))
         } else {
             fullseq = seqs[which(names(seqs) == chr)]
         }

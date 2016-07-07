@@ -109,12 +109,12 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
         start_pos[start_pos==0] = 1
     }
     tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
-    names(tObj)[s] = paste0(names(tObj[s]), ';mate1:', start_pos, '-', 
-        start_pos+readlen-1, ';mate2:', start_pos+fraglens[s]-readlen+1, '-', 
-        start_pos+fraglens[s]-1)
+    names(tObj)[s] = sprintf("%s;mate1:%s-%s;mate2:%s-%s", 
+                             names(tObj[s]), start_pos, start_pos+readlen-1, 
+                             start_pos+fraglens[s] - readlen+1,
+                             start_pos+fraglens[s] - 1)
     nonseqinds = (1:length(tObj))[-s]
-    names(tObj)[nonseqinds] = paste0(names(tObj[nonseqinds]), 
-        ';mate1Start:1;mate2Start:1')
+    names(tObj)[nonseqinds] = sprintf('%s;mate1Start:1;mate2Start:1',names(tObj[nonseqinds]))
 
     # fragment GC bias coin flips (Bernoulli trials)
     gc <- as.numeric(letterFrequency(tObj, "GC", as.prob=TRUE))

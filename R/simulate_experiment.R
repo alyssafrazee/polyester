@@ -33,12 +33,12 @@
         model_path = extras$model_path
         model_prefix = extras$model_prefix
         if(paired){
-            if(!file.exists(paste0(model_path, '/', model_prefix, '_mate1')) |
-               !file.exists(paste0(model_path, '/', model_prefix, '_mate2'))){
+            if(!file.exists(sprintf("%s/%s_mate1", model_path, model_prefix)) |
+               !file.exists(sprintf("%s/%s_mate2", model_path, model_prefix))){
                stop('could not find error model')
             }
         }else{
-            if(!file.exists(paste0(model_path, '/', model_prefix, '_single'))){
+            if(!file.exists(sprintf("%s/%s_single", model_path, model_prefix))){
                 stop('could not find error model')
             }
         }
@@ -84,18 +84,18 @@
     }
 
     write.table(sim_info, row.names=FALSE, quote=FALSE, sep="\t",
-            file=paste0(outdir, '/sim_tx_info.txt'))
+            file=sprintf('%s/sim_tx_info.txt', outdir))
 
     rep_info = data.frame(
         rep_id=paste0('sample_', sprintf('%02d', 1:sum(num_reps))),
         group=group_ids, lib_sizes=extras$lib_sizes)
 
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t',
-                file=paste0(outdir, '/sim_rep_info.txt'))
+                file=sprintf('%s/sim_rep_info.txt', outdir))
 
     rownames(counts_matrix) <- names(transcripts)
     colnames(counts_matrix) <- rep_info$rep_id
-    save(counts_matrix, file=paste0(outdir, '/sim_counts_matrix.rda'))
+    save(counts_matrix, file=sprintf('%s/sim_counts_matrix.rda', outdir))
 }
 
 
