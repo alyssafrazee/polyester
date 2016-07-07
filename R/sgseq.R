@@ -61,7 +61,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
 
       #write read pairs
       write_reads(errReads, readlen=extras$readlen,
-          fname=paste0(outdir, '/sample_', sprintf('%02d', i)), paired=paired,
+          fname=sprintf('%s/sample_%02d', outdir,i), paired=paired,
           gzip=extras$gzip, offset=offset)
       offset = offset + 1e6L
     }
