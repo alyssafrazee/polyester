@@ -53,10 +53,10 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
         lefts = reads[seq(1, length(reads), by=2)]
         rights = reads[seq(2, length(reads), by=2)]
         readnumbers = offset:(length(lefts) + offset - 1)
-        names(lefts) = paste0('read', readnumbers, '/', names(lefts))
-        names(rights) = paste0('read', readnumbers, '/', names(rights))
-        left_filepath = paste0(fname, '_1.fasta')
-        right_filepath = paste0(fname, '_2.fasta')
+        names(lefts) = sprintf('read%d/%s', readnumbers, names(lefts))
+        names(rights) = sprintf('read%d/%s', readnumbers, names(rights))
+        left_filepath = sprintf('%s_1.fasta', fname)
+        right_filepath = sprintf('%s_2.fasta', fname)
         if(compress){
             left_filepath = sprintf('%s.gz', left_filepath)
             right_filepath = sprintf('%s.gz', right_filepath)
@@ -71,7 +71,7 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
             outf = sprintf('%s.gz', outf)
         }
         readnumbers = offset:(length(reads) + offset - 1)
-        names(reads) = sprintf('read%s/%s', readnumbers, names(reads))
+        names(reads) = sprintf('read%d/%s', readnumbers, names(reads))
         writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
             compress=compress, append=append)
     }

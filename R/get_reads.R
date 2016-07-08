@@ -29,9 +29,9 @@ get_reads = function(tFrags, readlen, paired=TRUE){
       
         if(sum(isShort) > 0){
             x = tFrags[isShort] # left mate
-            names(x) = sprintf("%sa", seq(along=x))
+            names(x) = sprintf("%da", seq(along=x))
             rc = reverseComplement(x) # right mate
-            names(rc) = sprintf("%sb", seq(along=x))
+            names(rc) = sprintf("%db", seq(along=x))
             out = c(x,rc)
             outInds = rep(1:length(x), each=2)
             outInds[seq(2, length(outInds), by=2)] = (1:length(x))+length(x)
@@ -42,10 +42,10 @@ get_reads = function(tFrags, readlen, paired=TRUE){
         if(sum(isLong) > 0){
             x = tFrags[isLong]
             lr = subseq(x, start=1, end=readlen) # left mate
-            names(lr) = sprintf("%sa", seq(along=x))
+            names(lr) = sprintf("%da", seq(along=x))
             rr = subseq(x, start=(width(x)-readlen+1), end=width(x))
             rr = reverseComplement(rr) # right mate
-            names(rr) = sprintf("%sb", seq(along=x))
+            names(rr) = sprintf("%db", seq(along=x))
             out = c(lr, rr)
             outInds = rep(1:length(lr), each=2)
             outInds[seq(2, length(outInds), by=2)] = (1:length(lr))+length(lr)
