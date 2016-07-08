@@ -19,12 +19,11 @@ add_error = function(tFrags, error_rate = 0.005){
     # choose *a* nucleotide.
     
     allSeq = unlist(tFrags)
-    insertLocs = Rle(sample(c(TRUE,FALSE), size = length(allSeq), 
-           replace=TRUE, prob = c(adj_error, 1-adj_error)))
+
+    insertLocs = Rle(sample(c(TRUE,FALSE), length(allSeq), TRUE, c(adj_error, 1-adj_error)))
   
     newletters = DNAString(
-        paste(sample(c('A', 'C', 'G', 'T', 'N'), sum(insertLocs), 
-            replace=TRUE), collapse="") )
+        paste(sample(c('A', 'C', 'G', 'T', 'N'), sum(insertLocs), TRUE, NULL), collapse=""))
     allSeq = replaceLetterAt(allSeq, insertLocs, newletters)
     
     eFrags = DNAStringSet(allSeq, 
