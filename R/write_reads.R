@@ -53,25 +53,25 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
         lefts = reads[seq(1, length(reads), by=2)]
         rights = reads[seq(2, length(reads), by=2)]
         readnumbers = offset:(length(lefts) + offset - 1)
-        names(lefts) = sprintf('read%d/%s', readnumbers, names(lefts))
-        names(rights) = sprintf('read%d/%s', readnumbers, names(rights))
-        left_filepath = sprintf('%s_1.fasta', fname)
-        right_filepath = sprintf('%s_2.fasta', fname)
+        names(lefts) = .Internal(sprintf('read%d/%s', readnumbers, names(lefts)))
+        names(rights) = .Internal(sprintf('read%d/%s', readnumbers, names(rights)))
+        left_filepath = .Internal(sprintf('%s_1.fasta', fname))
+        right_filepath = .Internal(sprintf('%s_2.fasta', fname))
         if(compress){
-            left_filepath = sprintf('%s.gz', left_filepath)
-            right_filepath = sprintf('%s.gz', right_filepath)
+            left_filepath = .Internal(sprintf('%s.gz', left_filepath))
+            right_filepath = .Internal(sprintf('%s.gz', right_filepath))
         }
         writeXStringSet(lefts, filepath=left_filepath,
             format="fasta", width=readlen, compress=compress, append=append)
         writeXStringSet(rights, filepath=right_filepath,
             format="fasta", width=readlen, compress=compress, append=append)
     }else{
-        outf = sprintf('%s.fasta', fname)
+        outf = .Internal(sprintf('%s.fasta', fname))
         if(compress){
-            outf = sprintf('%s.gz', outf)
+            outf = .Internal(sprintf('%s.gz', outf))
         }
         readnumbers = offset:(length(reads) + offset - 1)
-        names(reads) = sprintf('read%d/%s', readnumbers, names(reads))
+        names(reads) = .Internal(sprintf('read%d/%s', readnumbers, names(reads)))
         writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
             compress=compress, append=append)
     }
