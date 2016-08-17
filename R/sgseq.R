@@ -28,11 +28,11 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
 
       if (!extras$strand_specific) {
         #reverse_complement some of those fragments
-        rctFrags = reverse_complement(tFrags)
+        tFrags = reverse_complement(tFrags)
       }
       
       #get reads from fragments
-      reads = get_reads(rctFrags, extras$readlen, paired)
+      reads = get_reads(tFrags, extras$readlen, paired)
 
       if(reportCoverage==TRUE){
             read_info = unique(names(reads))
