@@ -87,7 +87,7 @@
             file=sprintf('%s/sim_tx_info.txt', outdir))
 
     rep_info = data.frame(
-        rep_id=paste0('sample_', sprintf('%02d', 1:sum(num_reps))),
+        rep_id=paste0('sample_', sprintf('%04d', 1:sum(num_reps))),
         group=group_ids, lib_sizes=extras$lib_sizes)
 
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t',
@@ -317,7 +317,7 @@
 #'
 simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     outdir='.', num_reps=c(10,10), reads_per_transcript=300, size=NULL,
-    fold_changes, paired=TRUE, reportCoverage=FALSE, ...){
+    fold_changes, paired=TRUE, reportCoverage=FALSE, ncores=2, ...){
 
     extras = list(...)
 
@@ -437,7 +437,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }
 
     # do the actual sequencing
-    sgseq(readmat, transcripts, paired, outdir, extras, reportCoverage)
+    sgseq(readmat, transcripts, paired, outdir, extras, reportCoverage,ncores=ncores)
 
     # write out simulation information, if asked for:
     if(!('write_info' %in% names(extras))){
