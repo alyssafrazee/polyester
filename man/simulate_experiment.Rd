@@ -6,7 +6,8 @@
 \usage{
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   outdir = ".", num_reps = c(10, 10), reads_per_transcript = 300,
-  size = NULL, fold_changes, paired = TRUE, reportCoverage = FALSE, ...)
+  size = NULL, fold_changes, paired = TRUE, reportCoverage = FALSE,
+  ncores = 2, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
