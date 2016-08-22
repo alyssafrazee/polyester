@@ -1,6 +1,7 @@
-## internal sequencing function
-
-sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE){
+#' internal sequencing function
+#' import doParallel
+sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE,ncores=2){
+    registerDoParallel(cores=ncores)
   #report theoretically perfect coverage if reportCoverage=TRUE, will write a file
   if(reportCoverage==TRUE){
     templates = unique(transcripts)
@@ -9,7 +10,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
     names(coverage_matrices) = names(templates)
   }
   
-  for(i in seq_len(ncol(readmat))) {
+  foreach (i=seq_len(ncol(readmat))) %dopar% {
     ##$ begin small chunk regarding fragment GC bias or not
     if (is.matrix(extras$frag_GC_bias)) {
       frag_GC_bias <- extras$frag_GC_bias[,i]
@@ -61,10 +62,9 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
 
       #write read pairs
       write_reads(errReads, readlen=extras$readlen,
-          fname=sprintf('%s/sample_%02d', outdir,i), paired=paired,
+          fname=sprintf('%s/sample_%04d', outdir,i), paired=paired,
           gzip=extras$gzip, offset=offset)
       offset = offset + 1e6L
     }
   }
-
 }
