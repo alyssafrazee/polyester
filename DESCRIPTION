@@ -20,7 +20,8 @@ Imports:
     limma
 Suggests:
     knitr,
-    ballgown
+    ballgown,
+    doParallel
 LazyLoad: true
 biocViews: Sequencing, DifferentialExpression
 RoxygenNote: 5.0.1
