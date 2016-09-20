@@ -352,10 +352,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         stop('must provide either fasta or both gtf and seqpath')
     }
 
-    if(length(num_reps) == 1){
-        fold_changes = rep(1, length(transcripts))
-    }
-
     # check fold change matrix dimensions:
     .check_fold_changes(fold_changes, num_reps, transcripts)
 
@@ -367,12 +363,39 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
         reads_per_transcript = 2^logmus-1
     }
-    basemeans = reads_per_transcript * fold_changes
+
+    if(length(num_reps) == 1){
+        fold_changes = matrix(rep(1, length(transcripts)))
+    } else if(length(num_reps) == 2) {
+        # This means fold_changes is a numeric vector, per the check function
+        if(length(reads_per_transcript) == 1) {
+            basemeans = matrix(reads_per_transcript, ncol=2, nrow=length(transcripts))
+            basemeans[,2] = fold_changes * basemeans[,1]
+        } else if(length(reads_per_transcript) == length(transcripts)){
+            basemeans = matrix(c(reads_per_transcript, reads_per_transcript), nrow=length(reads_per_transcript))
+            basemeans[,2] = fold_changes * basemeans[,1]
+        } else {
+            stop('reads_per_transcript is the wrong length.')
+        }
+    } else {
+        basemeans = reads_per_transcript * fold_changes
+    }
+
     if(is.null(size)){
         size = basemeans / 3
     }else if(class(size) == 'numeric'){
-        size = matrix(size, nrow=nrow(basemeans), ncol=ncol(basemeans))
+        if(is.matrix(basemeans)){
+            num_rows = nrow(basemeans)
+            num_cols = ncol(basemeans)
+        } else {
+            num_rows = length(basemeans)
+            num_cols = 1
+        }
+        size = matrix(size, nrow=num_rows, ncol=num_cols)
     }else if(class(size) == 'matrix'){
+        if(!is.matrix(basemeans)){
+            stop('If you provide a matrix for size, you also need a matrix for reads_per_transcript.')
+        }
         stopifnot(nrow(size) == nrow(basemeans))
         stopifnot(ncol(size) == ncol(basemeans))
     }else{
