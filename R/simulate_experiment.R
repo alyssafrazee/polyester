@@ -373,7 +373,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
             basemeans[,2] = fold_changes * basemeans[,1]
         } else if(length(reads_per_transcript) == length(transcripts)){
             basemeans = matrix(c(reads_per_transcript, reads_per_transcript), nrow=length(reads_per_transcript))
-            basemeans[,2] = fold_changes * basemeans[,1]
+            basemeans = basemeans*fold_changes
         } else {
             stop('reads_per_transcript is the wrong length.')
         }
