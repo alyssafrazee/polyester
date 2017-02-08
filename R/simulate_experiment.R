@@ -416,8 +416,8 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     readmat = t(extras$lib_sizes * t(readmat))
     if('gcbias' %in% names(extras)){
         stopifnot(length(extras$gcbias) == sum(num_reps))
-        gcclasses = unique(sapply(extras$gcbias, class))
-        if(sum(gcclasses %in% c('numeric', 'loess')) < length(extras$gcbias)){
+        gcclasses = sapply(extras$gcbias, class)
+        if(! all(gcclasses %in% c('numeric', 'loess'))){
             stop(.makepretty('gc bias parameters must be integers 0 through 7
                 or loess objects'))
         }
