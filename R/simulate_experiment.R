@@ -366,6 +366,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 
     if(length(num_reps) == 1){
         fold_changes = matrix(rep(1, length(transcripts)))
+        basemeans = reads_per_transcript * fold_changes
     } else if(length(num_reps) == 2) {
         # This means fold_changes is a numeric vector, per the check function
         if(length(reads_per_transcript) == 1) {
