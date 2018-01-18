@@ -21,7 +21,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
     iterations = ceiling(length(tObj) / 1e6L)
     offset = 1L
     for(iteration in seq_len(iterations)) {
-      tSubset = tObj[offset:min(offset+1e6L, length(tObj))]
+      tSubset = tObj[offset:min(offset+999999L, length(tObj))] ## corrected value of integer added to offset to avoid duplicating reads
       tFrags = generate_fragments(tSubset, extras$fraglen[i], extras$fragsd[i],
                                   extras$readlen, extras$distr, extras$custdens,
                                   extras$bias, frag_GC_bias)
