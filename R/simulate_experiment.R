@@ -362,6 +362,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         sigma = 4.152
         logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
         reads_per_transcript = 2^logmus-1
+        reads_per_transcript = pmax( reads_per_transcript, 1e-6 )
     }
 
     if(length(num_reps) == 1){
