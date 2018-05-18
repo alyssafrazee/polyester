@@ -110,7 +110,7 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
     }
     tObj[s] = subseq(tObj[s], start=start_pos, width=fraglens[s])
     names(tObj)[s] = paste0(names(tObj[s]), ';mate1:', start_pos, '-', 
-        start_pos+readlen-1, ';mate2:', start_pos+fraglens[s]-readlen+1, '-', 
+        start_pos+readlen-1, ';mate2:', start_pos+fraglens[s]-readlen, '-', 
         start_pos+fraglens[s]-1)
     nonseqinds = (1:length(tObj))[-s]
     names(tObj)[nonseqinds] = paste0(names(tObj[nonseqinds]), 
