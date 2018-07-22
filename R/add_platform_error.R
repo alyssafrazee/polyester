@@ -110,21 +110,36 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
                 m = m2
             }
             L = width(reads)
+            ## reformat error model into 3D array
+            ## only include the actual error columns
+            ## remove refBase and pos columns
+            ## accessing matrix elements is faster than with a data.frame
+            m <- as.matrix(m[1:(5*max(L)), 2:6])
+            ## this gives us max(L) 5x5 error matrix for each position
+            dim(m) <- c(5, max(L), 5)
+            ## rename rows in each position's matrix with the base
+            dimnames(m) <- list(nt, NULL, NULL)
             locations = matrix(FALSE, nrow=length(reads), ncol=max(L))
             reads = padAndClip(reads, IRanges(1, max(L)), Lpadding.letter="N",
                 Rpadding.letter="N") #pad to rectangular
             replacements = rep("", length(reads))
             for(pos in 1:max(L)){
                 p = as.character(subseq(reads, pos, pos))
-                errMat = m[m$pos == pos, 2:6]
-                errBases = switch(p,
-                                A = sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
-                                T = sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
-                                G = sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
-                                C = sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
-                                N = sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]),
-                                p)
-
+                ## retrieve error matrix for position
+                errMat = m[, pos, ]
+                ## loop through bases and sample new ones
+                errRes <- lapply(nt, function(base){
+                  sample(nt, sum(p == base),
+                         replace = TRUE,
+                         prob = errMat[base, ])
+                })
+                ## remove entries for bases that aren't present
+                errRes <- errRes[which(sapply(errRes, length) > 0)]
+                ## replace the old bases with the new bases
+                errBases <- p
+                for (base in names(errRes)) {
+                  errBases[p == base] <- errRes[[base]]
+                }
                 ei = which(errBases != p)
                 locations[ei, pos] = TRUE
                 replacements[ei] = paste0(replacements[ei], errBases[ei])
@@ -157,6 +172,13 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             model = process_custom(paste0(path, '_single'))
         }
         L = width(tFrags)
+        ## reformat error model into 3D array
+        ## accessing matrix elements is faster than with a data.frame
+        model <- as.matrix(model[1:(5*max(L)), 2:6])
+        ## this gives us max(L) 5x5 error matrix for each position
+        dim(model) <- c(5, max(L), 5)
+        ## rename the rows in each position's matrix with the base
+        dimnames(model) <- list(nt, NULL, NULL)
         locations = matrix(FALSE, nrow=length(tFrags), ncol=max(L))
         reads = padAndClip(tFrags, IRanges(1, max(L)), Lpadding.letter="N",
             Rpadding.letter="N")
@@ -164,14 +186,21 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
         replacements = rep("", length(reads))
         for(pos in 1:max(L)){
             p = as.character(subseq(reads, pos, pos))
-            errMat = model[model$pos == pos, 2:6]
-            errBases = switch(p,
-                                A = sample(nt, sum(p=='A'), replace=TRUE, prob=errMat[1,]),
-                                T = sample(nt, sum(p=='T'), replace=TRUE, prob=errMat[2,]),
-                                G = sample(nt, sum(p=='G'), replace=TRUE, prob=errMat[3,]),
-                                C = sample(nt, sum(p=='C'), replace=TRUE, prob=errMat[4,]),
-                                N = sample(nt, sum(p=='N'), replace=TRUE, prob=errMat[5,]),
-                                p)
+            ## retrieve error matrix for position
+            errMat = model[, pos, ]
+            ## loop through bases and sample new ones
+            errRes <- lapply(nt, function(base){
+              sample(nt, sum(p == base),
+                     replace = TRUE,
+                     prob = errMat[base, ])
+            })
+            ## remove entries for bases that aren't present
+            errRes <- errRes[which(sapply(errRes, length) > 0)]
+            ## replace the old bases with the new bases
+            errBases <- p
+            for (base in names(errRes)) {
+              errBases[p == base] <- errRes[[base]]
+            }
             ei = which(errBases != p)
             locations[ei, pos] = TRUE
             replacements[ei] = paste0(replacements[ei], errBases[ei])
