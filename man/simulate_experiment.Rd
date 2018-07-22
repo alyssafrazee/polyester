@@ -203,6 +203,8 @@ Reads can either be simulated from a FASTA file of transcripts
   \item \code{attrsep}: (passed to \code{\link{seq_gtf}}) in the
   \code{attributes} column of \code{gtf}, how are attributes separated?
   Default \code{"; "}.
+  \item \code{shuffle}: should the reads be shuffled before written to file?
+  Default \code{FALSE}.
   }
 }
 \examples{
@@ -238,4 +240,3 @@ Reads can either be simulated from a FASTA file of transcripts
   error-model based simulator of next-generation sequencing data. BMC
   Genomics 13(1), 74.
 }
-

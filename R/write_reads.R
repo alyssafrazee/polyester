@@ -16,6 +16,7 @@
 #' @export
 #' @param offset An integer number greater or equal to 1 to start assigning 
 #' read numbers at.
+#' @param shuffle If \code{TRUE}, shuffles the reads before writing them to file.
 #' @details The \code{\link{get_reads}} function returns a DNAStringSet object
 #'   representing sequencing reads that can be directly passed to
 #'   \code{write_reads}. If output other than that from \code{get_reads} is used
@@ -45,7 +46,8 @@
 #' srPhiOffset <- readDNAStringSet('./srPhiX174-offset.fasta')
 #' identical(srPhi, srPhiOffset)
 #'
-write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
+write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L,
+                       shuffle=FALSE){
     compress = ifelse(is.null(gzip), FALSE, gzip)
     stopifnot(is.integer(offset) & offset >= 1)
     append = ifelse(offset == 1, FALSE, TRUE)
@@ -57,6 +59,11 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
         names(rights) = .Internal(sprintf('read%d/%s', readnumbers, names(rights)))
         left_filepath = .Internal(sprintf('%s_1.fasta', fname))
         right_filepath = .Internal(sprintf('%s_2.fasta', fname))
+        if(shuffle) {
+          shuffled_rows <- sample(length(lefts))
+          lefts <- lefts[shuffled_rows]
+          rights <- rights[shuffled_rows]
+        }
         if(compress){
             left_filepath = .Internal(sprintf('%s.gz', left_filepath))
             right_filepath = .Internal(sprintf('%s.gz', right_filepath))
@@ -72,6 +79,7 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L){
         }
         readnumbers = offset:(length(reads) + offset - 1)
         names(reads) = .Internal(sprintf('read%d/%s', readnumbers, names(reads)))
+        if (shuffle) reads <- reads[sample(length(reads))]
         writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
             compress=compress, append=append)
     }

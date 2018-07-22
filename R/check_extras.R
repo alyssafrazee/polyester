@@ -82,7 +82,10 @@
     if (!('strand_specific' %in% names(extras))) {
       extras$strand_specific <- FALSE
     }
-    
+
+    if (!('shuffle' %in% names(extras))) {
+       extras$shuffle <- FALSE
+    }
     return(extras)
 
 }

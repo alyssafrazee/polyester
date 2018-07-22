@@ -4,7 +4,8 @@
 \alias{write_reads}
 \title{write sequencing reads to disk}
 \usage{
-write_reads(reads, fname, readlen, paired = TRUE, gzip, offset = 1L)
+write_reads(reads, fname, readlen, paired = TRUE, gzip, offset = 1L,
+  shuffle = FALSE)
 }
 \arguments{
 \item{reads}{DNAStringSet representing sequencing reads}
@@ -25,6 +26,8 @@ assumed to be single-end and just one file, \code{fname.fasta}, is written.}
 
 \item{offset}{An integer number greater or equal to 1 to start assigning 
 read numbers at.}
+
+\item{shuffle}{If \code{TRUE}, shuffles the reads before writing them to file.}
 }
 \value{
 No return, but FASTA file(s) containing the sequences in \code{reads}
@@ -66,4 +69,3 @@ identical(srPhi, srPhiOffset)
 \seealso{
 \code{\link{get_reads}}
 }
-

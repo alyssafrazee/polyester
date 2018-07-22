@@ -63,7 +63,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
       #write read pairs
       write_reads(errReads, readlen=extras$readlen,
           fname=sprintf('%s/sample_%04d', outdir,i), paired=paired,
-          gzip=extras$gzip, offset=offset)
+          gzip=extras$gzip, offset=offset, shuffle = extras$shuffle)
       offset = offset + 1e6L
     }
   }
