@@ -5,7 +5,7 @@
 \title{Simulate RNA-seq experiment based on abundances from a data set}
 \usage{
 simulate_experiment_empirical(bg = NULL, fpkmMat = NULL, mean_rps = 5e+06,
-  grouplabels = NULL, decut = 1.5, outdir = ".", ...)
+  grouplabels = NULL, decut = 1.5, outdir = ".", ncores = 1L, ...)
 }
 \arguments{
 \item{bg}{Ballgown object containing estimated transcript abundances in FPKM.
@@ -32,6 +32,11 @@ if its fold change between the two groups is more extreme than
 \item{outdir}{character, path to folder where simulated reads should be 
 written, without a slash at the end of the folder name. By default, reads
 written to the working directory.}
+
+\item{ncores}{the number of cores to be utilized for parallel generation
+of simulated reads. Note that if more than one core is specified,
+the code will parallelize by replicate, so if num_reps == 1, this
+will not be utilized.}
 
 \item{...}{Additional arguments to pass to simulate_experiment_countmat}
 }
@@ -63,4 +68,3 @@ abundances and differential expression are estimated from a real data set
      seqpath=chr22seq, mean_rps=5000, outdir='simulated_reads_3', seed=1247)
 }
 }
-

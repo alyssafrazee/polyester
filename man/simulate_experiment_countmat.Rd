@@ -5,7 +5,7 @@
 \title{Simulate RNA-seq experiment}
 \usage{
 simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = ".", paired = TRUE, seed = NULL, ...)
+  readmat, outdir = ".", paired = TRUE, seed = NULL, ncores = 1L, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -32,6 +32,11 @@ reads are simulated.}
 
 \item{seed}{Optional seed to set before simulating reads, for 
 reproducibility.}
+
+\item{ncores}{the number of cores to be utilized for parallel generation
+of simulated reads. Note that if more than one core is specified,
+the code will parallelize by replicate, so if num_reps == 1, this
+will not be utilized.}
 
 \item{...}{Additional arguments to add nuance to the simulation, as described
 extensively in the details of \code{\link{simulate_experiment}}, or to pass
@@ -69,4 +74,3 @@ Li W and Jiang T (2012): Transcriptome assembly and isoform expression
   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
   2914-2921.
 }
-

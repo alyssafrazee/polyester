@@ -1,7 +1,6 @@
-#' internal sequencing function
-#' import doParallel
-sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE,ncores=2){
-    registerDoParallel(cores=ncores)
+#' Internal sequencing function
+#' @importFrom parallel mclapply
+sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FALSE, ncores=1L){
   #report theoretically perfect coverage if reportCoverage=TRUE, will write a file
   if(reportCoverage==TRUE){
     templates = unique(transcripts)
@@ -10,7 +9,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
     names(coverage_matrices) = names(templates)
   }
   
-  foreach (i=seq_len(ncol(readmat))) %dopar% {
+  null <- parallel::mclapply(seq_len(ncol(readmat)), function(i) {
     ##$ begin small chunk regarding fragment GC bias or not
     if (is.matrix(extras$frag_GC_bias)) {
       frag_GC_bias <- extras$frag_GC_bias[,i]
@@ -66,5 +65,6 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
           gzip=extras$gzip, offset=offset, shuffle = extras$shuffle)
       offset = offset + 1e6L
     }
-  }
+  }, mc.cores = ifelse(ncol(readmat) >= ncores, ncores, ncol(readmat)))
+  invisible(NULL)
 }

@@ -22,6 +22,10 @@
 #' @param outdir character, path to folder where simulated reads should be 
 #'   written, without a slash at the end of the folder name. By default, reads
 #'   written to the working directory.
+#' @param ncores the number of cores to be utilized for parallel generation
+#'   of simulated reads. Note that if more than one core is specified,
+#'   the code will parallelize by replicate, so if num_reps == 1, this
+#'   will not be utilized.
 #' @param ... Additional arguments to pass to simulate_experiment_countmat
 #' @importFrom limma lmFit
 #' @export
@@ -46,7 +50,7 @@
 #'      seqpath=chr22seq, mean_rps=5000, outdir='simulated_reads_3', seed=1247)
 #'}
 simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
-    mean_rps=5e6, grouplabels=NULL, decut=1.5, outdir='.', ...){
+    mean_rps=5e6, grouplabels=NULL, decut=1.5, outdir='.', ncores = 1L, ...){
 
     if(!xor(is.null(bg), is.null(fpkmMat))){
         stop('must provide exactly one of bg or fpkmMat')
@@ -124,6 +128,6 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t', 
         file=paste0(outdir, '/sim_rep_info.txt'))
 
-    simulate_experiment_countmat(readmat=countmat, outdir=outdir, ...)
+    simulate_experiment_countmat(readmat=countmat, outdir=outdir, ncores = ncores, ...)
 }
 

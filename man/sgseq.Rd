@@ -2,14 +2,11 @@
 % Please edit documentation in R/sgseq.R
 \name{sgseq}
 \alias{sgseq}
-\title{internal sequencing function
-import doParallel}
+\title{Internal sequencing function}
 \usage{
 sgseq(readmat, transcripts, paired, outdir, extras, reportCoverage = FALSE,
-  ncores = 2)
+  ncores = 1L)
 }
 \description{
-internal sequencing function
-import doParallel
+Internal sequencing function
 }
-

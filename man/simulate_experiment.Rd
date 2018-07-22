@@ -7,7 +7,7 @@
 simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
   outdir = ".", num_reps = c(10, 10), reads_per_transcript = 300,
   size = NULL, fold_changes, paired = TRUE, reportCoverage = FALSE,
-  ncores = 2, ...)
+  ncores = 1L, ...)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -68,6 +68,11 @@ single-end reads are simulated. Default \code{TRUE}}
 \item{reportCoverage}{whether to write out coverage information to
 \code{sample_coverages.rda} file in the \code{outdir}.
 defaults to \code{FALSE}}
+
+\item{ncores}{the number of cores to be utilized for parallel generation
+of simulated reads. Note that if more than one core is specified,
+the code will parallelize by replicate, so if num_reps == 1, this
+will not be utilized.}
 
 \item{...}{any of several other arguments that can be used to add nuance
 to the simulation. See details.}

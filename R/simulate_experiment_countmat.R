@@ -21,6 +21,10 @@
 #'   reads are simulated.
 #' @param seed Optional seed to set before simulating reads, for 
 #'   reproducibility.
+#' @param ncores the number of cores to be utilized for parallel generation
+#'   of simulated reads. Note that if more than one core is specified,
+#'   the code will parallelize by replicate, so if num_reps == 1, this
+#'   will not be utilized.
 #' @param ... Additional arguments to add nuance to the simulation, as described
 #'   extensively in the details of \code{\link{simulate_experiment}}, or to pass
 #'   to \code{seq_gtf}, if \code{gtf} is not \code{NULL}.
@@ -47,7 +51,7 @@
 #'}
 
 simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, 
-    readmat, outdir='.', paired=TRUE, seed=NULL, ...){
+    readmat, outdir='.', paired=TRUE, seed=NULL, ncores = 1L, ...){
 
     extras = list(...)
 
@@ -75,6 +79,6 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }
 
     # do the sequencing
-    sgseq(readmat, transcripts, paired, outdir, extras)
+    sgseq(readmat, transcripts, paired, outdir, extras, ncores = ncores)
 
 }
