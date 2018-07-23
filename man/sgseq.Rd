@@ -42,6 +42,6 @@ This internal function actually does the sequencing in the following steps:
 generate the fragments, get the reads from the fragments, add any errors,
 and then write the reads. It does this in 1 million reads chunks to
 balance speed and memory usage. This is not intended to be called directly;
-instead it is meant to be called via \link{\code{simulate_experiment}},
-\link{\code{simulate_experiment_countmat}}, or \link{\code{simulate_experiment_empirical}}.
+instead it is meant to be called via \code{\link{simulate_experiment}},
+\code{\link{simulate_experiment_countmat}}, or \code{\link{simulate_experiment_empirical}}.
 }
