@@ -7,6 +7,41 @@
 sgseq(readmat, transcripts, paired, outdir, extras, reportCoverage = FALSE,
   ncores = 1L)
 }
+\arguments{
+\item{readmat}{a N by M matrix describing the full counts for the
+experiment; each row is an experiment and each column is a sample in the
+experiment.}
+
+\item{transcripts}{a \code{DNAStringSet} object containing the transcripts
+from which reads are simulated}
+
+\item{paired}{a boolean determining whether or not to simulated paired-end
+or single-end reads}
+
+\item{outdir}{the output directory where the simulated reads will be written}
+
+\item{extras}{a list of extra options, generated internally by
+\code{simulate_experiment}, \code{simulate_experiment_countmat}, or
+\code{simulate_experiment_empirical}}
+
+\item{reportCoverage}{whether to write out coverage information to
+\code{sample_coverages.rda} file in the \code{outdir}.
+defaults to \code{FALSE}}
+
+\item{ncores}{the number of cores to be utilized for parallel generation
+of simulated reads. Note that if more than one core is specified,
+the code will parallelize by replicate, so if num_reps == 1, this
+will not be utilized.}
+}
+\value{
+no return value. This function is called for its side effect of
+  generating simulated reads and writing them to file.
+}
 \description{
-Internal sequencing function
+This internal function actually does the sequencing in the following steps:
+generate the fragments, get the reads from the fragments, add any errors,
+and then write the reads. It does this in 1 million reads chunks to
+balance speed and memory usage. This is not intended to be called directly;
+instead it is meant to be called via \link{\code{simulate_experiment}},
+\link{\code{simulate_experiment_countmat}}, or \link{\code{simulate_experiment_empirical}}.
 }
