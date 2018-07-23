@@ -123,6 +123,9 @@ simulate_experiment_countmat('chr22_small.fa', readmat=countmat,
 
 In this scenario, we simulated 12 total timepoints. We also added differential expression: transcripts 1 and 2 are overexpressed (compared to baseline) at timepoints 2 and 3, with a fold change of 3 at timepoint 2 and a fold change of 1.5 at timepoint 3. Similarly, transcripts 3 and 4 are overexpressed at timepoints 10 and 11, with a fold change of 6 at timepoint 10 and a fold change of 1.2 at timepoint 11. 
 
+### Parallel processing
+Using the `parallel` package, you can now specify how many cores you wish to use to process multiple samples simultaneously. For any of the `simulate_experiment*`, you can specify the number of cores to use. Note that the internal function will split each sample across cores, so using multiple cores will only give a benefit if you are simulating more than one sample.
+
 ### Changing other parameters and adding bias 
 The following parameters can be provided to `simulate_experiment` and `simulate_experiment_countmat`:
 
@@ -141,6 +144,7 @@ The following parameters can be provided to `simulate_experiment` and `simulate_
   or not, default is `FALSE` so an unstranded experiment.
 * `meanmodel`: Set to TRUE to estimate `reads_per_transcript` as a data-driven function of transcript length. Ignored in `simulate_experiment_countmat`. 
 * `lib_sizes`: multiplicative library size factor for each replicate in the experiment. Ignored in `simulate_experiment_countmat`. 
+* `shuffle`: Set to TRUE to shuffle each chunk of simulated reads before writing them to file. This is important for most downstream quantification tools, as they expect the reads to not be in order.
 
 For most of these parameters, you can see additional, precise documentation using `?simulate_experiment`. Also, [this review paper](http://genomebiology.com/2010/11/12/220) (Oshlack, Robinson, and Young, _Genome Biology_ 2010, open access) provides a good overview of the RNA sequencing process, and might be particularly useful for understanding where some of these simulation parameters come into play. If you'd like to explore or change specific steps in the sequencing process (fragmentation, reverse-complementing, error-adding), the internal functions called within `simulate_experiment` are available and individually documented in Polyester.
 
