@@ -78,6 +78,16 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
         }
         tt = seq_gtf(extras$gtf, extras$seqpath)
     }
+    
+    # If for some reason the names of the transcripts are missing,
+    # stop.
+    if (is.null(names(tt))) {
+      stop(.makepretty('the transcripts do not appear to have names;
+           something went wrong with the import process or the provided
+           file has empty names for each transcript; please provide unique
+           names that match the row names in the ballgown object/matrix.'))
+    }
+
     fastanames = names(tt)
     matrixnames = rownames(fpkmMat)
     if(length(fastanames) != length(matrixnames)){

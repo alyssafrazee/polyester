@@ -51,6 +51,7 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L,
     compress = ifelse(is.null(gzip), FALSE, gzip)
     stopifnot(is.integer(offset) & offset >= 1)
     append = ifelse(offset == 1, FALSE, TRUE)
+    if(is.null(names(reads))) names(reads) <- rep("", length(reads))
     if(paired){
         lefts = reads[seq(1, length(reads), by=2)]
         rights = reads[seq(2, length(reads), by=2)]

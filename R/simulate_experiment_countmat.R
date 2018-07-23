@@ -65,6 +65,18 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         stop('must provide either fasta or both gtf and seqpath')
     }
 
+    # If for some reason the names of the transcripts are missing,
+    # add dummy transcript names so the user can follow from which
+    # transcript each read is generated
+    if (is.null(names(transcripts))) {
+      warning(.makepretty('the provided transcripts have missing names;
+              adding dummy names'))
+      num_trans <- length(transcripts)
+      digits <- nchar(num_trans)
+      format <- paste0("%s%0", digits, "d")
+      names(transcripts) <- sprintf(format, "transcript", 1:num_trans)
+    }
+
     stopifnot(class(readmat) == 'matrix')
     stopifnot(nrow(readmat) == length(transcripts))
 
