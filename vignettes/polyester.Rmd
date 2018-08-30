@@ -22,8 +22,9 @@ Polyester offers several unique features:
 Start R and run:
 
 ```{r installme, eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("polyester")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("polyester")
 ```
 
 # Required Input
@@ -139,8 +140,9 @@ We also provide a function `simulate_experiment_empirical` that takes a real tra
 To create a count matrix that resembles a real dataset, use the `create_read_numbers` function. To run this example, you will need to install the Ballgown package from Bioconductor if you do not already have it:
 
 ```{r installbg, eval=FALSE}
-source("http://bioconductor.org/biocLite.R")
-biocLite("ballgown")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("ballgown")
 library(ballgown)
 data(bg)
 bg = subset(bg, "chr=='22'")

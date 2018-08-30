@@ -21,8 +21,9 @@ Start R and run:
 
 
 ```r
-source("http://bioconductor.org/biocLite.R")
-biocLite("polyester")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("polyester")
 ```
 
 # Required Input
@@ -152,8 +153,9 @@ To create a count matrix that resembles a real dataset, use the `create_read_num
 
 
 ```r
-source("http://bioconductor.org/biocLite.R")
-biocLite("ballgown")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("ballgown")
 ```
 
 ```r
