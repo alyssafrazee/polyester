@@ -83,7 +83,7 @@ The statistical model behind this function is a negative binomial distribution, 
     - Fold changes will multiply these baseline mean numbers for the specified group. 
     - Long transcripts usually produce more reads in RNA-seq experiments than short ones, so you may want to specify `reads_per_transcript` as a function of transcript length
     - Default is 300 (regardless of transcript length).
-* `size`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```mean = mean + (mean^2) / size```. You can specify the size for each transcript. By default, size is defined as 1/3 of the transcript's mean, which (in our experience) creates an idealized, low-variance situation.  Decrease the value of `size` to introduce more variance into your simulations.
+* `size`: controls the per-transcript mean/variance relationship. In the negative binomial distribution, the mean/variance relationship is: ```variance = mean + (mean^2) / size```. You can specify the size for each transcript. By default, size is defined as 1/3 of the transcript's mean, which (in our experience) creates an idealized, low-variance situation.  Decrease the value of `size` to introduce more variance into your simulations.
 
 
 ### `simulate_experiment_countmat` example
