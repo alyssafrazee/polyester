@@ -56,7 +56,24 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
         transcripts = readDNAStringSet(fasta)
     }else if(is.null(fasta) & !is.null(gtf) & !is.null(seqpath)){
-        transcripts = seq_gtf(gtf, seqpath, ...)
+        # parse out any extra seq_gtf arguments from the ... args
+        if('exononly' %in% names(extras)){
+            exononly = extras$exononly
+        }else{
+            exononly = TRUE
+        }
+        if('idfield' %in% names(extras)){
+            idfield = extras$idfield
+        }else{
+            idfield = 'transcript_id'        
+        }
+        if('attrsep' %in% names(extras)){
+            attrsep = extras$attrsep
+        }else{
+            attrsep = '; '
+        }
+        transcripts = seq_gtf(gtf, seqpath, feature='transcript',
+            exononly=exononly, idfield=idfield, attrsep=attrsep)
     }else{
         stop('must provide either fasta or both gtf and seqpath')
     }
