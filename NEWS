@@ -28,14 +28,11 @@ CHANGES IN VERSION 1.99.3, 5 December 2014:
 CHANGES IN VERSION 1.99.2, 16 November 2014:
     * bug fix in fragment generation (last 2 bases of transcript were never sequenced)
 
-CHANGES IN VERSION 1.99.0; tiny fixes in version 1.99.1.
-
-Version 0.99.1 became release version 1.0.0.
-
 CHANGES IN VERSION 0.99.1, 22 September 2014:
     * fixed bug where read names were incorrect in output fasta files
     * updated vignette
     * added biocViews
     * fixed coding style
 
-Package submission, version 0.99.0, 18 July 2014
+CHANGES INVERSION 0.99.0, 18 July 2014
+    * Package submission
