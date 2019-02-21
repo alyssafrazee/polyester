@@ -261,6 +261,7 @@
 #'   application of fragment GC bias) are written to \code{outdir}.
 #'   \item \code{seed}: specify a seed (e.g. \code{seed=142} or some other
 #'   integer) to set before randomly drawing read numbers, for reproducibility.
+#'   If one is not provided, a default of 142 will be used.
 #'   \item \code{transcriptid}: optional vector of transcript IDs to be written
 #'   into \code{sim_info.txt} and used as transcript identifiers in the output
 #'   fasta files. Defaults to \code{names(readDNAStringSet(fasta))}. This
@@ -422,10 +423,17 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         stop('size must be a number, numeric vector, or matrix.')
     }
 
-    # create matrix of transcripts & number of reads to simulate
+    # Store the current random number generator to restore at the end
+    # Changing to L'Ecuyer-CMRG allows for reproducibility for parallel runs
+    # See ?parallel::mc.parallel for more information
+    old_rng <- RNGkind()
+    RNGkind("L'Ecuyer-CMRG")
     if('seed' %in% names(extras)){
         set.seed(extras$seed)
+    } else {
+        set.seed(142) # allows any run to be reproducible
     }
+    # create matrix of transcripts & number of reads to simulate
     group_ids = rep(1:length(num_reps), times=num_reps)
     numreadsList = vector("list", sum(num_reps))
     numreadsList = lapply(1:sum(num_reps), function(i){
@@ -469,6 +477,9 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
       .write_info(extras, transcripts, num_reps, fold_changes, outdir,
                   group_ids, counts_matrix)
     }
+
+    # Restore whatever RNG the user had set before running this function
+    RNGkind(old_rng[1], old_rng[2])
 }
 
 # simulate_experiment(fastapath, reads_per_transcript=10, outdir='~/Desktop/tmp', num_reps=1)

@@ -190,6 +190,7 @@ Reads can either be simulated from a FASTA file of transcripts
   application of fragment GC bias) are written to \code{outdir}.
   \item \code{seed}: specify a seed (e.g. \code{seed=142} or some other
   integer) to set before randomly drawing read numbers, for reproducibility.
+  If one is not provided, a default of 142 will be used.
   \item \code{transcriptid}: optional vector of transcript IDs to be written
   into \code{sim_info.txt} and used as transcript identifiers in the output
   fasta files. Defaults to \code{names(readDNAStringSet(fasta))}. This
