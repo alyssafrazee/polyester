@@ -133,7 +133,7 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
 
     # write table of sample information
     rep_info = data.frame(
-        rep_id=paste0('sample_', sprintf('%04d', 1:ncol(fpkmMat))),
+        rep_id=paste0('sample_', sprintf('%02d', 1:ncol(fpkmMat))),
         group=grouplabels)
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t', 
         file=paste0(outdir, '/sim_rep_info.txt'))

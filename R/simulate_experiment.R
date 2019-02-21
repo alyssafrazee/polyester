@@ -87,7 +87,7 @@
             file=sprintf('%s/sim_tx_info.txt', outdir))
 
     rep_info = data.frame(
-        rep_id=paste0('sample_', sprintf('%04d', 1:sum(num_reps))),
+        rep_id=paste0('sample_', sprintf('%02d', 1:sum(num_reps))),
         group=group_ids, lib_sizes=extras$lib_sizes)
 
     write.table(rep_info, row.names=FALSE, quote=FALSE, sep='\t',
