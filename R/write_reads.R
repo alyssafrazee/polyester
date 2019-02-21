@@ -61,9 +61,13 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L,
         left_filepath = sprintf('%s_1.fasta', fname)
         right_filepath = sprintf('%s_2.fasta', fname)
         if(shuffle) {
+          # store the random seed
+          old_seed <- .Random.seed
           shuffled_rows <- sample(length(lefts))
           lefts <- lefts[shuffled_rows]
           rights <- rights[shuffled_rows]
+          # restoring the seed allows shuffled & unshuffled runs to be identical
+          .Random.seed <- old_seed
         }
         if(compress){
             left_filepath = sprintf('%s.gz', left_filepath)
