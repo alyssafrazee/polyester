@@ -13,14 +13,14 @@
 #'   srPhiX174_halfrc = reverse_complement(srPhiX174, seed=174)
 
 reverse_complement = function(tObj, seed=NULL){
-    if (exists(".Random.seed")) {
-      old_seed <- .Random.seed
+    if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+      old_seed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
     }
     if(!is.null(seed)) set.seed(seed)
     strand = sample(c(0,1), length(tObj), replace=TRUE)
     tObj[strand==0] = reverseComplement(tObj[strand==0])
     if (exists("old_seed")) {
-      .Random.seed <- old_seed
+      assign(".Random.seed", old_seed, envir = .GlobalEnv)
     }
     return(tObj)
 }

@@ -62,12 +62,13 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L,
         right_filepath = sprintf('%s_2.fasta', fname)
         if(shuffle) {
           # store the random seed
+          old_seed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
           old_seed <- .Random.seed
           shuffled_rows <- sample(length(lefts))
           lefts <- lefts[shuffled_rows]
           rights <- rights[shuffled_rows]
           # restoring the seed allows shuffled & unshuffled runs to be identical
-          .Random.seed <- old_seed
+          assign(".Random.seed", old_seed, envir = .GlobalEnv)
         }
         if(compress){
             left_filepath = sprintf('%s.gz', left_filepath)
@@ -84,7 +85,11 @@ write_reads = function(reads, fname, readlen, paired=TRUE, gzip, offset=1L,
         }
         readnumbers = offset:(length(reads) + offset - 1)
         names(reads) = sprintf('read%d/%s', readnumbers, names(reads))
-        if (shuffle) reads <- reads[sample(length(reads))]
+        if (shuffle) {
+          old_seed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+          reads <- reads[sample(length(reads))]
+          assign(".Random.seed", old_seed, envir = .GlobalEnv)
+        }
         writeXStringSet(reads, filepath=outf, format="fasta", width=readlen,
             compress=compress, append=append)
     }
