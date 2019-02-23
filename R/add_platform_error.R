@@ -123,6 +123,7 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             reads = padAndClip(reads, IRanges(1, max(L)), Lpadding.letter="N",
                 Rpadding.letter="N") #pad to rectangular
             replacements = rep("", length(reads))
+            error_names = rep("", length(reads))
             for(pos in 1:max(L)){
                 p = as.character(subseq(reads, pos, pos))
                 ## retrieve error matrix for position
@@ -144,21 +145,31 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
                 ei = which(errBases != p)
                 locations[ei, pos] = TRUE
                 replacements[ei] = paste0(replacements[ei], errBases[ei])
+                mutations = paste0(p[ei], pos, errBases[ei])
+                error_names[ei] = sprintf("%s,%s", error_names[ei], mutations)
             }
             newReads = replaceLetterAt(reads, locations, replacements)
             if(mate == 'left'){
                 m1reads = subseq(newReads, 1, L)
+                m1err_names = error_names
             }else{
                 m2reads = subseq(newReads, 1, L)
+                m2err_names = error_names
             }
         }
         out = c(m1reads, m2reads)
+        error_names = c(m1err_names, m2err_names)
         npairs = length(m1reads)
         outInds = rep(1:npairs, each=2)
         outInds[seq(2, length(outInds), by=2)] = (1:npairs)+npairs
         ret = out[outInds] # puts pairs of reads next to each other again
+        error_names = error_names[outInds]
         names(ret) = names(tFrags)
-        return(ret) 
+        errors = which(error_names != "")
+        error_names = gsub("^,", "", error_names)
+        names(ret)[errors] = sprintf("%s;errors:%s", names(ret)[errors],
+                                     error_names[errors])
+        return(ret)
     } else {
         if(platform == 'illumina4'){
             data("ill100v4_single")
@@ -185,6 +196,7 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             Rpadding.letter="N")
         #^ pad to rectangular
         replacements = rep("", length(reads))
+        error_names = rep("", length(reads))
         for(pos in 1:max(L)){
             p = as.character(subseq(reads, pos, pos))
             ## retrieve error matrix for position
@@ -206,10 +218,16 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
             ei = which(errBases != p)
             locations[ei, pos] = TRUE
             replacements[ei] = paste0(replacements[ei], errBases[ei])
+            mutations = paste0(p[ei], pos, errBases[ei])
+            error_names[ei] = sprintf("%s,%s", error_names[ei], mutations)
         }
         newReads = replaceLetterAt(reads, locations, replacements)
         ret = subseq(newReads, 1, L)
         names(ret) = names(tFrags)
+        errors = which(error_names != "")
+        error_names = gsub("^,", "", error_names)
+        names(ret)[errors] = sprintf("%s;errors:%s", names(ret)[errors],
+                                     error_names[errors])
         return(ret)
     }
 }
