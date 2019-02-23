@@ -133,6 +133,7 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
                          replace = TRUE,
                          prob = errMat[base, ])
                 })
+                names(errRes) <- nt
                 ## remove entries for bases that aren't present
                 errRes <- errRes[which(sapply(errRes, length) > 0)]
                 ## replace the old bases with the new bases
@@ -194,6 +195,7 @@ add_platform_error = function(tFrags, platform, paired, path=NULL){
                      replace = TRUE,
                      prob = errMat[base, ])
             })
+            names(errRes) <- nt
             ## remove entries for bases that aren't present
             errRes <- errRes[which(sapply(errRes, length) > 0)]
             ## replace the old bases with the new bases
