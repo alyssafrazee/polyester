@@ -61,7 +61,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         stop('must provide either fasta or both gtf and seqpath')
     }
 
-    stopifnot(class(readmat) == 'matrix')
+    stopifnot((is(readmat, "matrix"))) 
     stopifnot(nrow(readmat) == length(transcripts))
 
     # validate extra arguments
