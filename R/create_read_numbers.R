@@ -13,7 +13,7 @@
 #' @param seed optional seed to set (for reproducibility)
 #' @param preserve.names optional, use names(mu) as rownames for output
 #' @param preserve.beta.order optional. Each beta value corresponds to a specific
-#'   mu value. length(beta) must be equal to length(mu); m can be given to limit 
+#'   mu value. nrow(beta) must be equal to length(mu); m can be given to limit 
 #'   number of genes to simulate.
 #' 
 #' @return counts Data matrix with counts for genes in rows and samples in 
@@ -76,10 +76,10 @@ create_read_numbers = function(mu, fit, p0, m=NULL, n=NULL, mod=NULL, beta=NULL,
         mod = cbind(mod[,ind])
         beta = cbind(beta[,ind])
         if(preserve.beta.order){
-          if(length(beta) == length(mu)){
+          if(dim(beta)[1] == length(mu)){
             beta = beta[index,]
           } else {
-            warning('Warning: can\'t preserve beta order with gene mus. length(beta) not equal to length(mu).')
+            warning('Warning: can\'t preserve beta order with gene mus. nrow(beta) not equal to length(mu).')
           }
         }
         mumat = log(mus + 0.001) + beta %*% t(mod)

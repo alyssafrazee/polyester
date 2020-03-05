@@ -31,7 +31,7 @@ of columns as mod). Natural log scale, i.e. ln(expression ratio), is assumed.}
 \item{preserve.names}{optional, use names(mu) as rownames for output}
 
 \item{preserve.beta.order}{optional. Each beta value corresponds to a specific
-mu value. length(beta) must be equal to length(mu); m can be given to limit 
+mu value. nrow(beta) must be equal to length(mu); m can be given to limit 
 number of genes to simulate.}
 }
 \value{
