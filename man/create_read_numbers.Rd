@@ -5,7 +5,8 @@
 \title{Generate a simulated data set based on known model parameters}
 \usage{
 create_read_numbers(mu, fit, p0, m = NULL, n = NULL, mod = NULL,
-  beta = NULL, seed = NULL)
+  beta = NULL, seed = NULL, preserve.names = FALSE,
+  preserve.beta.order = FALSE)
 }
 \arguments{
 \item{mu}{Baseline mean expression for negative binomial model}
@@ -15,7 +16,7 @@ create_read_numbers(mu, fit, p0, m = NULL, n = NULL, mod = NULL,
 \item{p0}{A vector of the probabilities a count is zero}
 
 \item{m}{Number of genes/transcripts to simulate (not necessary if mod, 
-beta are specified)}
+beta are specified, but can still be specified if preserve.beta.order=TRUE)}
 
 \item{n}{Number of samples to simulate (not necessary if mod, beta are 
 specified)}
@@ -23,9 +24,15 @@ specified)}
 \item{mod}{Model matrix you would like to simulate from without an intercept}
 
 \item{beta}{set of coefficients for the model matrix (must have same number 
-of columns as mod)}
+of columns as mod). Natural log scale, i.e. ln(expression ratio), is assumed.}
 
 \item{seed}{optional seed to set (for reproducibility)}
+
+\item{preserve.names}{optional, use names(mu) as rownames for output}
+
+\item{preserve.beta.order}{optional. Each beta value corresponds to a specific
+mu value. length(beta) must be equal to length(mu); m can be given to limit 
+number of genes to simulate.}
 }
 \value{
 counts Data matrix with counts for genes in rows and samples in 
@@ -42,10 +49,22 @@ Generate a simulated data set based on known model parameters
   Ntranscripts = 50
   Nsamples = 10
   custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, 
-    p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103)
-
+    p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103, preserve.names=TRUE)
+  # plot simulated readcounts vs input mu
+  plot(x=log10(params$mu[rownames(custom_readmat)]), y=log10(rowSums(custom_readmat)))
+  
+  mod = matrix(c(rep(0,10),rep(1,10))) # 10 test, 10 control samples
+  beta = matrix(c(rep(1,20),rep(-1,20), rep(0,length(params$mu)-40))) 
+  # 20 upregulated, 20 downregulated genes (2.72-fold)
+  custom_DE = create_read_numbers(mu=params$mu, fit=params$fit, 
+    p0=params$p0, mod=mod, beta=beta, seed=103, preserve.beta.order=TRUE, 
+    preserve.names=TRUE, m=70)
+  # get crude log2 fold-change with a 0.1 prior count
+  l2fc <- cbind(log2((rowSums(custom_DE[,mod==1])+0.5)/(rowSums(custom_DE[,mod!=1])+0.5)))
+  # plot fold-change (natural log scale)
+  plot(l2fc, col = factor(beta[names(params$mu) \%in\% rownames(custom_DE),]), ylim=c(-3,3))  
+  # 17 up; 14 down; 39 unregulated
 }
 \author{
 Jeff Leek
 }
-
