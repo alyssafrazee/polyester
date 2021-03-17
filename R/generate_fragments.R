@@ -88,7 +88,11 @@ generate_fragments = function(tObj, fraglen=250, fragsd=25,
             stop('must provide custom logspline density when distr is "custom"')
         }
         stopifnot(class(custdens) == 'logspline')
-        fraglens = round(rlogspline(L, custdens))
+        fraglens_min = -1
+        while(fraglens_min<0) {
+            fraglens = round(rlogspline(L, custdens))
+            fraglens_min <- min(fraglens)
+        }
     }
     s = which(fraglens < L)
     n = length(s)
