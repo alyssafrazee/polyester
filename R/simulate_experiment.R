@@ -324,6 +324,10 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     # validate extra arguments/set sane defaults
     extras = .check_extras(extras, paired, total.n=sum(num_reps))
 
+    if('seed' %in% names(extras)){
+        set.seed(extras$seed)
+    }
+
     # read in the annotated transcripts to sequence from
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
         transcripts = readDNAStringSet(fasta)
@@ -357,12 +361,14 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 
     # get baseline means for each group, incl. fold changes:
     if('meanmodel' %in% names(extras)){
-        b0 = -3.0158
-        b1 = 0.8688
-        sigma = 4.152
-        logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
-        reads_per_transcript = 2^logmus-1
-        reads_per_transcript = pmax( reads_per_transcript, 1e-6 )
+        if(extras$meanmodel) {
+            b0 = -3.0158
+            b1 = 0.8688
+            sigma = 4.152
+            logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
+            reads_per_transcript = 2^logmus-1
+            reads_per_transcript = pmax( reads_per_transcript, 1e-6 )
+        }
     }
 
     if(length(num_reps) == 1){
@@ -405,9 +411,6 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     }
 
     # create matrix of transcripts & number of reads to simulate
-    if('seed' %in% names(extras)){
-        set.seed(extras$seed)
-    }
     group_ids = rep(1:length(num_reps), times=num_reps)
     numreadsList = vector("list", sum(num_reps))
     numreadsList = lapply(1:sum(num_reps), function(i){
