@@ -162,16 +162,16 @@ BiocManager::install("ballgown")
 library(ballgown)
 data(bg)
 bg = subset(bg, "chr=='22'")
-     
+
 # load gtf file for annotation:
 gtfpath = system.file('extdata', 'bg.gtf.gz', package='polyester')
 gtf = subset(gffRead(gtfpath), seqname=='22')
-     
+
 # load chromosome sequence corresponding to gtf file (just for this example)
 system('wget https://www.dropbox.com/s/04i6msi9vu2snif/chr22seq.rda')
 load('chr22seq.rda')
 names(chr22seq) = '22'
-     
+
 # simulate reads based on this experiment's FPKMs
 simulate_experiment_empirical(bg, grouplabels=pData(bg)$group, gtf=gtf,
     seqpath=chr22seq, mean_rps=5000, outdir='empirical_reads', seed=1247)

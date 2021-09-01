@@ -4,8 +4,13 @@
 \alias{fpkm_to_counts}
 \title{Turn FPKMs from a ballgown object into estimated counts for transcripts}
 \usage{
-fpkm_to_counts(bg = NULL, mat = NULL, tlengths = NULL, mean_rps = 1e+08,
-  threshold = 0)
+fpkm_to_counts(
+  bg = NULL,
+  mat = NULL,
+  tlengths = NULL,
+  mean_rps = 1e+08,
+  threshold = 0
+)
 }
 \arguments{
 \item{bg}{ballgown object created from real RNA-seq dataset}
@@ -21,7 +26,7 @@ should only count the nucleotides within transcripts' exons.}
 \item{mean_rps}{This should be the number of reads per sample in total for
 use in backing out the FPKM calculations.}
 
-\item{threshold}{only estimate parameters from transcripts with mean FPKM 
+\item{threshold}{only estimate parameters from transcripts with mean FPKM
 measurements at least as large as \code{threshold}.}
 }
 \value{
@@ -39,11 +44,9 @@ If transcripts/exons are represented by \code{GRanges} or
 \examples{
   library(ballgown)
   data(bg)
-  countmat = fpkm_to_counts(bg, mean_rps=400000) 
-
+  countmat = fpkm_to_counts(bg, mean_rps=400000)
 
 }
 \author{
 Jeff Leek
 }
-

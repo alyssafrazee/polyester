@@ -70,4 +70,3 @@ McElroy KE, Luciani F and Thomas T (2012): GemSIM: general,
 \seealso{
 \code{\link{add_error} for uniform error}
 }
-

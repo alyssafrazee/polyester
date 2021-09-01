@@ -5,7 +5,9 @@
 \alias{model6}
 \title{Empirical error model for Illumina Genome Analyzer IIx with TrueSeq
   SBS Kit v5-GA chemistry, single-end read}
-\format{data frame named \code{model6}, 7 columns, 505 rows}
+\format{
+data frame named \code{model6}, 7 columns, 505 rows
+}
 \source{
 processed from the Illumina v5 error model that ships with GemSIM
   (see references)
@@ -32,4 +34,3 @@ McElroy KE, Luciani F, Thomas T (2012). GemSIM: general,
 error-model based simulator of next-generation sequencing data. 
 BMC Genomics 13(1), 74.
 }
-

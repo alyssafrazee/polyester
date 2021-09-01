@@ -4,7 +4,9 @@
 \name{model7}
 \alias{model7}
 \title{Empirical error model Roche/454 FLX Titanium, single-end read}
-\format{data frame named \code{model7}, 7 columns, 505 rows}
+\format{
+data frame named \code{model7}, 7 columns, 505 rows
+}
 \source{
 processed from the Roche 454 error model that ships with GemSIM
   (see references)
@@ -31,4 +33,3 @@ McElroy KE, Luciani F, Thomas T (2012). GemSIM: general,
 error-model based simulator of next-generation sequencing data. 
 BMC Genomics 13(1), 74.
 }
-

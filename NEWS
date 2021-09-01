@@ -10,9 +10,9 @@ CHANGES IN VERSION 1.2.2, 9 March 2015:
     * bug fix in fragment start position simulation with positional bias
 
 CHANGES IN VERSION 1.2.1, 14 January 2015:
-    * major refactor: 
+    * major refactor:
         - reduced number of arguments for wrapper functions (simulate_experiment and simulate_experiment_countmat)
-        - shortened source code in wrapper functions by adding several internal helper functions 
+        - shortened source code in wrapper functions by adding several internal helper functions
     * several new features added:
         - GC bias in expression
         - empirical fragment length distribution model available
@@ -33,6 +33,7 @@ CHANGES IN VERSION 0.99.1, 22 September 2014:
     * updated vignette
     * added biocViews
     * fixed coding style
+    * became release version 1.0.0
 
-CHANGES INVERSION 0.99.0, 18 July 2014
+CHANGES IN VERSION 0.99.0, 18 July 2014
     * Package submission

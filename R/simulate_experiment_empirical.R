@@ -107,7 +107,7 @@ simulate_experiment_empirical = function(bg=NULL, fpkmMat=NULL,
     if(.Platform$OS.type == 'windows'){
         shell(paste('mkdir', sysoutdir))
     }else{
-        system(paste('mkdir -p', sysoutdir))    
+        system(paste('mkdir -p', sysoutdir))
     }
 
     # write table of transcript statuses

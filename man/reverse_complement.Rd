@@ -9,7 +9,7 @@ reverse_complement(tObj, seed = NULL)
 \arguments{
 \item{tObj}{DNAStringSet representing sequences.}
 
-\item{seed}{optional seed to set before randomly selecting the sequences to 
+\item{seed}{optional seed to set before randomly selecting the sequences to
 be reverse-complemented.}
 }
 \value{
@@ -24,4 +24,3 @@ randomly reverse-complement half of the sequences in a DNAStringSet
   data(srPhiX174)
   srPhiX174_halfrc = reverse_complement(srPhiX174, seed=174)
 }
-

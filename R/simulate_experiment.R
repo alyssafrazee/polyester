@@ -324,6 +324,10 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     # validate extra arguments/set sane defaults
     extras = .check_extras(extras, paired, total.n=sum(num_reps))
 
+    if('seed' %in% names(extras)){
+        set.seed(extras$seed)
+    }
+
     # read in the annotated transcripts to sequence from
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
         transcripts = readDNAStringSet(fasta)
@@ -338,7 +342,7 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         if('idfield' %in% names(extras)){
             idfield = extras$idfield
         }else{
-            idfield = 'transcript_id'        
+            idfield = 'transcript_id'
         }
         if('attrsep' %in% names(extras)){
             attrsep = extras$attrsep
@@ -357,16 +361,19 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
 
     # get baseline means for each group, incl. fold changes:
     if('meanmodel' %in% names(extras)){
-        b0 = -3.0158
-        b1 = 0.8688
-        sigma = 4.152
-        logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
-        reads_per_transcript = 2^logmus-1
-        reads_per_transcript = pmax( reads_per_transcript, 1e-6 )
+        if(extras$meanmodel) {
+            b0 = -3.0158
+            b1 = 0.8688
+            sigma = 4.152
+            logmus = b0 + b1*log2(width(transcripts)) + rnorm(length(transcripts),0,sigma)
+            reads_per_transcript = 2^logmus-1
+            reads_per_transcript = pmax( reads_per_transcript, 1e-6 )
+        }
     }
 
     if(length(num_reps) == 1){
         fold_changes = matrix(rep(1, length(transcripts)))
+        basemeans = reads_per_transcript * fold_changes
     } else if(length(num_reps) == 2) {
         # This means fold_changes is a numeric vector, per the check function
         if(length(reads_per_transcript) == 1) {
@@ -417,8 +424,8 @@ simulate_experiment = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     readmat = t(extras$lib_sizes * t(readmat))
     if('gcbias' %in% names(extras)){
         stopifnot(length(extras$gcbias) == sum(num_reps))
-        gcclasses = unique(sapply(extras$gcbias, class))
-        if(sum(gcclasses %in% c('numeric', 'loess')) < length(extras$gcbias)){
+        gcclasses = sapply(extras$gcbias, class)
+        if(! all(gcclasses %in% c('numeric', 'loess'))){
             stop(.makepretty('gc bias parameters must be integers 0 through 7
                 or loess objects'))
         }

@@ -4,8 +4,16 @@
 \alias{create_read_numbers}
 \title{Generate a simulated data set based on known model parameters}
 \usage{
-create_read_numbers(mu, fit, p0, m = NULL, n = NULL, mod = NULL,
-  beta = NULL, seed = NULL)
+create_read_numbers(
+  mu,
+  fit,
+  p0,
+  m = NULL,
+  n = NULL,
+  mod = NULL,
+  beta = NULL,
+  seed = NULL
+)
 }
 \arguments{
 \item{mu}{Baseline mean expression for negative binomial model}
@@ -14,21 +22,21 @@ create_read_numbers(mu, fit, p0, m = NULL, n = NULL, mod = NULL,
 
 \item{p0}{A vector of the probabilities a count is zero}
 
-\item{m}{Number of genes/transcripts to simulate (not necessary if mod, 
+\item{m}{Number of genes/transcripts to simulate (not necessary if mod,
 beta are specified)}
 
-\item{n}{Number of samples to simulate (not necessary if mod, beta are 
+\item{n}{Number of samples to simulate (not necessary if mod, beta are
 specified)}
 
 \item{mod}{Model matrix you would like to simulate from without an intercept}
 
-\item{beta}{set of coefficients for the model matrix (must have same number 
+\item{beta}{set of coefficients for the model matrix (must have same number
 of columns as mod)}
 
 \item{seed}{optional seed to set (for reproducibility)}
 }
 \value{
-counts Data matrix with counts for genes in rows and samples in 
+counts Data matrix with counts for genes in rows and samples in
   columns
 }
 \description{
@@ -41,11 +49,10 @@ Generate a simulated data set based on known model parameters
   params = get_params(countmat)
   Ntranscripts = 50
   Nsamples = 10
-  custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit, 
+  custom_readmat = create_read_numbers(mu=params$mu, fit=params$fit,
     p0=params$p0, m=Ntranscripts, n=Nsamples, seed=103)
 
 }
 \author{
 Jeff Leek
 }
-

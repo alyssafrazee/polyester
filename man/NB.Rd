@@ -9,14 +9,14 @@ NB(basemeans, size, seed = NULL)
 \arguments{
 \item{basemeans}{vector of means, one per draw}
 
-\item{size}{vector of size parameters (controlling the mean/variance 
+\item{size}{vector of size parameters (controlling the mean/variance
 relationship); one per draw}
 
 \item{seed}{optional seed to set before drawing}
 }
 \value{
-vector of negative binomial draws from specified distributions, 
-  where any zero draw is replaced with a 1. Length of return vector is 
+vector of negative binomial draws from specified distributions,
+  where any zero draw is replaced with a 1. Length of return vector is
   equal to \code{length(basemeans)}.
 }
 \description{
@@ -27,4 +27,3 @@ Draw nonzero negative binomial random numbers
   randomNBs  # 115, 5, 15
 
 }
-

@@ -34,4 +34,3 @@ fragments
 \code{\link{simulate_experiment}}, 
   \code{\link{simulate_experiment_countmat}}
 }
-

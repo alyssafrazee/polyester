@@ -47,4 +47,3 @@ Designed for internal use in \code{simulate_experiment} functions.
   biases = sample(0:7, 10, replace=TRUE)
   readmat_biased = add_gc_bias(readmat, as.list(biases), transcripts)
 }
-

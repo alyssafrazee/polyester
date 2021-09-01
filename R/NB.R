@@ -1,11 +1,11 @@
 #' Draw nonzero negative binomial random numbers
 #'
 #' @param  basemeans vector of means, one per draw
-#' @param  size vector of size parameters (controlling the mean/variance 
+#' @param  size vector of size parameters (controlling the mean/variance
 #'   relationship); one per draw
 #' @param  seed optional seed to set before drawing
-#' @return vector of negative binomial draws from specified distributions, 
-#'   where any zero draw is replaced with a 1. Length of return vector is 
+#' @return vector of negative binomial draws from specified distributions,
+#'   where any zero draw is replaced with a 1. Length of return vector is
 #'   equal to \code{length(basemeans)}.
 #' @export
 #' @examples

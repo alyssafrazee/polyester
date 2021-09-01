@@ -46,13 +46,13 @@
 #'     readmat=readmat, outdir='simulated_reads_2', seed=5)
 #'}
 
-simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL, 
+simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     readmat, outdir='.', paired=TRUE, seed=NULL, ...){
 
     extras = list(...)
 
     if(!is.null(seed)) set.seed(seed)
-    
+
     if(!is.null(fasta) & is.null(gtf) & is.null(seqpath)){
         transcripts = readDNAStringSet(fasta)
     }else if(is.null(fasta) & !is.null(gtf) & !is.null(seqpath)){
@@ -61,7 +61,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
         stop('must provide either fasta or both gtf and seqpath')
     }
 
-    stopifnot((is(readmat, "matrix"))) 
+    stopifnot((is(readmat, "matrix")))
     stopifnot(nrow(readmat) == length(transcripts))
 
     # validate extra arguments
@@ -71,7 +71,7 @@ simulate_experiment_countmat = function(fasta=NULL, gtf=NULL, seqpath=NULL,
     if(.Platform$OS.type == 'windows'){
         shell(paste('mkdir', sysoutdir))
     }else{
-        system(paste('mkdir -p', sysoutdir))    
+        system(paste('mkdir -p', sysoutdir))
     }
 
     # do the sequencing

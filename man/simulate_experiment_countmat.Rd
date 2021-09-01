@@ -4,8 +4,16 @@
 \alias{simulate_experiment_countmat}
 \title{Simulate RNA-seq experiment}
 \usage{
-simulate_experiment_countmat(fasta = NULL, gtf = NULL, seqpath = NULL,
-  readmat, outdir = ".", paired = TRUE, seed = NULL, ...)
+simulate_experiment_countmat(
+  fasta = NULL,
+  gtf = NULL,
+  seqpath = NULL,
+  readmat,
+  outdir = ".",
+  paired = TRUE,
+  seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -69,4 +77,3 @@ Li W and Jiang T (2012): Transcriptome assembly and isoform expression
   level estimation from biased RNA-Seq reads. Bioinformatics 28(22):
   2914-2921.
 }
-

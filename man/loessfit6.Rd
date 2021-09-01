@@ -4,7 +4,9 @@
 \name{loessfit6}
 \alias{loessfit6}
 \title{Empirical GC bias model, NA20772}
-\format{Object of class \code{loess}}
+\format{
+Object of class \code{loess}
+}
 \source{
 Constructed using the code available at 
   \url{https://github.com/alyssafrazee/polyester/blob/master/gc_bias.R}
@@ -24,4 +26,3 @@ GEUVADIS data set:
 Lappalainen, et al (2013): Transcriptome and genome sequencing uncovers
   functional variation in humans. Nature 501: 506-511.
 }
-

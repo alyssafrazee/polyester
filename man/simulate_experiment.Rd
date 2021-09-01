@@ -4,9 +4,19 @@
 \alias{simulate_experiment}
 \title{simulate RNA-seq experiment using negative binomial model}
 \usage{
-simulate_experiment(fasta = NULL, gtf = NULL, seqpath = NULL,
-  outdir = ".", num_reps = c(10, 10), reads_per_transcript = 300,
-  size = NULL, fold_changes, paired = TRUE, reportCoverage = FALSE, ...)
+simulate_experiment(
+  fasta = NULL,
+  gtf = NULL,
+  seqpath = NULL,
+  outdir = ".",
+  num_reps = c(10, 10),
+  reads_per_transcript = 300,
+  size = NULL,
+  fold_changes,
+  paired = TRUE,
+  reportCoverage = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fasta}{path to FASTA file containing transcripts from which to simulate
@@ -237,4 +247,3 @@ Reads can either be simulated from a FASTA file of transcripts
   error-model based simulator of next-generation sequencing data. BMC
   Genomics 13(1), 74.
 }
-

@@ -4,8 +4,14 @@
 \alias{seq_gtf}
 \title{Get transcript sequences from GTF file and sequence info}
 \usage{
-seq_gtf(gtf, seqs, feature = "transcript", exononly = TRUE,
-  idfield = "transcript_id", attrsep = "; ")
+seq_gtf(
+  gtf,
+  seqs,
+  feature = "transcript",
+  exononly = TRUE,
+  idfield = "transcript_id",
+  attrsep = "; "
+)
 }
 \arguments{
 \item{gtf}{one of path to GTF file, or data frame representing a canonical
@@ -53,4 +59,3 @@ Given a GTF file (for transcript structure) and DNA sequences,
 \references{
 \url{http://www.ensembl.org/info/website/upload/gff.html}
 }
-

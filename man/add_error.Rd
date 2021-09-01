@@ -26,4 +26,3 @@ simulate sequencing error by randomly changing the sequenced nucleotide on
   srPhiX174_withError = add_error(srPhiX174)
   #error was introduced in, e.g., position 10 of 2nd string in set.
 }
-

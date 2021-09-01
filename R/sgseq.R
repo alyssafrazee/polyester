@@ -8,7 +8,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
     for(i in 1:length(templates)){coverage_matrices = c(coverage_matrices, list(matrix(0, ncol=dim(readmat)[2], width(templates)[i])))}
     names(coverage_matrices) = names(templates)
   }
-  
+
   for(i in seq_len(ncol(readmat))) {
     ##$ begin small chunk regarding fragment GC bias or not
     if (is.matrix(extras$frag_GC_bias)) {
@@ -21,7 +21,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
     iterations = ceiling(length(tObj) / 1e6L)
     offset = 1L
     for(iteration in seq_len(iterations)) {
-      tSubset = tObj[offset:min(offset+1e6L, length(tObj))]
+      tSubset = tObj[offset:min(offset+999999L, length(tObj))] ## corrected value of integer added to offset to avoid duplicating reads
       tFrags = generate_fragments(tSubset, extras$fraglen[i], extras$fragsd[i],
                                   extras$readlen, extras$distr, extras$custdens,
                                   extras$bias, frag_GC_bias)
@@ -30,7 +30,7 @@ sgseq = function(readmat, transcripts, paired, outdir, extras, reportCoverage=FA
         #reverse_complement some of those fragments
         tFrags = reverse_complement(tFrags)
       }
-      
+
       #get reads from fragments
       reads = get_reads(tFrags, extras$readlen, paired)
 

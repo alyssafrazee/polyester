@@ -3,7 +3,6 @@
 \docType{package}
 \name{polyester}
 \alias{polyester}
-\alias{polyester-package}
 \title{Polyester: simulating RNA-seq reads including differential expression}
 \description{
 Polyester is an R package designed to simulate an RNA sequencing experiment.
@@ -18,13 +17,10 @@ A single function call produces RNA-seq reads in FASTA format from a
   expression between cases and controls can be set by the user, facilitating
   comparisons of statistical differential expression methods for RNA-seq 
   data. See detailed documentation for \code{\link{simulate_experiment}} and 
-  \code{\link{simulate_experiment_countmat}}.
+  \code{\link{simulate_experiment_countmat}}. 
 
 See the vignette by typing \code{browseVignettes("polyester")} in 
   the R prompt.
-}
-\author{
-Alyssa Frazee, Andrew Jaffe, Rory Kirchner, Jeff Leek
 }
 \references{
 Alyssa C Frazee, Geo Pertea, Andrew E Jaffe, Ben Langmead, 
@@ -32,4 +28,6 @@ Alyssa C Frazee, Geo Pertea, Andrew E Jaffe, Ben Langmead,
   differential expression analysis with Ballgown. BioRxiv preprint: 
   \url{http://biorxiv.org/content/early/2014/03/30/003665}.
 }
-
+\author{
+Alyssa Frazee, Andrew Jaffe, Rory Kirchner, Jeff Leek
+}

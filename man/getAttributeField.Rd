@@ -32,12 +32,11 @@ from a GTF/GFF file
     field = "transcript_id")
 
 }
-\author{
-Wolfgang Huber, in the \code{davidTiling} package (LGPL license)
-}
 \seealso{
 \url{http://useast.ensembl.org/info/website/upload/gff.html}, for
   specifics of the
 GFF/GTF file format.
 }
-
+\author{
+Wolfgang Huber, in the \code{davidTiling} package (LGPL license)
+}

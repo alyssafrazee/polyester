@@ -42,4 +42,3 @@ used when generating new simulated data.
 \author{
 Jeff Leek
 }
-

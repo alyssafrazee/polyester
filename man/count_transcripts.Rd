@@ -4,20 +4,24 @@
 \alias{count_transcripts}
 \title{determine how many transcripts are annotated in a FASTA or GTF file}
 \usage{
-count_transcripts(f, fasta = TRUE, identifier = "transcript_id",
-  attrsep = "; ")
+count_transcripts(
+  f,
+  fasta = TRUE,
+  identifier = "transcript_id",
+  attrsep = "; "
+)
 }
 \arguments{
 \item{f}{character, path to a file in FASTA or GTF format}
 
-\item{fasta}{TRUE if \code{f} is a fasta file; FALSE if \code{f} is a GTF 
+\item{fasta}{TRUE if \code{f} is a fasta file; FALSE if \code{f} is a GTF
 file}
 
-\item{identifier}{if \code{f} is a GTF file, how are transcripts identified 
-in the attributes field (9th column) of the file? Default 
+\item{identifier}{if \code{f} is a GTF file, how are transcripts identified
+in the attributes field (9th column) of the file? Default
 \code{transcript_id}.}
 
-\item{attrsep}{if \code{f} is a GTF file, how are attributes separated in 
+\item{attrsep}{if \code{f} is a GTF file, how are attributes separated in
 the attributes field (9th column) of the file? Default "; ".}
 }
 \value{
@@ -31,4 +35,3 @@ fastapath = system.file("extdata", "chr22.fa", package="polyester")
 count_transcripts(fastapath) #918
 
 }
-

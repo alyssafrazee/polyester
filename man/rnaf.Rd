@@ -5,9 +5,11 @@
 \alias{rnaf}
 \title{Model of positional bias that can arise when RNA-seq is performed
   using protocols relying on RNA fragmentation.}
-\format{data frame with 100 rows and 2 columns. Column 1 is position along a
+\format{
+data frame with 100 rows and 2 columns. Column 1 is position along a
   transcript (in percent), while Column 2 is the probability of getting a 
-  fragment at that position. Column 2 sums to 1.}
+  fragment at that position. Column 2 sums to 1.
+}
 \description{
 This positional bias model was estimated in Li and Jiang (2012).
   With RNA fragmentation, reads are more likely to have come from the middle
@@ -26,4 +28,3 @@ Li W and Jiang T (2012): Transcriptome assembly and isoform expression
   Rohatgi A (2014): WebPlotDigitizer: Version 3.4 of WebPlotDigitizer. 
   ZENODO. 10.5281/zenodo.11835
 }
-

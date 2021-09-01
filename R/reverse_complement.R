@@ -2,7 +2,7 @@
 #'
 #' randomly reverse-complement half of the sequences in a DNAStringSet
 #' @param tObj DNAStringSet representing sequences.
-#' @param seed optional seed to set before randomly selecting the sequences to 
+#' @param seed optional seed to set before randomly selecting the sequences to
 #'   be reverse-complemented.
 #' @export
 #' @return DNAStringSet that is the same as \code{tObj}, but with about half
