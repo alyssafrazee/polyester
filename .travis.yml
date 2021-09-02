@@ -1,7 +1,8 @@
-<<<<<<< HEAD
 # Sample .travis.yml for R projects from https://github.com/craigcitro/r-travis
 
-language: c
+language: r
+sudo: required
+r: bioc-devel
 
 env:
   - global:
@@ -22,27 +23,16 @@ script: ./travis-tool.sh run_tests
 on_failure:
   - ./travis-tool.sh dump_logs
 
-=======
-## Might need to use https://github.com/metacran/r-builder if R-devel
-## becomes necessary. 
-## See https://github.com/leekgroup/derfinderHelper/blob/testTravis/.travis.yml 
-## for an example. Just change RVERSION=devel.
-language: r
-sudo: required
-
 r_build_args: "--no-manual --no-resave-data"
 r_check_args: "--no-build-vignettes --no-manual --timings"
 
 bioc_required: true
->>>>>>> master
+
 notifications:
   email:
     on_success: change
     on_failure: change
-<<<<<<< HEAD
-=======
 
 env:
   global:
     - _R_CHECK_TIMINGS_="0"
->>>>>>> master
